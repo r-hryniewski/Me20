@@ -8,7 +8,7 @@ namespace Me20.Web.Dashboard
         {
             Get["/"] = p =>
             {
-                return View["dashboard", new DashboardViewModel() { UserIdentity = this.Context.CurrentUser?.UserName ?? "" }];
+                return View["dashboard", new DashboardViewModel(Context.CurrentUser)];
             };
         }
     }

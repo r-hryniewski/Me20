@@ -1,15 +1,14 @@
-﻿using System;
+﻿using Nancy.Security;
 
 namespace Me20.Web.Dashboard
 {
     public class DashboardViewModel
     {
-        public string UserGuid { get; private set; }
-        public string UserIdentity { get; set; }
+        public string CurrentUserName { get; private set; }
 
-        public DashboardViewModel()
+        public DashboardViewModel(IUserIdentity currentUser)
         {
-            UserGuid = Guid.NewGuid().ToString();
+            this.CurrentUserName = currentUser.UserName;
         }
     }
 }

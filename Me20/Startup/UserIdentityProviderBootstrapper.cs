@@ -10,7 +10,7 @@ namespace Me20.Web
         {
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                context.CurrentUser = new User(System.Security.Claims.ClaimsPrincipal.Current.Identity);
+                context.CurrentUser = new User(System.Security.Claims.ClaimsPrincipal.Current);
                 return null;
             });
 
