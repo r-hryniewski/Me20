@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Me20.Identity.Enums;
 using System;
 
 namespace Me20.Web.Identity
 {
     public class User : IUserIdentity
     {
+        //TODO: ActorRef
         //TODO: NYI
         public IEnumerable<string> Claims { get; } = Enumerable.Empty<string>();
 
@@ -22,13 +22,13 @@ namespace Me20.Web.Identity
 
         public string Gender { get; private set; }
 
-        public IdentitySource AuthenthicationType { get; private set; }
+        public string AuthenthicationType { get; private set; }
         
         //TODO: Proper persistence and retrieval (and some kind of cache?)
         public User(ClaimsPrincipal currentClaimsPrincipal)
         {
             //TODO: Proper source
-            this.AuthenthicationType = currentClaimsPrincipal.Identity.AuthenticationType.Equals("facebook", StringComparison.OrdinalIgnoreCase) ? IdentitySource.Facebook : IdentitySource.Undefined;
+            this.AuthenthicationType = currentClaimsPrincipal.Identity.AuthenticationType;
 
             this.Id = currentClaimsPrincipal.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value ?? string.Empty;
 
@@ -42,6 +42,11 @@ namespace Me20.Web.Identity
             this.Gender = currentClaimsPrincipal.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/gender")?.Value ?? string.Empty;
         }
 
-        public User(){}
+        public void NotifyUserManagerAboutLoggingIn()
+        {
+
+        }
+
+        private User(){}
     }
 }
