@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Common\ActorModel.cs" />
-    <Compile Include="Messages\UserLoggedInMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -73,6 +72,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Messages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

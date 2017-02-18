@@ -2,25 +2,32 @@
 using Me20.Core.Messages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Me20.Core.Actors
 {
     public class UsersManagerActor : ReceiveActor
     {
+        private Dictionary<string, IActorRef> usersDictionary; // UserName/ActorRef
+
         public UsersManagerActor()
         {
-            //TODO: User repo? + Persist/Receive
-            //TODO: User/ActorRef map?
-            //TODO: 
-            Receive<UserLoggedInMessage>(msg => 
-            {
-                //TODO:
-                Console.WriteLine("Msg Received Placeholder");
-            });
-            
+            usersDictionary = new Dictionary<string, IActorRef>(StringComparer.OrdinalIgnoreCase);
+
+            Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
         }
+
+        private void HandleUserLoggedInMessage(UserLoggedInMessage message)
+        {
+            if (usersDictionary.ContainsKey(message.UserName))
+                usersDictionary[message.UserName].Tell(message);
+
+            else
+            {
+                
+                //TODO: Create UserActor and pass him it's data
+            }
+        }
+
+        public static Props Props => Props.Create(() => new UsersManagerActor());
     }
 }

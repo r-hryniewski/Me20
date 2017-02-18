@@ -9,11 +9,14 @@ namespace Me20.Core
 
         public static IActorRef UsersManagerActorRef { get; set; }
 
+        //TODO: ContentManager
+        //TODO: Anonymous UserActor?
+
         public static void StartActorSystem()
         {
             MainActorSystem = ActorSystem.Create("MainSystem");
 
-            UsersManagerActorRef = MainActorSystem.ActorOf(Props.Create(() => new UsersManagerActor()), "UsersManager");
+            UsersManagerActorRef = MainActorSystem.ActorOf(UsersManagerActor.Props, "UsersManager");
         }
     }
 }
