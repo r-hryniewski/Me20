@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Me20.Core.Messages
+namespace Me20.Common.Messages
 {
     public class UserLoggedInMessage
     {
 
         public string UserName { get; private set; }
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
         public string FullName { get; private set; }
         public string FirstName { get; private set; }

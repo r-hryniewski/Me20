@@ -14,6 +14,7 @@ namespace Me20.Core
 
         public static void StartActorSystem()
         {
+            //TODO: Actor names to some kind of constant values
             MainActorSystem = ActorSystem.Create("MainSystem");
 
             UsersManagerActorRef = MainActorSystem.ActorOf(UsersManagerActor.Props, "UsersManager");

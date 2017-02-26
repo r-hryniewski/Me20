@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using Me20.Core;
-using Me20.Core.Messages;
+using Me20.Common.Messages;
 using Akka.Actor;
 
 namespace Me20.Web.Identity
 {
     public class User : IUserIdentity
     {
-        //TODO: ActorRef
+        public ActorSelection Actor => ActorModel.MainActorSystem.ActorSelection($"{ActorModel.UsersManagerActorRef.Path.ToStringWithAddress()}/{UserName}");
 
-        //TODO: NYI
         public IEnumerable<string> Claims { get; } = Enumerable.Empty<string>();
 
-        public string UserName => $"{AuthenticationType}//{Id}";
+        public string UserName => $"{AuthenticationType}-{Id}";
 
         public string Id { get; set; }
 
