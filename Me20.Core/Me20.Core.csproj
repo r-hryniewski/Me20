@@ -54,6 +54,8 @@
   <ItemGroup>
     <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Common\ActorModel.cs" />
+    <Compile Include="Helpers\ActorModelHelper.cs" />
+    <Compile Include="Interfaces\IHaveActorAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

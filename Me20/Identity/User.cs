@@ -1,34 +1,37 @@
-﻿using Nancy.Security;
+﻿using Akka.Actor;
+using Me20.Core;
+using Me20.Core.Helpers;
+using Me20.Core.Interfaces;
+using Me20.Identity.Interfaces;
+using Me20.Identity.Messages;
+using Nancy.Security;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using Me20.Core;
-using Me20.Common.Messages;
-using Akka.Actor;
 
 namespace Me20.Web.Identity
 {
-    public class User : IUserIdentity
+    public class User : IUserIdentity, IHaveUserName, IHaveUserData, IHaveActorAddress
     {
-        public ActorSelection Actor => ActorModel.MainActorSystem.ActorSelection($"{ActorModel.UsersManagerActorRef.Path.ToStringWithAddress()}/{UserName}");
-
         public IEnumerable<string> Claims { get; } = Enumerable.Empty<string>();
 
-        public string UserName => $"{AuthenticationType}-{Id}";
+        public string UserName => !string.IsNullOrEmpty(AuthenticationType) && !string.IsNullOrEmpty(Id) ? $"{AuthenticationType}-{Id}" : string.Empty;
+
+        public ActorSelection Actor => IsValid ? ActorModelHelper.GetUserActorSelection(UserName) : null;
 
         public string Id { get; set; }
 
-        internal string FullName { get; private set; }
-        internal string FirstName { get; private set; }
-        internal string LastName { get; private set; }
+        public string FullName { get; private set; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
 
-        internal string Email { get; private set; }
+        public string Email { get; private set; }
 
-        internal string Gender { get; private set; }
+        public string Gender { get; private set; }
 
-        internal string AuthenticationType { get; private set; }
-        
-        internal User(ClaimsPrincipal currentClaimsPrincipal)
+        public string AuthenticationType { get; private set; }
+
+        public User(ClaimsPrincipal currentClaimsPrincipal)
         {
             this.AuthenticationType = currentClaimsPrincipal.Identity.AuthenticationType;
 
@@ -56,6 +59,8 @@ namespace Me20.Web.Identity
                 authenticationType: this.AuthenticationType
                 ));
         }
+        //TODO: More validation rules?
+        internal bool IsValid => string.IsNullOrEmpty(UserName);
 
         private User(){}
     }

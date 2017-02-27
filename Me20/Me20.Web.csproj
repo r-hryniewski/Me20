@@ -193,6 +193,10 @@
       <Project>{6cc20c38-67cb-4231-90f3-ce9b15045164}</Project>
       <Name>Me20.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Me20.Identity\Me20.Identity.csproj">
+      <Project>{C71564D2-7ACE-4239-BC3C-5C7E05CEBD90}</Project>
+      <Name>Me20.Identity</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

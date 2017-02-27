@@ -1,7 +1,5 @@
 ﻿using Akka.Actor;
-using Me20.Common.Messages;
-using System;
-using System.Collections.Generic;
+using Me20.Identity.Messages;
 
 namespace Me20.Core.Actors
 {

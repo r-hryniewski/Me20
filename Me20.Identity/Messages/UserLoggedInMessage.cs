@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Me20.Identity.Interfaces;
 
-namespace Me20.Common.Messages
+namespace Me20.Identity.Messages
 {
-    public class UserLoggedInMessage
+    public class UserLoggedInMessage : IHaveUserName, IHaveUserData
     {
-
         public string UserName { get; private set; }
 
         public string Id { get; private set; }

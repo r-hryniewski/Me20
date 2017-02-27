@@ -11,8 +11,11 @@ namespace Me20.Web
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
                 var currentUser = new User(System.Security.Claims.ClaimsPrincipal.Current);
-                currentUser.NotifyUserManagerAboutLoggingIn();
-                context.CurrentUser = currentUser;
+                if (currentUser.IsValid)
+                {
+                    currentUser.NotifyUserManagerAboutLoggingIn();
+                    context.CurrentUser = currentUser;
+                }
                 return null;
             });
 

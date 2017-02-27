@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
-using Me20.Common.Messages;
+using Me20.Identity.Interfaces;
+using Me20.Identity.Messages;
 using System;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace Me20.Core.Actors
         public static Props Props => Props.Create(() => new UserActor());
 
         
-        private class UserActorState
+        private class UserActorState : IHaveUserName, IHaveUserData
         {
             //TODO: Extract those properties to some abstract class
             public string UserName { get; private set; } = string.Empty;
