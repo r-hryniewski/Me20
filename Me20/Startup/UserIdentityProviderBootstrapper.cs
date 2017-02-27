@@ -1,6 +1,7 @@
 ﻿using Me20.Web.Identity;
 using Nancy;
 using Nancy.Bootstrapper;
+using UserDTO = Me20.Core.DTO.UserDTO;
 
 namespace Me20.Web
 {
@@ -10,11 +11,12 @@ namespace Me20.Web
         {
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                var currentUser = new User(System.Security.Claims.ClaimsPrincipal.Current);
-                if (currentUser.IsValid)
+                var currentUserDTO = new UserDTO(System.Security.Claims.ClaimsPrincipal.Current);
+                if (currentUserDTO.IsValid)
                 {
-                    currentUser.NotifyUserManagerAboutLoggingIn();
-                    context.CurrentUser = currentUser;
+                    //TODO: Store DTO in session or cache
+                    currentUserDTO.NotifyUserManagerAboutLoggingIn();
+                    context.CurrentUser = new UserIdentity(currentUserDTO);
                 }
                 return null;
             });

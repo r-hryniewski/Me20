@@ -1,6 +1,7 @@
 ﻿using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
+using Nancy.Conventions;
 using Ninject;
 
 namespace Me20.Web
@@ -27,6 +28,13 @@ namespace Me20.Web
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during request startup.
+        }
+
+        protected override void ConfigureConventions(NancyConventions nancyConventions)
+        {
+            base.ConfigureConventions(nancyConventions);
+
+            nancyConventions.StaticContentsConventions.Add(StaticContentConventionBuilder.AddDirectory("/Scripts"));
         }
     }
 

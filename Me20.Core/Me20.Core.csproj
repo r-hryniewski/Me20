@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Common\ActorModel.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="Helpers\ActorModelHelper.cs" />
     <Compile Include="Interfaces\IHaveActorAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,7 +69,7 @@
       <Name>Me20.Content</Name>
     </ProjectReference>
     <ProjectReference Include="..\Me20.Identity\Me20.Identity.csproj">
-      <Project>{c71564d2-7ace-4239-bc3c-5c7e05cebd90}</Project>
+      <Project>{C71564D2-7ACE-4239-BC3C-5C7E05CEBD90}</Project>
       <Name>Me20.Identity</Name>
     </ProjectReference>
   </ItemGroup>

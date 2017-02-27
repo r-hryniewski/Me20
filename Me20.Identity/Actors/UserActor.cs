@@ -1,5 +1,5 @@
 ﻿using Akka.Actor;
-using Me20.Identity.Interfaces;
+using Me20.Identity.Abstracts;
 using Me20.Identity.Messages;
 using System;
 using System.Linq;
@@ -26,23 +26,8 @@ namespace Me20.Core.Actors
         public static Props Props => Props.Create(() => new UserActor());
 
         
-        private class UserActorState : IHaveUserName, IHaveUserData
+        private class UserActorState : BaseUserData
         {
-            //TODO: Extract those properties to some abstract class
-            public string UserName { get; private set; } = string.Empty;
-
-            public string Id { get; private set; } = string.Empty;
-
-            public string FullName { get; private set; } = string.Empty;
-            public string FirstName { get; private set; } = string.Empty;
-            public string LastName { get; private set; } = string.Empty;
-
-            public string Email { get; private set; } = string.Empty;
-
-            public string Gender { get; private set; } = string.Empty;
-
-            public string AuthenticationType { get; private set; } = string.Empty;
-
             public UserActorState() { }
 
             //TODO: Refactor this
@@ -65,7 +50,6 @@ namespace Me20.Core.Actors
             //TODO: Refactor this
             public void Update(UserLoggedInMessage msg)
             {
-                this.UserName = msg.UserName;
                 this.Id = msg.Id;
                 this.FullName = msg.FullName;
                 this.FirstName = msg.FirstName;
