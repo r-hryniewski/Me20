@@ -6,7 +6,7 @@ using Ninject;
 
 namespace Me20.Web
 {
-    public class Bootstrapper : NinjectNancyBootstrapper
+    public class MainBootstrapper : NinjectNancyBootstrapper
     {
         protected override void ApplicationStartup(IKernel container, IPipelines pipelines)
         {
