@@ -281,7 +281,7 @@
     <Compile Include="Identity\IdentityModule.cs" />
     <Compile Include="Identity\UserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Startup\Bootstrapper.cs" />
+    <Compile Include="Startup\MainBootstrapper.cs" />
     <Compile Include="Startup\Startup.cs" />
     <Compile Include="Startup\UserIdentityProviderBootstrapper.cs" />
   </ItemGroup>

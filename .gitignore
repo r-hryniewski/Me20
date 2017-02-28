@@ -242,3 +242,7 @@ ModelManifest.xml
 .fake/
 /Me20/Properties/PublishProfiles/me20 - Web Deploy.pubxml
 /Me20/Properties/PublishProfiles/me20 - FTP.pubxml
+
+# NDepend
+*.ndproj
+/NDependOut
