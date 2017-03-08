@@ -52,6 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\TagManagerActor.cs" />
     <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Common\ActorModel.cs" />
     <Compile Include="DTO\UserDTO.cs" />

@@ -4,7 +4,7 @@ using Me20.Identity.Messages;
 using System;
 using System.Linq;
 
-namespace Me20.Core.Actors
+namespace Me20.Indentity.Actors
 {
     //TODO: Make it persistent actor
     public class UserActor : ReceiveActor
@@ -24,14 +24,13 @@ namespace Me20.Core.Actors
         }
 
         public static Props Props => Props.Create(() => new UserActor());
-
         
-        private class UserActorState : BaseUserData
+        private sealed class UserActorState : UserDataBase
         {
-            public UserActorState() { }
+            internal UserActorState() { }
 
             //TODO: Refactor this
-            public bool HasChanged(UserLoggedInMessage msg)
+            internal bool HasChanged(UserLoggedInMessage msg)
             {
                 return (new bool[]
                 {
@@ -48,7 +47,7 @@ namespace Me20.Core.Actors
             }
 
             //TODO: Refactor this
-            public void Update(UserLoggedInMessage msg)
+            internal void Update(UserLoggedInMessage msg)
             {
                 this.Id = msg.Id;
                 this.FullName = msg.FullName;

@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Me20.Core.DTO
 {
-    public class UserDTO : BaseUserData, IHaveActorAddress
+    public class UserDTO : UserDataBase, IHaveActorAddress
     {
         public ActorSelection Actor => IsValid ? ActorModelHelper.GetUserActorSelection(UserName) : null;
 

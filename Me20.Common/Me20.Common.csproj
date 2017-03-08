@@ -41,12 +41,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\PredicateHelpers.cs" />
+    <Compile Include="Messages\TagAddedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Abstracts\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Messages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,6 +1,7 @@
-﻿using Nancy;
+﻿using Me20.Web.ViewModels;
+using Nancy;
 
-namespace Me20.Web.Dashboard
+namespace Me20.Web.Modules
 {
     public class DashboardModule : NancyModule
     {

@@ -52,7 +52,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstracts\BaseUserData.cs" />
+    <Compile Include="Abstracts\UserDataBase.cs" />
     <Compile Include="Interfaces\IHaveUserData.cs" />
     <Compile Include="Interfaces\IHaveUserName.cs" />
     <Compile Include="Actors\UserActor.cs" />

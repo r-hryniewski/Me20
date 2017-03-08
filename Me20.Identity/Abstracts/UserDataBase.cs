@@ -2,7 +2,7 @@
 
 namespace Me20.Identity.Abstracts
 {
-    public abstract class BaseUserData : IHaveUserName, IHaveUserData
+    public abstract class UserDataBase : IHaveUserName, IHaveUserData
     {
         public bool IsValid => string.IsNullOrEmpty(UserName);
 
@@ -20,7 +20,7 @@ namespace Me20.Identity.Abstracts
 
         public string AuthenticationType { get; protected set; } = string.Empty;
 
-        protected BaseUserData(string id, string fullName, string firstName, string lastName, string email, string gender, string authenticationType) : this()
+        protected UserDataBase(string id, string fullName, string firstName, string lastName, string email, string gender, string authenticationType) : this()
         {
             this.Id = id;
             this.FullName = fullName;
@@ -31,6 +31,6 @@ namespace Me20.Identity.Abstracts
             this.AuthenticationType = authenticationType;
         }
 
-        protected BaseUserData(){}
+        protected UserDataBase(){}
     }
 }

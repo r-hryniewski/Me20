@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Me20.Identity.Messages;
+using Me20.Indentity.Actors;
 
 namespace Me20.Core.Actors
 {
@@ -10,15 +11,15 @@ namespace Me20.Core.Actors
             Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
         }
 
-        private void HandleUserLoggedInMessage(UserLoggedInMessage message)
+        private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
         {
-            if (!Context.Child(message.UserName).IsNobody())
-                Context.Child(message.UserName).Tell(message);
+            if (!Context.Child(msg.UserName).IsNobody())
+                Context.Child(msg.UserName).Tell(msg);
 
             else
             {
-                var newUserActor = Context.ActorOf(UserActor.Props, message.UserName);
-                newUserActor.Tell(message);
+                var newUserActor = Context.ActorOf(UserActor.Props, msg.UserName);
+                newUserActor.Tell(msg);
             }
         }
 

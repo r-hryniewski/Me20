@@ -1,6 +1,6 @@
 ﻿using Nancy.Security;
 
-namespace Me20.Web.Dashboard
+namespace Me20.Web.ViewModels
 {
     public class DashboardViewModel
     {
