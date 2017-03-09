@@ -4,23 +4,23 @@ using Me20.Identity.Messages;
 using System;
 using System.Linq;
 
-namespace Me20.Indentity.Actors
+namespace Me20.Identity.Actors
 {
     //TODO: Make it persistent actor
     public class UserActor : ReceiveActor
     {
-        private UserActorState actorState { get; set; }
+        private UserActorState ActorState { get; set; }
         public UserActor()
         {
-            actorState = new UserActorState();
+            ActorState = new UserActorState();
             //TODO: Persist/Receive + User repo?
             Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
         {
-            if (actorState.HasChanged(msg))
-                actorState.Update(msg);
+            if (ActorState.HasChanged(msg))
+                ActorState.Update(msg);
         }
 
         public static Props Props => Props.Create(() => new UserActor());

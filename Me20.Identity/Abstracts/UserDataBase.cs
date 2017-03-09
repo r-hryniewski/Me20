@@ -4,7 +4,7 @@ namespace Me20.Identity.Abstracts
 {
     public abstract class UserDataBase : IHaveUserName, IHaveUserData
     {
-        public bool IsValid => string.IsNullOrEmpty(UserName);
+        public bool IsValid => !string.IsNullOrEmpty(UserName);
 
         public string UserName => !string.IsNullOrEmpty(AuthenticationType) && !string.IsNullOrEmpty(Id) ? $"{AuthenticationType}-{Id}" : string.Empty;
 

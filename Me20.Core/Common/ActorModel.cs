@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Me20.Core.Actors;
+using static Me20.Common.Helpers.ActorPathsHelper;
 
 namespace Me20.Core
 {
@@ -8,16 +9,19 @@ namespace Me20.Core
         public static ActorSystem MainActorSystem { get; set; }
 
         public static IActorRef UsersManagerActorRef { get; set; }
+        public static IActorRef TagsManagerActorRef { get; set; }
 
         //TODO: ContentManager
         //TODO: Anonymous UserActor?
 
         public static void StartActorSystem()
         {
-            //TODO: Actor names to some kind of constant values
-            MainActorSystem = ActorSystem.Create("MainSystem");
+            MainActorSystem = ActorSystem.Create(ActorSystemName);
 
-            UsersManagerActorRef = MainActorSystem.ActorOf(UsersManagerActor.Props, "UsersManager");
+            UsersManagerActorRef = MainActorSystem.ActorOf(UsersManagerActor.Props, UsersManagerActorName);
+            TagsManagerActorRef = MainActorSystem.ActorOf(TagManagerActor.Props, TagsManagerActorName);
         }
+
+        public static ActorSelection GetUserActorSelection(string userName) => MainActorSystem.ActorSelection($"{UsersManagerActorRef.Path.ToStringWithAddress()}/{userName}");
     }
 }

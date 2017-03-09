@@ -56,7 +56,6 @@
     <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Common\ActorModel.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="Helpers\ActorModelHelper.cs" />
     <Compile Include="Interfaces\IHaveActorAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +77,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Helpers\" />
     <Folder Include="Messages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

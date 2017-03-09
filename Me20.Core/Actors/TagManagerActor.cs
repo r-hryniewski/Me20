@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Me20.Common.Helpers;
 using Me20.Common.Messages;
 using Me20.Content.Actors;
 
@@ -13,7 +14,7 @@ namespace Me20.Core.Actors
 
         private void HandleTagAddedMessage(TagAddedMessage msg)
         {
-            ActorModel.UsersManagerActorRef.Tell(msg);
+            Context.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName)).Tell(msg);
 
             CreateTagActorIfNotExists(msg.TagName);
         }

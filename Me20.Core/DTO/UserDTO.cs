@@ -1,5 +1,4 @@
 ﻿using Akka.Actor;
-using Me20.Core.Helpers;
 using Me20.Core.Interfaces;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Messages;
@@ -9,7 +8,7 @@ namespace Me20.Core.DTO
 {
     public class UserDTO : UserDataBase, IHaveActorAddress
     {
-        public ActorSelection Actor => IsValid ? ActorModelHelper.GetUserActorSelection(UserName) : null;
+        public ActorSelection Actor => IsValid ? ActorModel.GetUserActorSelection(UserName) : null;
 
         public UserDTO(ClaimsPrincipal currentClaimsPrincipal) : base()
         {

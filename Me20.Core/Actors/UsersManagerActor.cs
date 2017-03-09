@@ -1,6 +1,6 @@
 ﻿using Akka.Actor;
 using Me20.Identity.Messages;
-using Me20.Indentity.Actors;
+using Me20.Identity.Actors;
 
 namespace Me20.Core.Actors
 {
