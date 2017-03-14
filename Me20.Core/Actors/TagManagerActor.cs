@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Me20.Common.Commands;
 using Me20.Common.Helpers;
 using Me20.Common.Messages;
 using Me20.Content.Actors;
@@ -9,26 +10,23 @@ namespace Me20.Core.Actors
     {
         public TagManagerActor()
         {
-            Receive<TagAddedMessage>(msg => HandleTagAddedMessage(msg));
+            Receive<TagSubscribedMessage>(msg => HandleTagAddedMessage(msg));
         }
 
-        private void HandleTagAddedMessage(TagAddedMessage msg)
+        private void HandleTagAddedMessage(TagSubscribedMessage msg)
         {
-            Context.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName)).Tell(msg);
+            var sendee = CreateTagActorIfNotExists(msg.TagName);
 
-            CreateTagActorIfNotExists(msg.TagName);
+            sendee.Tell(new AddSubscriberCommand(msg.ByUserName));
         }
 
-        private void CreateTagActorIfNotExists(string tagName)
+        private IActorRef CreateTagActorIfNotExists(string tagName)
         {
             if (!Context.Child(tagName).IsNobody())
-                Context.Child(tagName).Tell(tagName);
+                return Context.Child(tagName);
 
             else
-            {
-                var newUserActor = Context.ActorOf(TagActor.Props, tagName);
-                newUserActor.Tell(tagName);
-            }
+                return Context.ActorOf(TagActor.Props, tagName);
         }
 
         public static Props Props => Props.Create(() => new TagManagerActor());

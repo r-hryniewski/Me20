@@ -13,7 +13,7 @@ namespace Me20.Content.Actors
         {
             //TODO: Create container for content marked with this tag
             //TODO: Handle receiving added tagged content message
-            //
+            //TODO: Create State with subscribers
         }
         public static Props Props => Props.Create(() => new TagActor());
     }

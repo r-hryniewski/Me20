@@ -8,7 +8,7 @@ namespace Me20.Web.ViewModels
 
         public DashboardViewModel(IUserIdentity currentUser)
         {
-            this.CurrentUserName = currentUser.UserName;
+            this.CurrentUserName = currentUser?.UserName ?? string.Empty;
         }
     }
 }

@@ -40,13 +40,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\CommandBase.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IHaveUserName.cs" />
+    <Compile Include="Commands\AddSubscriberCommand.cs" />
+    <Compile Include="DTO\HttpResult.cs" />
     <Compile Include="Helpers\ActorPathsHelper.cs" />
     <Compile Include="Helpers\PredicateHelpers.cs" />
-    <Compile Include="Messages\TagAddedMessage.cs" />
+    <Compile Include="Messages\TagSubscribedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Abstracts\" />
     <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,4 +1,4 @@
-﻿namespace Me20.Identity.Interfaces
+﻿namespace Me20.Common.Interfaces
 {
     public interface IHaveUserName
     {

@@ -276,6 +276,7 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\Api\TagsModule.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="Modules\DashboardModule.cs" />
     <Compile Include="Identity\UserIdentity.cs" />
@@ -286,9 +287,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dashboard\" />
-    <Folder Include="Modules\Api\" />
     <Folder Include="Scripts\" />
-    <Folder Include="Tags\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Me20.Common\Me20.Common.csproj">

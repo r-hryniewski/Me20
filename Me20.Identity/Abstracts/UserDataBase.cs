@@ -1,4 +1,5 @@
-﻿using Me20.Identity.Interfaces;
+﻿using Me20.Common.Interfaces;
+using Me20.Identity.Interfaces;
 
 namespace Me20.Identity.Abstracts
 {

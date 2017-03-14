@@ -1,4 +1,8 @@
-﻿using Nancy;
+﻿using Me20.Core.Interfaces;
+using Me20.Core.Tags;
+using Me20.Identity.Interfaces;
+using Me20.Web.Modules.Api;
+using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
 using Nancy.Conventions;
@@ -12,6 +16,7 @@ namespace Me20.Web
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during application startup.
+            
         }
 
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
@@ -22,6 +27,9 @@ namespace Me20.Web
         protected override void ConfigureRequestContainer(IKernel container, NancyContext context)
         {
             // Perform registrations that should have a request lifetime
+            container.Settings.AllowNullInjection = true;
+
+            container.Bind<IDispatch<Tag>>().To<TagDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)

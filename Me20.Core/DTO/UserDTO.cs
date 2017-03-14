@@ -8,6 +8,7 @@ namespace Me20.Core.DTO
 {
     public class UserDTO : UserDataBase, IHaveActorAddress
     {
+        //TODO: More validation rules?
         public ActorSelection Actor => IsValid ? ActorModel.GetUserActorSelection(UserName) : null;
 
         public UserDTO(ClaimsPrincipal currentClaimsPrincipal) : base()
@@ -37,7 +38,7 @@ namespace Me20.Core.DTO
                 authenticationType: this.AuthenticationType
                 ));
         }
-        //TODO: More validation rules?
+        
         
 
         private UserDTO(){}
