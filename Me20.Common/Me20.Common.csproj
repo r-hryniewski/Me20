@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\CommandBase.cs" />
+    <Compile Include="Commands\AddSubscribedTagCommand.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Interfaces\IHaveUserName.cs" />
     <Compile Include="Commands\AddSubscriberCommand.cs" />

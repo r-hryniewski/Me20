@@ -7,6 +7,8 @@ namespace Me20.Common.Helpers
     {
         public const string ActorSystemName = "MainSystem";
         public const string UsersManagerActorName = "UsersManager";
+        [System.Obsolete]
+        public const string UsersManagerName = "UsersManager";
         public const string TagsManagerActorName = "TagssManager";
 
         public const string ActorPathPrefix = "/user";

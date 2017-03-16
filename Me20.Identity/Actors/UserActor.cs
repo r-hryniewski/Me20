@@ -1,8 +1,11 @@
 ﻿using Akka.Actor;
+using Me20.Common.Commands;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Messages;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Me20.Identity.Actors
 {
@@ -15,6 +18,13 @@ namespace Me20.Identity.Actors
             ActorState = new UserActorState();
             //TODO: Persist/Receive + User repo?
             Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
+
+            Receive<AddSubscribedTagCommand>(msg => HandleAddSubscribedTagCommand(msg));
+        }
+
+        private void HandleAddSubscribedTagCommand(AddSubscribedTagCommand msg)
+        {
+            ActorState.AddSubscribedTag(msg.TagName);
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
@@ -27,7 +37,19 @@ namespace Me20.Identity.Actors
         
         private sealed class UserActorState : UserDataBase
         {
-            internal UserActorState() { }
+            private readonly HashSet<string> subscribedTags;
+            //NYI
+            //internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
+
+            internal UserActorState()
+            {
+                subscribedTags = new HashSet<string>();
+            }
+
+            internal void AddSubscribedTag(string tagName)
+            {
+                subscribedTags.Add(tagName);
+            }
 
             //TODO: Refactor this
             internal bool HasChanged(UserLoggedInMessage msg)
