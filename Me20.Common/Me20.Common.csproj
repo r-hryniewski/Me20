@@ -50,6 +50,7 @@
     <Compile Include="DTO\HttpResult.cs" />
     <Compile Include="Helpers\ActorPathsHelper.cs" />
     <Compile Include="Helpers\PredicateHelpers.cs" />
+    <Compile Include="Messages\CreateTagIfNotExistsMessage.cs" />
     <Compile Include="Messages\TagSubscribedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

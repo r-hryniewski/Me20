@@ -11,15 +11,6 @@ namespace Me20.Core.Actors
         public UsersManagerActor()
         {
             Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
-
-            Receive<TagSubscribedMessage>(msg => HandleTagSubscribedMessage(msg));
-        }
-
-        private void HandleTagSubscribedMessage(TagSubscribedMessage msg)
-        {
-            var sendee = CreateUserActorIfNotExists(msg.ByUserName);
-
-            sendee.Tell(new AddSubscribedTagCommand(msg.TagName));
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInMessage msg)

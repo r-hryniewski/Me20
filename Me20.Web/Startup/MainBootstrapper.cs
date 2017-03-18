@@ -29,6 +29,7 @@ namespace Me20.Web
             // Perform registrations that should have a request lifetime
             container.Settings.AllowNullInjection = true;
 
+            container.Bind<IDispatch<Tag>>().To<CreateTagIfNotExistsDispatcher>();
             container.Bind<IDispatch<Tag>>().To<TagSubscribedDispatcher>();
         }
 

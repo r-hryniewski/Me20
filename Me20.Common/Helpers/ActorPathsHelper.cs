@@ -9,13 +9,13 @@ namespace Me20.Common.Helpers
         public const string UsersManagerActorName = "UsersManager";
         [System.Obsolete]
         public const string UsersManagerName = "UsersManager";
-        public const string TagsManagerActorName = "TagssManager";
+        public const string TagsManagerActorName = "TagsManager";
 
         public const string ActorPathPrefix = "/user";
 
         public static string BuildAbsoluteActorPath(params string[] segments) => segments.Aggregate(
             seed: new StringBuilder(ActorPathPrefix),
-            func: (sb, segment) => sb.Append($"/segment"),
+            func: (sb, segment) => sb.Append($"/{segment}"),
             resultSelector: sb => sb.ToString());
     }
 }

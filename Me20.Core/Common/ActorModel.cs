@@ -19,7 +19,7 @@ namespace Me20.Core
             MainActorSystem = ActorSystem.Create(ActorSystemName);
 
             UsersManagerActorRef = MainActorSystem.ActorOf(UsersManagerActor.Props, UsersManagerActorName);
-            TagsManagerActorRef = MainActorSystem.ActorOf(TagManagerActor.Props, TagsManagerActorName);
+            TagsManagerActorRef = MainActorSystem.ActorOf(TagsManagerActor.Props, TagsManagerActorName);
         }
 
         public static ActorSelection GetUserActorSelection(string userName) => MainActorSystem.ActorSelection($"{UsersManagerActorRef.Path.ToStringWithAddress()}/{userName}");

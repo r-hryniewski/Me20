@@ -54,7 +54,7 @@
   <ItemGroup>
     <Compile Include="Abstracts\HaveDispatchersBase.cs" />
     <Compile Include="Abstracts\DispatcherBase.cs" />
-    <Compile Include="Actors\TagManagerActor.cs" />
+    <Compile Include="Actors\TagsManagerActor.cs" />
     <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Common\ActorModel.cs" />
     <Compile Include="DTO\UserDTO.cs" />
@@ -63,6 +63,7 @@
     <Compile Include="Interfaces\IHaveActorAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tags\Tag.cs" />
+    <Compile Include="Tags\CreateTagIfNotExistsDispatcher.cs" />
     <Compile Include="Tags\TagSubscribedDispatcher.cs" />
   </ItemGroup>
   <ItemGroup>

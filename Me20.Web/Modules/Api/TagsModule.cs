@@ -18,7 +18,8 @@ namespace Me20.Web.Modules.Api
             Get["/{tagName}"] = p =>
             {
                 return Response.AsJson(new Tag(p.tagName)
-                    .WithSpecific(dispatchers, TagSubscribedDispatcher.Name)
+                    .WithSpecific(dispatchers,
+                    CreateTagIfNotExistsDispatcher.Name, TagSubscribedDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
             };
         }
