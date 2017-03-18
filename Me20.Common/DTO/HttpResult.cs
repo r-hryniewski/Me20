@@ -7,11 +7,13 @@ namespace Me20.Common.DTO
         public T Item { get; private set; }
         public int StatusCode { get; private set; }
 
-        public HttpResult(T item, HttpStatusCode status = HttpStatusCode.OK)
+        public HttpResult(T item, int statusCode)
         {
             Item = item;
-            StatusCode = (int)status;
+            StatusCode = statusCode;
         }
 
+        public HttpResult(T item, HttpStatusCode status = HttpStatusCode.OK) : this(item, (int)status)
+        {}
     }
 }

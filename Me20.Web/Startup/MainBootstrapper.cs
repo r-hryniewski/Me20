@@ -29,7 +29,7 @@ namespace Me20.Web
             // Perform registrations that should have a request lifetime
             container.Settings.AllowNullInjection = true;
 
-            container.Bind<IDispatch<Tag>>().To<TagDispatcher>();
+            container.Bind<IDispatch<Tag>>().To<TagSubscribedDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)
