@@ -33,6 +33,8 @@ namespace Me20.Web
 
             container.Bind<IDispatch<Tag>>().To<CreateTagIfNotExistsDispatcher>();
             container.Bind<IDispatch<Tag>>().To<TagSubscribedDispatcher>();
+
+            container.Bind<IDispatch<User>>().To<UserLoggedInDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)
@@ -41,12 +43,14 @@ namespace Me20.Web
             // resolve things that are needed during request startup.
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                var currentUserDTO = new UserDTO(System.Security.Claims.ClaimsPrincipal.Current);
-                if (currentUserDTO.IsValid)
+                var currentUser = new User(System.Security.Claims.ClaimsPrincipal.Current)
+                .With(container.GetAll<IDispatch<User>>());
+
+                if (currentUser.IsValid)
                 {
                     //TODO: Store DTO in session or cache
-                    currentUserDTO.NotifyUserManagerAboutLoggingIn();
-                    context.CurrentUser = new UserIdentity(currentUserDTO);
+                    currentUser.DispatchAll(currentUser.UserName);
+                    context.CurrentUser = new UserIdentity(currentUser);
                 }
                 return null;
             });

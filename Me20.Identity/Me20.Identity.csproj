@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\UserDataBase.cs" />
+    <Compile Include="Actors\UsersManagerActor.cs" />
     <Compile Include="Interfaces\IHaveUserData.cs" />
     <Compile Include="Actors\UserActor.cs" />
     <Compile Include="Enums\IdentitySource.cs" />

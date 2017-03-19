@@ -15,13 +15,13 @@ namespace Me20.Common.Abstracts
             dispatchers = new HashSet<IDispatch<T>>(new InternalNameEqualityComparer());
         }
 
-        public T With(IDispatch<T> dispatcher)
+        public virtual T With(IDispatch<T> dispatcher)
         {
             dispatchers.Add(dispatcher);
             return (T)this;
         }
 
-        public T With(IEnumerable<IDispatch<T>> dispatchers)
+        public virtual T With(IEnumerable<IDispatch<T>> dispatchers)
         {
             foreach (var dispatcher in dispatchers)
                 this.With(dispatcher);
@@ -29,13 +29,19 @@ namespace Me20.Common.Abstracts
             return (T)this;
         }
 
-        public T WithSpecific(IEnumerable<IDispatch<T>> dispatchers, params string[] internalNames) => this.With(
+        public virtual T WithSpecific(IEnumerable<IDispatch<T>> dispatchers, params string[] internalNames) => this.With(
             dispatchers.Join(
                 inner: internalNames,
                 outerKeySelector: dispatcher => dispatcher.InternalName,
                 innerKeySelector: name => name,
                 resultSelector: (dispatcher, name) => dispatcher));
 
-        public abstract HttpResult<T> DispatchAll(string userName);
+        public virtual HttpResult<T> DispatchAll(string userName)
+        {
+            foreach (var dispatcher in dispatchers)
+                dispatcher.Dispatch((T)this, userName);
+
+            return new HttpResult<T>((T)this, System.Net.HttpStatusCode.Accepted);
+        }
     }
 }

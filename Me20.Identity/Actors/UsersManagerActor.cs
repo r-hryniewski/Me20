@@ -1,10 +1,7 @@
 ﻿using Akka.Actor;
 using Me20.Identity.Messages;
-using Me20.Identity.Actors;
-using Me20.Common.Messages;
-using Me20.Common.Commands;
 
-namespace Me20.Core.Actors
+namespace Me20.Identity.Actors
 {
     public class UsersManagerActor : ReceiveActor
     {

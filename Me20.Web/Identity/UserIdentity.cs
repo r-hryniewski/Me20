@@ -13,9 +13,9 @@ namespace Me20.Web.Identity
 
         public string UserName { get; private set; }
 
-        public UserIdentity(UserDTO userDTO)
+        public UserIdentity(User user)
         {
-            UserName = userDTO.UserName;
+            UserName = user.UserName;
         }
     }
 }
