@@ -4,7 +4,7 @@ using Me20.Identity.Abstracts;
 using Me20.Identity.Messages;
 using System.Security.Claims;
 
-namespace Me20.Core.DTO
+namespace Me20.Core.Identity
 {
     public class UserDTO : UserDataBase, IHaveActorAddress
     {

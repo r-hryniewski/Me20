@@ -1,6 +1,8 @@
-﻿using Me20.Core.Interfaces;
+﻿using Me20.Common.Interfaces;
+using Me20.Core.Identity;
 using Me20.Core.Tags;
 using Me20.Identity.Interfaces;
+using Me20.Web.Identity;
 using Me20.Web.Modules.Api;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -16,7 +18,7 @@ namespace Me20.Web
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during application startup.
-            
+
         }
 
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
@@ -37,6 +39,17 @@ namespace Me20.Web
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during request startup.
+            pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
+            {
+                var currentUserDTO = new UserDTO(System.Security.Claims.ClaimsPrincipal.Current);
+                if (currentUserDTO.IsValid)
+                {
+                    //TODO: Store DTO in session or cache
+                    currentUserDTO.NotifyUserManagerAboutLoggingIn();
+                    context.CurrentUser = new UserIdentity(currentUserDTO);
+                }
+                return null;
+            });
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)

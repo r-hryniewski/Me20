@@ -1,6 +1,4 @@
-﻿using Me20.Common.Interfaces;
-
-namespace Me20.Core.Interfaces
+﻿namespace Me20.Common.Interfaces
 {
     public interface IDispatch<T> : IHaveInternalName
     {

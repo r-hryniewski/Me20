@@ -1,4 +1,4 @@
-﻿using Me20.Core.DTO;
+﻿using Me20.Core.Identity;
 using Me20.Common.Interfaces;
 using Nancy.Security;
 using System.Collections.Generic;

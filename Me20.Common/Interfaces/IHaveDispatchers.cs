@@ -1,7 +1,7 @@
 ﻿using Me20.Common.DTO;
 using System.Collections.Generic;
 
-namespace Me20.Core.Interfaces
+namespace Me20.Common.Interfaces
 {
     public interface IHaveDispatchers<T>
     {

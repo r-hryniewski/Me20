@@ -1,6 +1,6 @@
-﻿using Me20.Core.Interfaces;
+﻿using Me20.Common.Interfaces;
 
-namespace Me20.Core.Abstracts
+namespace Me20.Common.Abstracts
 {
     public abstract class DispatcherBase<T> : IDispatch<T>
     {

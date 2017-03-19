@@ -1,6 +1,6 @@
 ﻿using Me20.Common.DTO;
 using System.Net;
-using Me20.Core.Abstracts;
+using Me20.Common.Abstracts;
 
 namespace Me20.Core.Tags
 {

@@ -1,8 +1,7 @@
 ﻿using Akka.Actor;
 using Me20.Common.Messages;
-using Me20.Content.Actors;
 
-namespace Me20.Core.Actors
+namespace Me20.Content.Actors
 {
     public class TagsManagerActor : ReceiveActor
     {

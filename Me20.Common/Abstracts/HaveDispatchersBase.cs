@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using Me20.Common.DTO;
-using Me20.Core.Interfaces;
+using Me20.Common.Interfaces;
 using Me20.Common.Comparers;
 using System.Linq;
 
-namespace Me20.Core.Abstracts
+namespace Me20.Common.Abstracts
 {
     public abstract class HaveDispatchersBase<T> : IHaveDispatchers<T> where T : HaveDispatchersBase<T>
     {

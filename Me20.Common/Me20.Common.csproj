@@ -41,9 +41,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstracts\CommandBase.cs" />
+    <Compile Include="Abstracts\DispatcherBase.cs" />
+    <Compile Include="Abstracts\HaveDispatchersBase.cs" />
     <Compile Include="Commands\AddSubscribedTagCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
+    <Compile Include="Interfaces\IDispatch.cs" />
+    <Compile Include="Interfaces\IHaveDispatchers.cs" />
     <Compile Include="Interfaces\IHaveInternalName.cs" />
     <Compile Include="Interfaces\IHaveUserName.cs" />
     <Compile Include="Commands\AddSubscriberCommand.cs" />
@@ -51,7 +55,6 @@
     <Compile Include="Helpers\ActorPathsHelper.cs" />
     <Compile Include="Helpers\PredicateHelpers.cs" />
     <Compile Include="Messages\CreateTagIfNotExistsMessage.cs" />
-    <Compile Include="Messages\TagSubscribedMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
