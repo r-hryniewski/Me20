@@ -7,10 +7,10 @@ namespace Me20.Content.Actors
     {
         public TagsManagerActor()
         {
-            Receive<CreateTagIfNotExistsMessage>(msg => HandleTagAddedMessage(msg));
+            Receive<CreateTagIfNotExistsMessage>(msg => HandleCreateTagIfNotExistsMessage(msg));
         }
 
-        private void HandleTagAddedMessage(CreateTagIfNotExistsMessage msg)
+        private void HandleCreateTagIfNotExistsMessage(CreateTagIfNotExistsMessage msg)
         {
             CreateTagActorIfNotExists(msg.TagName);
         }

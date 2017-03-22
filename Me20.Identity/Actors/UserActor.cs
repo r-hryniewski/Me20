@@ -33,6 +33,7 @@ namespace Me20.Identity.Actors
                 ActorState.Update(msg);
         }
 
+        //TODO: UserName in props
         public static Props Props => Props.Create(() => new UserActor());
         
         private sealed class UserActorState : UserDataBase
