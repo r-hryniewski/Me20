@@ -1,13 +1,11 @@
 ﻿namespace Me20.Identity.Interfaces
 {
-    public interface IHaveUserData
+    public interface IHaveUserData : IHaveAuthenthicationInfo
     {
-        string Id { get;}
         string FullName { get; }
         string FirstName { get; }
         string LastName { get; }
         string Email { get; }
         string Gender { get; }
-        string AuthenticationType { get; }
     }
 }

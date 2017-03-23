@@ -13,9 +13,9 @@ namespace Me20.Identity.Actors
     public class UserActor : ReceiveActor
     {
         private UserActorState ActorState { get; set; }
-        public UserActor()
+        public UserActor(string authenthicationType, string id)
         {
-            ActorState = new UserActorState();
+            ActorState = new UserActorState(authenthicationType, id);
             //TODO: Persist/Receive + User repo?
             Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
 
@@ -29,22 +29,25 @@ namespace Me20.Identity.Actors
 
         private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
         {
-            if (ActorState.HasChanged(msg))
-                ActorState.Update(msg);
+            ActorState.RefreshLastLoggedIn();
         }
 
-        //TODO: UserName in props
-        public static Props Props => Props.Create(() => new UserActor());
-        
+        public static Props Props(string authenthicationType, string id)
+        {
+            return Akka.Actor.Props.Create<UserActor>(() => new UserActor(authenthicationType, id));
+        }
+
         private sealed class UserActorState : UserDataBase
         {
+            internal DateTime LastLoggedIn { get; private set; }
             private readonly HashSet<string> subscribedTags;
             //NYI
             //internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
 
-            internal UserActorState()
+            internal UserActorState(string authenthicationType, string id) : base(authenthicationType, id)
             {
                 subscribedTags = new HashSet<string>();
+                RefreshLastLoggedIn();
             }
 
             internal void AddSubscribedTag(string tagName)
@@ -52,34 +55,40 @@ namespace Me20.Identity.Actors
                 subscribedTags.Add(tagName);
             }
 
-            //TODO: Refactor this
-            internal bool HasChanged(UserLoggedInMessage msg)
-            {
-                return (new bool[]
-                {
-                    this.UserName.Equals(msg.UserName, StringComparison.OrdinalIgnoreCase),
-                    this.Id.Equals(msg.Id, StringComparison.OrdinalIgnoreCase),
-                    this.FullName.Equals(msg.FullName, StringComparison.OrdinalIgnoreCase),
-                    this.FirstName.Equals(msg.FirstName, StringComparison.OrdinalIgnoreCase),
-                    this.LastName.Equals(msg.LastName, StringComparison.OrdinalIgnoreCase),
-                    this.Email.Equals(msg.Email, StringComparison.OrdinalIgnoreCase),
-                    this.Gender.Equals(msg.Gender, StringComparison.OrdinalIgnoreCase),
-                    this.AuthenticationType.Equals(msg.AuthenticationType, StringComparison.OrdinalIgnoreCase)
-                })
-                .Any(x => !x);
-            }
+            internal void RefreshLastLoggedIn() => LastLoggedIn = DateTime.UtcNow;
 
             //TODO: Refactor this
-            internal void Update(UserLoggedInMessage msg)
-            {
-                this.Id = msg.Id;
-                this.FullName = msg.FullName;
-                this.FirstName = msg.FirstName;
-                this.LastName = msg.LastName;
-                this.Email = msg.Email;
-                this.Gender = msg.Gender;
-                this.AuthenticationType = msg.AuthenticationType;
-            }
+            //Not used at the moment
+            //internal bool HasChanged(UserLoggedInMessage msg)
+            //{
+            //    return (new bool[]
+            //    {
+            //        this.UserName.Equals(msg.UserName, StringComparison.OrdinalIgnoreCase),
+            //        //this.Id.Equals(msg.Id, StringComparison.OrdinalIgnoreCase),
+            //        //this.FullName.Equals(msg.FullName, StringComparison.OrdinalIgnoreCase),
+            //        //this.FirstName.Equals(msg.FirstName, StringComparison.OrdinalIgnoreCase),
+            //        //this.LastName.Equals(msg.LastName, StringComparison.OrdinalIgnoreCase),
+            //        //this.Email.Equals(msg.Email, StringComparison.OrdinalIgnoreCase),
+            //        //this.Gender.Equals(msg.Gender, StringComparison.OrdinalIgnoreCase),
+            //        //this.AuthenticationType.Equals(msg.AuthenticationType, StringComparison.OrdinalIgnoreCase)
+            //    })
+            //    .Any(x => !x);
+            //}
+
+            //TODO: Change type
+            //Not used at the moment
+            //internal void Update(UserLoggedInMessage msg)
+            //{
+            //    //TODO: Not used atm
+
+            //    //this.Id = msg.Id;
+            //    //this.FullName = msg.FullName;
+            //    //this.FirstName = msg.FirstName;
+            //    //this.LastName = msg.LastName;
+            //    //this.Email = msg.Email;
+            //    //this.Gender = msg.Gender;
+            //    //this.AuthenticationType = msg.AuthenticationType;
+            //}
         }
     }
 }

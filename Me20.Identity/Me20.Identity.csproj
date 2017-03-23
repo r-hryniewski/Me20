@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstracts\AuthenthicationInfoBase.cs" />
     <Compile Include="Abstracts\UserDataBase.cs" />
     <Compile Include="Actors\UsersManagerActor.cs" />
+    <Compile Include="Interfaces\IHaveAuthenthicationInfo.cs" />
     <Compile Include="Interfaces\IHaveUserData.cs" />
     <Compile Include="Actors\UserActor.cs" />
     <Compile Include="Enums\IdentitySource.cs" />

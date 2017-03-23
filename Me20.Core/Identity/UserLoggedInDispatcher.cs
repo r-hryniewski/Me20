@@ -16,11 +16,6 @@ namespace Me20.Core.Identity
         {
             ActorModel.UsersManagerActorRef.Tell(new UserLoggedInMessage(
                     id: item.Id,
-                    fullName: item.FullName,
-                    firstName: item.FirstName,
-                    lastName: item.LastName,
-                    email: item.Email,
-                    gender: item.Gender,
                     authenticationType: item.AuthenticationType
                     ));
         }

@@ -1,11 +1,14 @@
-﻿using Me20.Identity.Abstracts;
+﻿using System;
+using Me20.Common.Interfaces;
+using Me20.Identity.Abstracts;
 
 namespace Me20.Identity.Messages
 {
-    public class UserLoggedInMessage : UserDataBase
+    public class UserLoggedInMessage : AuthenthicationInfoBase, IHaveUserName
     {
-        public UserLoggedInMessage(string id, string fullName, string firstName, string lastName, string email, string gender, string authenticationType)
-            : base(id, fullName, firstName, lastName, email, gender, authenticationType)
+        public string AuthenthicationType { get; private set; }
+
+        public UserLoggedInMessage(string authenticationType, string id) : base(authenticationType, id)
         {
 
         }

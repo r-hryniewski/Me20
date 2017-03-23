@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Me20.Identity.Interfaces;
 using Me20.Identity.Messages;
 
 namespace Me20.Identity.Actors
@@ -12,16 +13,19 @@ namespace Me20.Identity.Actors
 
         private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
         {
-            var sendee = CreateUserActorIfNotExists(msg.UserName);
-            sendee.Tell(msg);
+            if (msg.IsValid)
+            {
+                var sendee = CreateUserActorIfNotExists(msg);
+                sendee.Tell(msg);
+            }
         }
 
-        private IActorRef CreateUserActorIfNotExists(string userName)
+        private IActorRef CreateUserActorIfNotExists(IHaveAuthenthicationInfo authenthicationInfo)
         {
-            if (!Context.Child(userName).IsNobody())
-                return Context.Child(userName);
+            if (!Context.Child(authenthicationInfo.UserName).IsNobody())
+                return Context.Child(authenthicationInfo.UserName);
             else
-                return Context.ActorOf(UserActor.Props, userName);
+                return Context.ActorOf(UserActor.Props(authenthicationInfo.AuthenticationType, authenthicationInfo.Id), authenthicationInfo.UserName);
         }
 
         public static Props Props => Props.Create(() => new UsersManagerActor());
