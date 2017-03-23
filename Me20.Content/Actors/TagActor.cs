@@ -8,9 +8,9 @@ namespace Me20.Content.Actors
     {
         private TagActorState ActorState { get; set; }
 
-        public TagActor()
+        public TagActor(string tagName)
         {
-            ActorState = new TagActorState();
+            ActorState = new TagActorState(tagName);
 
             Receive<AddSubscriberCommand>(msg => HandleAddSubscriberCommand(msg));
             //TODO: Create container for content marked with this tag
@@ -22,16 +22,19 @@ namespace Me20.Content.Actors
             ActorState.AddSubscriber(msg.UserName);
         }
 
-        public static Props Props => Props.Create(() => new TagActor());
+        public static Props Props(string tagName) => Akka.Actor.Props.Create(() => new TagActor(tagName));
 
         private sealed class TagActorState
         {
+            internal string TagName { get; private set; }
             private readonly HashSet<string> subscribers;
+
             //NYI
             //internal IReadOnlyCollection<string> Subscribers => subscribers;
 
-            internal TagActorState()
+            internal TagActorState(string tagName)
             {
+                TagName = tagName;
                 subscribers = new HashSet<string>();
             }
 

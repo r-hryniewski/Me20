@@ -21,7 +21,7 @@ namespace Me20.Content.Actors
                 return Context.Child(tagName);
 
             else
-                return Context.ActorOf(TagActor.Props, tagName);
+                return Context.ActorOf(TagActor.Props(tagName), tagName);
         }
 
         public static Props Props => Props.Create(() => new TagsManagerActor());
