@@ -1,4 +1,5 @@
 ﻿using Me20.Common.Interfaces;
+using System;
 
 namespace Me20.Common.Abstracts
 {
@@ -15,6 +16,13 @@ namespace Me20.Common.Abstracts
                 InternalName = typeName.Remove(dispatcherIndex);
             else
                 InternalName = typeName;
+        }
+
+        protected virtual void ValidateAndExecute(T item, string userName, params Action[] actions)
+        {
+            if (!string.IsNullOrEmpty(userName))
+                foreach (var action in actions)
+                    action();
         }
     }
 }

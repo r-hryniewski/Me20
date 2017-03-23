@@ -8,6 +8,7 @@ using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
 using Nancy.Conventions;
+using Nancy.Session;
 using Ninject;
 
 namespace Me20.Web
@@ -18,7 +19,6 @@ namespace Me20.Web
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during application startup.
-
         }
 
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
@@ -52,6 +52,9 @@ namespace Me20.Web
                     currentUser.DispatchAll(currentUser.UserName);
                     context.CurrentUser = new UserIdentity(currentUser);
                 }
+                else
+                    context.CurrentUser = UserIdentity.Empty;
+
                 return null;
             });
         }
