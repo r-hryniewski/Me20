@@ -14,8 +14,7 @@ namespace Me20.Core.Tags
 
         public override void Dispatch(Tag item, string userName)
         {
-            ValidateAndExecute(item, userName,
-            () => ActorModel.TagsManagerActorRef.Tell(new CreateTagIfNotExistsMessage(item.TagName)));
+            ActorModel.TagsManagerActorRef.Tell(new CreateTagIfNotExistsMessage(item.TagName));
         }
     }
 }

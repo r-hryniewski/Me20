@@ -17,12 +17,5 @@ namespace Me20.Common.Abstracts
             else
                 InternalName = typeName;
         }
-
-        protected virtual void ValidateAndExecute(T item, string userName, params Action[] actions)
-        {
-            if (!string.IsNullOrEmpty(userName))
-                foreach (var action in actions)
-                    action();
-        }
     }
 }

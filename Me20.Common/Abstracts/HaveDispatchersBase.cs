@@ -38,6 +38,9 @@ namespace Me20.Common.Abstracts
 
         public virtual HttpResult<T> DispatchAll(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+                return new HttpResult<T>((T)this, 401);
+
             foreach (var dispatcher in dispatchers)
                 dispatcher.Dispatch((T)this, userName);
 

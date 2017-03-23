@@ -14,10 +14,8 @@ namespace Me20.Core.Tags
 
         public override void Dispatch(Tag item, string userName)
         {
-            base.ValidateAndExecute(item, userName,
-            () => ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName, userName)).Tell(new AddSubscribedTagCommand(item.TagName)),
-            () => ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.TagsManagerActorName, item.TagName)).Tell(new AddSubscriberCommand(userName))
-            );
+            ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName, userName)).Tell(new AddSubscribedTagCommand(item.TagName));
+            ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.TagsManagerActorName, item.TagName)).Tell(new AddSubscriberCommand(userName));
         }
     }
 }

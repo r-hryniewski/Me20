@@ -15,16 +15,7 @@ namespace Me20.Core.Identity
 
         public override void Dispatch(User item, string userName)
         {
-            ActorModel.UsersManagerActorRef.Tell(new UserLoggedInMessage(
-                    id: item.Id,
-                    authenticationType: item.AuthenticationType
-                    ));
-        }
-
-        protected override void ValidateAndExecute(User item, string userName, params Action[] actions)
-        {
-            if (item != null)
-                base.ValidateAndExecute(item, userName, actions);
+            ActorModel.UsersManagerActorRef.Tell(new UserLoggedInMessage(item.AuthenticationType, item.Id));
         }
     }
 }
