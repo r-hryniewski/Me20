@@ -1,14 +1,15 @@
 ﻿using Akka.Actor;
+using Me20.Common.Abstracts;
 using Me20.Common.Commands;
 using System.Collections.Generic;
 
 namespace Me20.Content.Actors
 {
-    public class TagActor : ReceiveActor
+    public class TagActor : ReceiveActorBase
     {
         private TagActorState ActorState { get; set; }
 
-        public TagActor(string tagName)
+        public TagActor(string tagName) : base()
         {
             ActorState = new TagActorState(tagName);
 

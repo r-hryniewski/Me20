@@ -1,11 +1,12 @@
 ﻿using Akka.Actor;
+using Me20.Common.Abstracts;
 using Me20.Common.Messages;
 
 namespace Me20.Content.Actors
 {
-    public class TagsManagerActor : ReceiveActor
+    public class TagsManagerActor : ReceiveActorBase
     {
-        public TagsManagerActor()
+        public TagsManagerActor() : base()
         {
             Receive<CreateTagIfNotExistsMessage>(msg => HandleCreateTagIfNotExistsMessage(msg));
         }

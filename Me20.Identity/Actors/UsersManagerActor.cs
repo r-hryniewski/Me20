@@ -1,12 +1,13 @@
 ﻿using Akka.Actor;
+using Me20.Common.Abstracts;
 using Me20.Identity.Interfaces;
 using Me20.Identity.Messages;
 
 namespace Me20.Identity.Actors
 {
-    public class UsersManagerActor : ReceiveActor
+    public class UsersManagerActor : ReceiveActorBase
     {
-        public UsersManagerActor()
+        public UsersManagerActor() : base()
         {
             Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
         }

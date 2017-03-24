@@ -1,19 +1,18 @@
 ﻿using Akka.Actor;
+using Me20.Common.Abstracts;
 using Me20.Common.Commands;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Messages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Me20.Identity.Actors
 {
     //TODO: Make it persistent actor
-    public class UserActor : ReceiveActor
+    public class UserActor : ReceiveActorBase
     {
         private UserActorState ActorState { get; set; }
-        public UserActor(string authenthicationType, string id)
+        public UserActor(string authenthicationType, string id) : base()
         {
             ActorState = new UserActorState(authenthicationType, id);
             //TODO: Persist/Receive + User repo?
