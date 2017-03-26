@@ -1,4 +1,5 @@
 ﻿using Me20.Common.Interfaces;
+using Me20.Core.Contents;
 using Me20.Core.Identity;
 using Me20.Core.Tags;
 using Me20.Identity.Interfaces;
@@ -35,6 +36,9 @@ namespace Me20.Web
             container.Bind<IDispatch<Tag>>().To<TagSubscribedDispatcher>();
 
             container.Bind<IDispatch<User>>().To<UserLoggedInDispatcher>();
+
+            container.Bind<IDispatch<Content>>().To<CreateContentIfNotExistsDispatcher>();
+            container.Bind<IDispatch<Content>>().To<AddContentDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)

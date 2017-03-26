@@ -53,6 +53,7 @@
     <Compile Include="Abstracts\DispatcherBase.cs" />
     <Compile Include="Abstracts\HaveDispatchersBase.cs" />
     <Compile Include="Abstracts\ReceiveActorBase.cs" />
+    <Compile Include="Commands\AddContentCommand.cs" />
     <Compile Include="Commands\AddSubscribedTagCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
@@ -64,7 +65,8 @@
     <Compile Include="DTO\HttpResult.cs" />
     <Compile Include="Helpers\ActorPathsHelper.cs" />
     <Compile Include="Helpers\PredicateHelpers.cs" />
-    <Compile Include="Messages\CreateTagIfNotExistsMessage.cs" />
+    <Compile Include="Messages\CreateContentfNotExistsMessage.cs" />
+    <Compile Include="Messages\CreateTagIfNotExistsMessage .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

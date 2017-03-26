@@ -11,8 +11,7 @@ namespace Me20.Core
 
         public static IActorRef UsersManagerActorRef { get; set; }
         public static IActorRef TagsManagerActorRef { get; set; }
-
-        //TODO: ContentManager
+        public static IActorRef ContentManagerActorRef { get; set; }
         //TODO: Anonymous UserActor?
 
         public static void StartActorSystem()
@@ -21,6 +20,7 @@ namespace Me20.Core
 
             UsersManagerActorRef = MainActorSystem.ActorOf(UsersManagerActor.Props, UsersManagerActorName);
             TagsManagerActorRef = MainActorSystem.ActorOf(TagsManagerActor.Props, TagsManagerActorName);
+            ContentManagerActorRef = MainActorSystem.ActorOf(ContentManagerActor.Props, ContentManagerActorName);
         }
 
         public static ActorSelection GetUserActorSelection(string userName) => MainActorSystem.ActorSelection($"{UsersManagerActorRef.Path.ToStringWithAddress()}/{userName}");

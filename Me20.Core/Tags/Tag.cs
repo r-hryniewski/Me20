@@ -4,7 +4,7 @@ namespace Me20.Core.Tags
 {
     public class Tag : HaveDispatchersBase<Tag>
     {
-        public string TagName { get; private set; }
+        public string TagName { get; set; }
 
         public Tag(string tagName) : base()
         {

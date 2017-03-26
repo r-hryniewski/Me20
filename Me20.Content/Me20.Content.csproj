@@ -52,7 +52,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\ContentActor.cs" />
     <Compile Include="Actors\TagActor.cs" />
+    <Compile Include="Actors\ContentManagerActor.cs" />
     <Compile Include="Actors\TagsManagerActor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

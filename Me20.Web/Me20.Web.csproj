@@ -277,6 +277,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\NancyExtensions.cs" />
+    <Compile Include="Modules\Api\ContentModule.cs" />
     <Compile Include="Modules\Api\TagsModule.cs" />
     <Compile Include="ViewModels\DashboardViewModel.cs" />
     <Compile Include="Modules\DashboardModule.cs" />
