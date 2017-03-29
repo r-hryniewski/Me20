@@ -3,6 +3,7 @@ using Nancy;
 using System.Collections.Generic;
 using Me20.Web.Extensions;
 using Me20.Common.Interfaces;
+using Nancy.ModelBinding;
 
 namespace Me20.Web.Modules.Api
 {
@@ -15,9 +16,18 @@ namespace Me20.Web.Modules.Api
             dispatchers = _dispatchers;
 
             //TODO: Change it to post after doing some frontend
-            Get["/{tagName}"] = p =>
+            //Get["/{tagName}"] = p =>
+            //{
+            //    return Response.AsJson(new Tag(p.tagName)
+            //        .WithSpecific(dispatchers,
+            //        CreateTagIfNotExistsDispatcher.Name, TagSubscribedDispatcher.Name)
+            //        .DispatchAll(Context.CurrentUser.UserName));
+            //};
+
+            Post["/"] = p =>
             {
-                return Response.AsJson(new Tag(p.tagName)
+                var tag = this.Bind<Tag>();
+                return Response.AsJson(tag
                     .WithSpecific(dispatchers,
                     CreateTagIfNotExistsDispatcher.Name, TagSubscribedDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));

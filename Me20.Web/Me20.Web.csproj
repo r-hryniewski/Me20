@@ -175,6 +175,7 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Scripts\app\dashboard.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
@@ -288,7 +289,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Dashboard\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Me20.Common\Me20.Common.csproj">

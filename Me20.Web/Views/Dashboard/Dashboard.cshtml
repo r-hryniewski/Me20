@@ -1,20 +1,36 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Me20.Web.ViewModels.DashboardViewModel>
 
-<div class="row">
+<div id="dashboard" class="row">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="new-tag">Subscribe for tag</label>
+            @*TODO: Autocomplete and stuff?*@
+            <input id="new-tag" v-on:keyup.enter="subscribeTag"/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="new-content">Add content</label>
+            @*TODO: ??No idea yet??*@
+            <input id="new-content" v-on:keyup.enter="addContent" />
+        </div>
+    </div>
     <div class="col-xs-12">
-        TODO: Tag label
+        @*TODO: Make it not look like shit*@
+        Tag list
     </div>
-    <div class="col-md-3">
-        NYI
+    @*TODO: Stuff it into component*@
+    <div v-for="tag in Tags" class="col-sm-1">
+        {{tag}}
     </div>
-    <div class="col-md-3">
-        NYI
+    <div class="col-xs-12">
+        @*TODO: Make it not look like shit too*@
+        Content list
     </div>
-    <div class="col-md-3">
-        NYI
-    </div>
-    <div class="col-md-3">
-        NYI
+    @*TODO: Stuff it into component too*@
+    <div v-for="item in Content" class="col-sm-4">
+        {{item}}
     </div>
 </div>
+<script src="~/Scripts/app/dashboard.js"></script>
 

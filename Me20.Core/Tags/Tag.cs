@@ -6,9 +6,8 @@ namespace Me20.Core.Tags
     {
         public string TagName { get; set; }
 
-        public Tag(string tagName) : base()
+        public Tag() : base()
         {
-            TagName = tagName;
         }
     }
 }
