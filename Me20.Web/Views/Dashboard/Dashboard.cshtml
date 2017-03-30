@@ -21,7 +21,7 @@
     </div>
     @*TODO: Stuff it into component*@
     <div v-for="tag in Tags" class="col-sm-1">
-        {{tag}}
+        {{tag.TagName}}
     </div>
     <div class="col-xs-12">
         @*TODO: Make it not look like shit too*@
@@ -29,7 +29,7 @@
     </div>
     @*TODO: Stuff it into component too*@
     <div v-for="item in Content" class="col-sm-4">
-        {{item}}
+        {{item.Url}}
     </div>
 </div>
 <script src="~/Scripts/app/dashboard.js"></script>

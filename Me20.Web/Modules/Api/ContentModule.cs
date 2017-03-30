@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Me20.Web.Extensions;
 using Me20.Common.Interfaces;
 using Me20.Core.Contents;
+using Nancy.ModelBinding;
 
 namespace Me20.Web.Modules.Api
 {
@@ -15,9 +16,10 @@ namespace Me20.Web.Modules.Api
             dispatchers = _dispatchers;
 
             //TODO: Change it to post after doing some frontend
-            Get["/{contentUrl}"] = p =>
+            Post["/"] = p =>
             {
-                return Response.AsJson(new Content(p.contentUrl, System.Linq.Enumerable.Empty<string>())
+                var content = this.Bind<Content>();
+                return Response.AsJson(content
                     .WithSpecific(dispatchers,
                     CreateContentIfNotExistsDispatcher.Name,
                     AddContentDispatcher.Name)

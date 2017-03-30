@@ -1,4 +1,5 @@
-﻿var dashboard = new Vue({
+﻿//TODO: TypeScript?
+var dashboard = new Vue({
     el: "#dashboard",
     data: {
         Content: [],
@@ -6,21 +7,31 @@
     },
     methods: {
         subscribeTag: function (event) {
-            //TODO: Post to api
-            this.Tags.push(event.srcElement.value);
             this.$http.post('/api/tags/', { TagName: event.srcElement.value })
                 .then(
                 response => {
-                    console.log(response);
+                    this.Tags.push({
+                        TagName: response.body.tagName
+                    });
                 },
                 response => {
+                    //TODO: Alert window
                     console.log(response);
                 });
         },
         addContent: function (event) {
-            //TODO: Post to api
-            this.Content.push(event.srcElement.value);
+            this.$http.post('/api/content/', { Url: event.srcElement.value, Tags: [] })
+                .then(
+                response => {
+                    this.Content.push({
+                        Url: response.body.url,
+                        Tags: response.body.tags
+                        });
+                },
+                response => {
+                    //TODO: Alert window
+                    console.log(response);
+                });
         },
-
     }
 });

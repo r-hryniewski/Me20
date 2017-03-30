@@ -22,7 +22,7 @@ namespace Me20.Content.Actors
                 return Context.Child(url);
 
             else
-                return Context.ActorOf(TagActor.Props(url), url);
+                return Context.ActorOf(ContentActor.Props(url), url);
         }
 
         public static Props Props => Props.Create(() => new ContentManagerActor());
