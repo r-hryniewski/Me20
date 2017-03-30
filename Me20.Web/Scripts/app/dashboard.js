@@ -10,8 +10,9 @@ var dashboard = new Vue({
             this.$http.post('/api/tags/', { TagName: event.srcElement.value })
                 .then(
                 response => {
+                    var tag = response.body.item;
                     this.Tags.push({
-                        TagName: response.body.tagName
+                        TagName: tag.tagName
                     });
                 },
                 response => {
@@ -23,15 +24,16 @@ var dashboard = new Vue({
             this.$http.post('/api/content/', { Url: event.srcElement.value, Tags: [] })
                 .then(
                 response => {
+                    var content = response.body.item;
                     this.Content.push({
-                        Url: response.body.url,
-                        Tags: response.body.tags
+                        Url: content.uri,
+                        Tags: content.tags
                         });
                 },
                 response => {
                     //TODO: Alert window
                     console.log(response);
                 });
-        },
+        }
     }
 });

@@ -39,7 +39,7 @@ namespace Me20.Common.Abstracts
         public virtual HttpResult<T> DispatchAll(string userName)
         {
             if (string.IsNullOrEmpty(userName))
-                return new HttpResult<T>((T)this, 401);
+                return HttpResult<T>.CreateErrorResult(401, "UserName is empty, you're not authenthicated in any way.");
 
             foreach (var dispatcher in dispatchers)
                 dispatcher.Dispatch((T)this, userName);

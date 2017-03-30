@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
+using System;
 
 namespace Me20.Content.Actors
 {
@@ -7,23 +8,23 @@ namespace Me20.Content.Actors
     {
         private ContentActorState ActorState { get; set; }
 
-        public ContentActor(string url) : base()
+        public ContentActor(Uri uri) : base()
         {
             //validate url
-            ActorState = new ContentActorState(url);
+            ActorState = new ContentActorState(uri);
             
             //TODO: Handle receiving added tagged content message
         }
 
-        public static Props Props(string url) => Akka.Actor.Props.Create(() => new ContentActor(url));
+        public static Props Props(Uri uri) => Akka.Actor.Props.Create(() => new ContentActor(uri));
 
         private sealed class ContentActorState
         {
-            internal string Url { get; private set; }
+            internal Uri Uri { get; private set; }
             
-            internal ContentActorState(string url)
+            internal ContentActorState(Uri uri)
             {
-                Url = url;
+                Uri = uri;
                 
                 //TODO: Rating
                 //TODO: Level

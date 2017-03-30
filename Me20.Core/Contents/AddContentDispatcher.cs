@@ -14,7 +14,7 @@ namespace Me20.Core.Contents
 
         public override void Dispatch(Content item, string userName)
         {
-            ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName, userName)).Tell(new AddContentCommand(item.Url, item.Tags));
+            ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName, userName)).Tell(new AddContentCommand(item.Uri, item.Tags));
         }
     }
 }

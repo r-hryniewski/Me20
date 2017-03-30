@@ -19,6 +19,6 @@ namespace Me20.Web.Identity
         }
         private UserIdentity(){}
 
-        public readonly static UserIdentity Empty = new UserIdentity() { UserName = string.Empty };
+        public readonly static IUserIdentity Empty = new UserIdentity() { UserName = string.Empty };
     }
 }

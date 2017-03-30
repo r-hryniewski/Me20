@@ -27,7 +27,7 @@ namespace Me20.Identity.Actors
 
         private void HandleAddContentCommand(AddContentCommand msg)
         {
-            ActorState.AddContent(msg.ContentUrl, msg.ContentTags);
+            ActorState.AddContent(msg.ContentUri, msg.ContentTags);
         }
 
         private void HandleAddSubscribedTagCommand(AddSubscribedTagCommand msg)
@@ -52,14 +52,14 @@ namespace Me20.Identity.Actors
             //NYI
             //internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
 
-            internal Dictionary<string, HashSet<string>> ContentsByTags { get; private set; }
-            internal HashSet<string> UntaggedContent { get; private set; }
+            internal Dictionary<string, HashSet<Uri>> ContentsByTags { get; private set; }
+            internal HashSet<Uri> UntaggedContent { get; private set; }
 
             internal UserActorState(string authenthicationType, string id) : base(authenthicationType, id)
             {
                 subscribedTags = new HashSet<string>();
-                ContentsByTags = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
-                UntaggedContent = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                ContentsByTags = new Dictionary<string, HashSet<Uri>>(StringComparer.OrdinalIgnoreCase);
+                UntaggedContent = new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/);
                 RefreshLastLoggedIn();
             }
 
@@ -68,21 +68,21 @@ namespace Me20.Identity.Actors
                 subscribedTags.Add(tagName);
             }
 
-            internal void AddContent(string contentUrl, IEnumerable<string> contentTags = null)
+            internal void AddContent(Uri contentUri, IEnumerable<string> contentTags = null)
             {
                 if (contentTags == null || !contentTags.Any())
-                    UntaggedContent.Add(contentUrl);
+                    UntaggedContent.Add(contentUri);
 
                 else
-                    AddTaggedContent(contentUrl, contentTags);
+                    AddTaggedContent(contentUri, contentTags);
             }
 
-            private void AddTaggedContent(string contentUrl, IEnumerable<string> contentTags = null)
+            private void AddTaggedContent(Uri contentUrl, IEnumerable<string> contentTags = null)
             {
                 foreach (var tag in contentTags)
                 {
                     if (!ContentsByTags.ContainsKey(tag))
-                        ContentsByTags.Add(tag, new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+                        ContentsByTags.Add(tag, new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/));
 
                     ContentsByTags[tag].Add(contentUrl);
                 }

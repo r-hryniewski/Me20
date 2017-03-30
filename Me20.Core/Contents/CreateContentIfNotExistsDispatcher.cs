@@ -14,7 +14,7 @@ namespace Me20.Core.Contents
 
         public override void Dispatch(Content item, string userName)
         {
-            ActorModel.ContentManagerActorRef.Tell(new CreateContentIfNotExistsMessage(item.Url));
+            ActorModel.ContentManagerActorRef.Tell(new CreateContentIfNotExistsMessage(item.Uri));
         }
     }
 }
