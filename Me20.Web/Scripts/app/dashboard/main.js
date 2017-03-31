@@ -1,4 +1,8 @@
-﻿//TODO: TypeScript?
+﻿import Vue from "vue";
+var VueResource = require("vue-resource");
+
+Vue.use(VueResource);
+
 var dashboard = new Vue({
     el: "#dashboard",
     data: {

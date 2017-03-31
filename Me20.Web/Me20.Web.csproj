@@ -172,10 +172,12 @@
     <Content Include="Content\Bootstrap\stylesheets\_bootstrap.min.css">
       <DependentUpon>_bootstrap.css</DependentUpon>
     </Content>
+    <Content Include="gulpfile.js" />
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Scripts\app\dashboard.js" />
+    <Content Include="Scripts\app\dashboard\main.js" />
+    <Content Include="Scripts\bundles\dashboard\bundle.js" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Dashboard\Dashboard.cshtml" />
@@ -188,6 +190,7 @@
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="package.json" />
     <None Include="Properties\PublishProfiles\me20 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\me20 - Web Deploy.pubxml" />
     <Content Include="Content\Bootstrap\stylesheets\_bootstrap.scss" />
@@ -264,6 +267,7 @@
     <Content Include="Content\Bootstrap\stylesheets\bootstrap\mixins\_border-radius.scss" />
     <Content Include="Content\Bootstrap\stylesheets\bootstrap\mixins\_background-variant.scss" />
     <Content Include="Content\Bootstrap\stylesheets\bootstrap\mixins\_alerts.scss" />
+    <Content Include="Scripts\bundles\dashboard\bundle.js.map" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
