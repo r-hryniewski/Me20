@@ -1,5 +1,6 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
+using Me20.Common.Commands;
 using Me20.Common.Messages;
 
 namespace Me20.Content.Actors
@@ -9,6 +10,7 @@ namespace Me20.Content.Actors
         public TagsManagerActor() : base()
         {
             Receive<CreateTagIfNotExistsMessage>(msg => HandleCreateTagIfNotExistsMessage(msg));
+            Receive<AddSubscriberCommand>(msg => CreateTagActorIfNotExists(msg.TagName).Forward(msg));
         }
 
         private void HandleCreateTagIfNotExistsMessage(CreateTagIfNotExistsMessage msg)

@@ -20,7 +20,9 @@ namespace Me20.Web.Modules.Api
                 var tag = this.Bind<Tag>();
                 return Response.AsJson(tag
                     .WithSpecific(dispatchers,
-                    CreateTagIfNotExistsDispatcher.Name, TagSubscribedDispatcher.Name)
+                    //Not Used at the moment
+                    //CreateTagIfNotExistsDispatcher.Name,
+                    TagSubscribedDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
             };
         }

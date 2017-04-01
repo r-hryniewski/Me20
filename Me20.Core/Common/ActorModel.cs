@@ -1,6 +1,8 @@
 ﻿using Akka.Actor;
+using Akka.Configuration;
 using Me20.Content.Actors;
 using Me20.Identity.Actors;
+using System.Configuration;
 using static Me20.Common.Helpers.ActorPathsHelper;
 
 namespace Me20.Core
@@ -24,5 +26,51 @@ namespace Me20.Core
         }
 
         public static ActorSelection GetUserActorSelection(string userName) => MainActorSystem.ActorSelection($"{UsersManagerActorRef.Path.ToStringWithAddress()}/{userName}");
+
+
+        //private static Config CreateConfiguration()
+        //{
+        //    return ConfigurationFactory.ParseString($@"
+        //        akka.persistence {{
+        //            journal {{
+        //                plugin = ""akka.persistence.journal.sql-server""                
+        //                sql-server {{
+        //                    class = ""Akka.Persistence.SqlServer.Journal.SqlServerJournal, Akka.Persistence.SqlServer""
+        //                    plugin-dispatcher = ""akka.actor.default-dispatcher""
+
+        //                    # connection string used for database access
+        //                    connection-string-name = ""Me20DbConnectionString""
+        //                    # can alternativly specify: connection-string-name
+
+        //                    # default SQL timeout
+        //                    connection-timeout = 30s
+
+        //                    # SQL server schema name
+        //                    schema-name = dbo
+
+        //                    # persistent journal table name
+        //                    table-name = EventJournal
+
+        //                    # initialize journal table automatically
+        //                    auto-initialize = on
+
+        //                    timestamp-provider = ""Akka.Persistence.Sql.Common.Journal.DefaultTimestampProvider, Akka.Persistence.Sql.Common""
+        //                    metadata-table-name = Metadata
+        //                }}
+        //            }}
+
+        //        snapshot-store {{
+        //                plugin = ""akka.persistence.snapshot-store.sql-server""
+        //                sql-server {{
+        //                    class = ""Akka.Persistence.SqlServer.Snapshot.SqlServerSnapshotStore, Akka.Persistence.SqlServer""
+        //                    plugin-dispatcher = ""akka.actor.default-dispatcher""
+        //                    table-name = SnapshotStore
+        //                    schema-name = dbo
+        //                    auto-initialize = on
+        //                    connection-string-name = ""Me20DbConnectionString""
+        //                }}
+        //            }} 
+        //  }}");
+        //}
     }
 }
