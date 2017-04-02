@@ -1,42 +1,61 @@
 ﻿using Akka.Actor;
+using Akka.Persistence;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
 using Me20.Identity.Abstracts;
-using Me20.Identity.Messages;
+using Me20.Identity.Events;
+using Me20.Identity.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Me20.Identity.Actors
 {
     //TODO: Make it persistent actor
-    public class UserActor : ReceiveActorBase
+    public class UserActor : ReceivePersistentActorBase
     {
         private UserActorState ActorState { get; set; }
+
+        public override string PersistenceId => $"user-{ActorState.UserName}";
+
         public UserActor(string authenthicationType, string id) : base()
         {
             ActorState = new UserActorState(authenthicationType, id);
-            //TODO: Persist/Receive + User repo?
-            Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
 
-            Receive<AddSubscribedTagCommand>(msg => HandleAddSubscribedTagCommand(msg));
+            Recover<SnapshotOffer>(offer => ActorState = (UserActorState)offer.Snapshot);
 
-            Receive<AddContentCommand>(msg => HandleAddContentCommand(msg));
+            Command<UserLoggedInCommand>(cmd => HandleUserLoggedInMessage(cmd));
+            Recover<UserLoggedInEvent>(ev => ActorState.RestoreLastLoggedIn(ev.LoginTime));
+
+            Command<SubscribeToTagCommand>(cmd => HandleAddSubscribedTagCommand(cmd));
+            Recover<TagSubscribedEvent>(ev => ActorState.AddSubscribedTag(ev.TagName));
+
+            //TODO: Persistence
+            Command<AddContentCommand>(msg => HandleAddContentCommand(msg));
+            Recover<ContentAddedEvent>(ev => ActorState.AddContent(ev.ContentUri, ev.ContentTags));
         }
 
-        private void HandleAddContentCommand(AddContentCommand msg)
+        private void HandleAddContentCommand(AddContentCommand cmd)
         {
-            ActorState.AddContent(msg.ContentUri, msg.ContentTags);
+            var @event = new ContentAddedEvent(cmd.ContentUri, cmd.ContentTags);
+            if (ActorState.AddContent(@event.ContentUri, @event.ContentTags))
+                Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
-        private void HandleAddSubscribedTagCommand(AddSubscribedTagCommand msg)
+        private void HandleAddSubscribedTagCommand(SubscribeToTagCommand cmd)
         {
-            ActorState.AddSubscribedTag(msg.TagName);
+            var @event = new TagSubscribedEvent(cmd.TagName);
+            if (ActorState.AddSubscribedTag(@event.TagName))
+                Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
-        private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
+        private void HandleUserLoggedInMessage(UserLoggedInCommand cmd)
         {
+            if ((DateTime.UtcNow - ActorState.LastLoggedIn).TotalMinutes > 15)
+            {
+                var @event = new UserLoggedInEvent(DateTime.UtcNow);
+                Persist(@event, ev => HandleSnapshoting(ActorState));
+            }
             ActorState.RefreshLastLoggedIn();
         }
 
@@ -63,32 +82,55 @@ namespace Me20.Identity.Actors
                 RefreshLastLoggedIn();
             }
 
-            internal void AddSubscribedTag(string tagName)
-            {
-                subscribedTags.Add(tagName);
-            }
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="tagName"></param>
+            /// <returns>True if state has changed</returns>
+            internal bool AddSubscribedTag(string tagName) => subscribedTags.Add(tagName);
 
-            internal void AddContent(Uri contentUri, IEnumerable<string> contentTags = null)
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="contentUri"></param>
+            /// <param name="contentTags"></param>
+            /// <returns>True if state has changed</returns>
+            internal bool AddContent(Uri contentUri, IEnumerable<string> contentTags = null)
             {
                 if (contentTags == null || !contentTags.Any())
-                    UntaggedContent.Add(contentUri);
+                    return UntaggedContent.Add(contentUri);
 
                 else
-                    AddTaggedContent(contentUri, contentTags);
+                    return AddTaggedContent(contentUri, contentTags);
             }
 
-            private void AddTaggedContent(Uri contentUrl, IEnumerable<string> contentTags = null)
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="contentUrl"></param>
+            /// <param name="contentTags"></param>
+            /// <returns>True if state has changed</returns>
+            private bool AddTaggedContent(Uri contentUrl, IEnumerable<string> contentTags = null)
             {
+                var result = false;
                 foreach (var tag in contentTags)
                 {
                     if (!ContentsByTags.ContainsKey(tag))
                         ContentsByTags.Add(tag, new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/));
 
-                    ContentsByTags[tag].Add(contentUrl);
+                    if (ContentsByTags[tag].Add(contentUrl))
+                        result = true;
                 }
+                return result;
             }
 
             internal void RefreshLastLoggedIn() => LastLoggedIn = DateTime.UtcNow;
+
+            internal void RestoreLastLoggedIn(DateTime dateTime)
+            {
+                if (LastLoggedIn < dateTime)
+                    LastLoggedIn = dateTime;
+            }
 
             //TODO: Refactor this
             //Not used at the moment

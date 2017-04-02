@@ -1,7 +1,8 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
+using Me20.Common.Commands;
 using Me20.Identity.Interfaces;
-using Me20.Identity.Messages;
+using Me20.Identity.Commands;
 
 namespace Me20.Identity.Actors
 {
@@ -9,16 +10,16 @@ namespace Me20.Identity.Actors
     {
         public UsersManagerActor() : base()
         {
-            Receive<UserLoggedInMessage>(msg => HandleUserLoggedInMessage(msg));
+            Receive<UserLoggedInCommand>(msg => HandleUserLoggedInMessage(msg), 
+                msg => msg.IsValid);
+
+            Receive<SubscribeToTagCommand>(msg => Context.Child(msg.TagName).Forward(msg));
         }
 
-        private void HandleUserLoggedInMessage(UserLoggedInMessage msg)
+        private void HandleUserLoggedInMessage(UserLoggedInCommand msg)
         {
-            if (msg.IsValid)
-            {
                 var sendee = CreateUserActorIfNotExists(msg);
-                sendee.Tell(msg);
-            }
+                sendee.Forward(msg);
         }
 
         private IActorRef CreateUserActorIfNotExists(IHaveAuthenthicationInfo authenthicationInfo)

@@ -9,13 +9,7 @@ namespace Me20.Content.Actors
     {
         public TagsManagerActor() : base()
         {
-            Receive<CreateTagIfNotExistsMessage>(msg => HandleCreateTagIfNotExistsMessage(msg));
-            Receive<AddSubscriberCommand>(msg => CreateTagActorIfNotExists(msg.TagName).Forward(msg));
-        }
-
-        private void HandleCreateTagIfNotExistsMessage(CreateTagIfNotExistsMessage msg)
-        {
-            CreateTagActorIfNotExists(msg.TagName);
+            Receive<SubscribeToTagCommand>(msg => CreateTagActorIfNotExists(msg.TagName).Forward(msg));
         }
 
         private IActorRef CreateTagActorIfNotExists(string tagName)

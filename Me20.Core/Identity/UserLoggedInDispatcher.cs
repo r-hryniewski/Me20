@@ -1,7 +1,7 @@
 ﻿using System;
 using Akka.Actor;
 using Me20.Common.Abstracts;
-using Me20.Identity.Messages;
+using Me20.Identity.Commands;
 
 namespace Me20.Core.Identity
 {
@@ -15,7 +15,7 @@ namespace Me20.Core.Identity
 
         public override void Dispatch(User item, string userName)
         {
-            ActorModel.UsersManagerActorRef.Tell(new UserLoggedInMessage(item.AuthenticationType, item.Id));
+            ActorModel.UsersManagerActorRef.Tell(new UserLoggedInCommand(item.AuthenticationType, item.Id));
         }
     }
 }

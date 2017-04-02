@@ -65,7 +65,6 @@
     <Compile Include="Abstracts\ReceivePersistentActorBase.cs" />
     <Compile Include="Abstracts\ReceiveActorBase.cs" />
     <Compile Include="Commands\AddContentCommand.cs" />
-    <Compile Include="Commands\AddSubscribedTagCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
@@ -74,12 +73,11 @@
     <Compile Include="Interfaces\IHaveDispatchers.cs" />
     <Compile Include="Interfaces\IHaveInternalName.cs" />
     <Compile Include="Interfaces\IHaveUserName.cs" />
-    <Compile Include="Commands\AddSubscriberCommand.cs" />
+    <Compile Include="Commands\SubscribeToTagCommand.cs" />
     <Compile Include="DTO\HttpResult.cs" />
     <Compile Include="Helpers\ActorPathsHelper.cs" />
     <Compile Include="Helpers\PredicateHelpers.cs" />
     <Compile Include="Messages\CreateContentfNotExistsMessage.cs" />
-    <Compile Include="Messages\CreateTagIfNotExistsMessage .cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

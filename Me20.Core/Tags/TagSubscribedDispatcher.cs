@@ -16,8 +16,10 @@ namespace Me20.Core.Tags
         public override void Dispatch(Tag item, string userName)
         {
             //TODO: Go through user manager for that
-            ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName, userName)).Tell(new AddSubscribedTagCommand(item.TagName));
-            ActorModel.TagsManagerActorRef.Tell(new AddSubscriberCommand(userName, item.TagName));
+            var command = new SubscribeToTagCommand(userName, item.TagName);
+
+            ActorModel.UsersManagerActorRef.Tell(command);
+            ActorModel.TagsManagerActorRef.Tell(command);
         }
     }
 }

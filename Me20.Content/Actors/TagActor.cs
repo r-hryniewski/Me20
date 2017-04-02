@@ -18,28 +18,22 @@ namespace Me20.Content.Actors
         {
             ActorState = new TagActorState(tagName);
 
-            Recover<SnapshotOffer>(offer =>
-            {
-                ActorState = (TagActorState)offer.Snapshot;
-            });
+            Recover<SnapshotOffer>(offer => ActorState = (TagActorState)offer.Snapshot);
 
-            Command<AddSubscriberCommand>(msg => HandleAddSubscriberCommand(msg));
+            Command<SubscribeToTagCommand>(cmd => HandleAddSubscriberCommand(cmd));
             Recover<SubscriberAddedEvent>(ev => ActorState.AddSubscriber(ev));
 
             //TODO: Create container for content marked with this tag
             //TODO: Handle receiving added tagged content message
         }
 
-        private void HandleAddSubscriberCommand(AddSubscriberCommand msg)
+        private void HandleAddSubscriberCommand(SubscribeToTagCommand cmd)
         {
-            var @event = new SubscriberAddedEvent(msg.UserName);
+            var @event = new SubscriberAddedEvent(cmd.UserName);
 
             //Persist only if subscribber is actually added to state
             if (ActorState.AddSubscriber(@event))
-                Persist(@event, ev =>
-                {
-                    HandleSnapshoting(ActorState);
-                });
+                Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
         public static Props Props(string tagName) => Akka.Actor.Props.Create(() => new TagActor(tagName));

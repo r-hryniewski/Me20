@@ -84,11 +84,14 @@
     <Compile Include="Abstracts\AuthenthicationInfoBase.cs" />
     <Compile Include="Abstracts\UserDataBase.cs" />
     <Compile Include="Actors\UsersManagerActor.cs" />
+    <Compile Include="Events\ContentAddedEvent.cs" />
+    <Compile Include="Events\TagSubscribedEvent.cs" />
+    <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Interfaces\IHaveAuthenthicationInfo.cs" />
     <Compile Include="Interfaces\IHaveUserData.cs" />
     <Compile Include="Actors\UserActor.cs" />
     <Compile Include="Enums\IdentitySource.cs" />
-    <Compile Include="Messages\UserLoggedInMessage.cs" />
+    <Compile Include="Commands\UserLoggedInCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

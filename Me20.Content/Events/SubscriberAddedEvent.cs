@@ -2,11 +2,11 @@
 
 namespace Me20.Content.Events
 {
-    public class SubscriberAddedEvent : IHaveUserName
+    internal class SubscriberAddedEvent : IHaveUserName
     {
         public string UserName { get; private set; }
 
-        public SubscriberAddedEvent(string userName)
+        internal SubscriberAddedEvent(string userName)
         {
             UserName = userName;
         }
