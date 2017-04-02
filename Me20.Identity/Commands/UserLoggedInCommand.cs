@@ -1,5 +1,4 @@
-﻿using System;
-using Me20.Common.Interfaces;
+﻿using Me20.Common.Interfaces;
 using Me20.Identity.Abstracts;
 
 namespace Me20.Identity.Commands

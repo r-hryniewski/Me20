@@ -21,7 +21,7 @@ namespace Me20.Web.Modules.Api
                 var content = this.Bind<Content>();
                 return Response.AsJson(content
                     .WithSpecific(dispatchers,
-                    CreateContentIfNotExistsDispatcher.Name,
+                    //CreateContentIfNotExistsDispatcher.Name,
                     AddContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
             };

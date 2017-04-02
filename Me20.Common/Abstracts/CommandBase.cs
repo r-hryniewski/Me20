@@ -1,5 +1,5 @@
-﻿using System;
-using Me20.Common.Interfaces;
+﻿using Me20.Common.Interfaces;
+using System;
 
 namespace Me20.Common.Abstracts
 {

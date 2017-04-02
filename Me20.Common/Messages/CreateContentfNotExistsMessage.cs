@@ -1,15 +1,14 @@
-﻿
-using System;
+﻿//using System;
 
-namespace Me20.Common.Messages
-{
-    public class CreateContentIfNotExistsMessage
-    {
-        public Uri Uri { get; private set; }
+//namespace Me20.Common.Messages
+//{
+//    public class CreateContentIfNotExistsMessage
+//    {
+//        public Uri Uri { get; private set; }
 
-        public CreateContentIfNotExistsMessage(Uri uri)
-        {
-            Uri = uri;
-        }
-    }
-}
+//        public CreateContentIfNotExistsMessage(Uri uri)
+//        {
+//            Uri = uri;
+//        }
+//    }
+//}

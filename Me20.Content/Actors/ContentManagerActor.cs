@@ -1,7 +1,6 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
 using Me20.Common.Extensions;
-using Me20.Common.Messages;
 using System;
 
 namespace Me20.Content.Actors
@@ -10,13 +9,13 @@ namespace Me20.Content.Actors
     {
         public ContentManagerActor() : base()
         {
-            Receive<CreateContentIfNotExistsMessage>(msg => HandleCreateContentIfNotExistsMessage(msg));
+            //Receive<CreateContentIfNotExistsMessage>(msg => HandleCreateContentIfNotExistsMessage(msg));
         }
 
-        private void HandleCreateContentIfNotExistsMessage(CreateContentIfNotExistsMessage msg)
-        {
-            CreateContentActorIfNotExists(msg.Uri);
-        }
+        //private void HandleCreateContentIfNotExistsMessage(CreateContentIfNotExistsMessage msg)
+        //{
+        //    CreateContentActorIfNotExists(msg.Uri);
+        //}
 
         private IActorRef CreateContentActorIfNotExists(Uri uri)
         {

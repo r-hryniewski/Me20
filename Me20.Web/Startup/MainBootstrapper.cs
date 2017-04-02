@@ -38,7 +38,7 @@ namespace Me20.Web
 
             container.Bind<IDispatch<User>>().To<UserLoggedInDispatcher>();
 
-            container.Bind<IDispatch<Content>>().To<CreateContentIfNotExistsDispatcher>();
+            //container.Bind<IDispatch<Content>>().To<CreateContentIfNotExistsDispatcher>();
             container.Bind<IDispatch<Content>>().To<AddContentDispatcher>();
         }
 
@@ -53,7 +53,7 @@ namespace Me20.Web
 
                 if (currentUser.IsValid)
                 {
-                    //TODO: Store DTO in session or cache
+                    //TODO: Store User in session or cache
                     currentUser.DispatchAll(currentUser.UserName);
                     context.CurrentUser = new UserIdentity(currentUser);
                 }

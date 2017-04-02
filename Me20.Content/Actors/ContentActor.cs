@@ -1,18 +1,22 @@
 ﻿using Akka.Actor;
+using Akka.Persistence;
 using Me20.Common.Abstracts;
 using System;
 
 namespace Me20.Content.Actors
 {
-    public class ContentActor : ReceiveActorBase
+    public class ContentActor : ReceivePersistentActorBase
     {
         private ContentActorState ActorState { get; set; }
+
+        public override string PersistenceId => $"content-{ActorState.Uri}";
 
         public ContentActor(Uri uri) : base()
         {
             //validate url
             ActorState = new ContentActorState(uri);
-            
+
+            Recover<SnapshotOffer>(offer => ActorState = (ContentActorState)offer.Snapshot);
             //TODO: Handle receiving added tagged content message
         }
 

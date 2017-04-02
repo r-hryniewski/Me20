@@ -1,10 +1,10 @@
 ﻿using Akka.Actor;
 using Akka.Persistence;
-using Me20.Common.Commands;
-using System.Collections.Generic;
-using Me20.Common.Interfaces;
 using Me20.Common.Abstracts;
+using Me20.Common.Commands;
+using Me20.Common.Interfaces;
 using Me20.Content.Events;
+using System.Collections.Generic;
 
 namespace Me20.Content.Actors
 {

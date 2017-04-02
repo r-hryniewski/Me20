@@ -1,8 +1,6 @@
 ﻿using Akka.Actor;
-using Akka.Configuration;
 using Me20.Content.Actors;
 using Me20.Identity.Actors;
-using System.Configuration;
 using static Me20.Common.Helpers.ActorPathsHelper;
 
 namespace Me20.Core

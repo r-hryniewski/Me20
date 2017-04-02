@@ -1,8 +1,8 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
-using Me20.Identity.Interfaces;
 using Me20.Identity.Commands;
+using Me20.Identity.Interfaces;
 
 namespace Me20.Identity.Actors
 {
@@ -13,7 +13,8 @@ namespace Me20.Identity.Actors
             Receive<UserLoggedInCommand>(msg => HandleUserLoggedInMessage(msg), 
                 msg => msg.IsValid);
 
-            Receive<SubscribeToTagCommand>(msg => Context.Child(msg.TagName).Forward(msg));
+            Receive<SubscribeToTagCommand>(msg => Context.Child(msg.UserName).Forward(msg));
+            Receive<AddContentCommand>(msg => Context.Child(msg.SendeeUserName).Forward(msg));
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInCommand msg)

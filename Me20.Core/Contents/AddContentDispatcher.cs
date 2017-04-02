@@ -1,5 +1,5 @@
-﻿using Me20.Common.Abstracts;
-using Me20.Common.Helpers;
+﻿using Akka.Actor;
+using Me20.Common.Abstracts;
 using Me20.Common.Commands;
 
 namespace Me20.Core.Contents
@@ -14,7 +14,7 @@ namespace Me20.Core.Contents
 
         public override void Dispatch(Content item, string userName)
         {
-            ActorModel.MainActorSystem.ActorSelection(ActorPathsHelper.BuildAbsoluteActorPath(ActorPathsHelper.UsersManagerActorName, userName)).Tell(new AddContentCommand(item.Uri, item.Tags));
+            ActorModel.UsersManagerActorRef.Tell(new AddContentCommand(item.Uri, userName, item.Tags));
         }
     }
 }

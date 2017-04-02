@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Me20.Common.Comparers;
 using Me20.Common.DTO;
 using Me20.Common.Interfaces;
-using Me20.Common.Comparers;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Me20.Common.Abstracts

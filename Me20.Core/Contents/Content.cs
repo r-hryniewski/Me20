@@ -1,7 +1,7 @@
 ﻿using Me20.Common.Abstracts;
+using Me20.Common.DTO;
 using System;
 using System.Collections.Generic;
-using Me20.Common.DTO;
 
 namespace Me20.Core.Contents
 {
