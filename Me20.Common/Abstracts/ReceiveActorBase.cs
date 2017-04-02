@@ -5,11 +5,11 @@ namespace Me20.Common.Abstracts
 {
     public abstract class ReceiveActorBase : ReceiveActor
     {
-        protected ILoggingAdapter Log { get; private set; }
+        protected ILoggingAdapter Logger { get; private set; }
 
         protected ReceiveActorBase()
         {
-            Log = Logging.GetLogger(Context);
+            Logger = Logging.GetLogger(Context);
         }
     }
 }
