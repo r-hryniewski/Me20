@@ -5,19 +5,19 @@ using Me20.Core.Interfaces;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Interfaces;
 using System.Security.Claims;
+using System;
 
 namespace Me20.Core.Identity
 {
-    public class User : HaveDispatchersBase<User>, IHaveActorAddress, IHaveUserData, IHaveUserName
+    public class UserEntity : EntityBase<UserEntity>, IHaveActorAddress, IHaveUserData, IHaveUserName
     {
         public ActorSelection Actor => IsValid ? ActorModel.GetUserActorSelection(UserName) : null;
 
         private readonly UserState state;
-        public User(ClaimsPrincipal currentClaimsPrincipal)
+        public UserEntity(ClaimsPrincipal currentClaimsPrincipal)
         {
             state = new UserState(currentClaimsPrincipal);
         }
-
         public string UserName => state.UserName;
         public string Id => state.Id;
         public string FullName => state.FullName;
@@ -27,6 +27,8 @@ namespace Me20.Core.Identity
         public string Gender => state.Gender;
         public string AuthenticationType => state.AuthenticationType;
         public bool IsValid => state.IsValid;
+
+        public override string Uid => UserName;
 
         private sealed class UserState : UserDataBase
         {

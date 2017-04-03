@@ -1,5 +1,5 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-const Vue = require("vue");
+var Vue = require("vue");
 var VueResource = require("vue-resource");
 
 Vue.use(VueResource);
@@ -7,8 +7,15 @@ Vue.use(VueResource);
 var dashboard = new Vue({
     el: "#dashboard",
     data: {
+        CurrentUserName: AppData.currentUserName,
+        HasMoreContent: true,
         Content: [],
         Tags: []
+    },
+    computed: {
+        PagesLoaded: function () {
+            return this.Content.length / AppData.contentPageSize;
+        }
     },
     methods: {
         subscribeTag: function (event) {
@@ -39,8 +46,25 @@ var dashboard = new Vue({
                     //TODO: Alert window
                     console.log(response);
                 });
+        },
+        loadTags: function () {
+            this.$http.get('/api/tags/')
+                .then(
+                    response => {
+                        var tags = response.body.item;
+                        console.log(tags);
+                    },
+                    response => {
+                        //TODO: Alert window
+                        console.log(response);
+                    }
+                );
         }
+    },
+    created: function () {
+        this.loadTags();
     }
+
 });
 },{"vue":5,"vue-resource":4}],2:[function(require,module,exports){
 

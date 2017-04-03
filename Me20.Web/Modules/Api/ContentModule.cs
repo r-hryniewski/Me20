@@ -9,16 +9,16 @@ namespace Me20.Web.Modules.Api
 {
     public class ContentModule : NancyModule
     {
-        private readonly IEnumerable<IDispatch<Content>> dispatchers;
+        private readonly IEnumerable<IDispatch<ContentEntity>> dispatchers;
 
-        public ContentModule(IDispatch<Content>[] _dispatchers) : base("/api/content")
+        public ContentModule(IDispatch<ContentEntity>[] _dispatchers) : base("/api/content")
         {
             dispatchers = _dispatchers;
 
             //TODO: Change it to post after doing some frontend
             Post["/"] = p =>
             {
-                var content = this.Bind<Content>();
+                var content = this.Bind<ContentEntity>();
                 return Response.AsJson(content
                     .WithSpecific(dispatchers,
                     //CreateContentIfNotExistsDispatcher.Name,

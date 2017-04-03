@@ -1,4 +1,4 @@
-﻿import Vue from "vue";
+﻿var Vue = require("vue");
 var VueResource = require("vue-resource");
 
 Vue.use(VueResource);
@@ -6,8 +6,15 @@ Vue.use(VueResource);
 var dashboard = new Vue({
     el: "#dashboard",
     data: {
+        CurrentUserName: AppData.currentUserName,
+        HasMoreContent: true,
         Content: [],
         Tags: []
+    },
+    computed: {
+        PagesLoaded: function () {
+            return this.Content.length / AppData.contentPageSize;
+        }
     },
     methods: {
         subscribeTag: function (event) {
@@ -38,6 +45,23 @@ var dashboard = new Vue({
                     //TODO: Alert window
                     console.log(response);
                 });
+        },
+        loadTags: function () {
+            this.$http.get('/api/tags/')
+                .then(
+                    response => {
+                        var tags = response.body.item;
+                        console.log(tags);
+                    },
+                    response => {
+                        //TODO: Alert window
+                        console.log(response);
+                    }
+                );
         }
+    },
+    created: function () {
+        this.loadTags();
     }
+
 });

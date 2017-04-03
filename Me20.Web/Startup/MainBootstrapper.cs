@@ -34,12 +34,12 @@ namespace Me20.Web
 
             //Not used at the moment
             //container.Bind<IDispatch<Tag>>().To<CreateTagIfNotExistsDispatcher>();
-            container.Bind<IDispatch<Tag>>().To<TagSubscribedDispatcher>();
+            container.Bind<IDispatch<TagEntity>>().To<TagSubscribedDispatcher>();
 
-            container.Bind<IDispatch<User>>().To<UserLoggedInDispatcher>();
+            container.Bind<IDispatch<UserEntity>>().To<UserLoggedInDispatcher>();
 
             //container.Bind<IDispatch<Content>>().To<CreateContentIfNotExistsDispatcher>();
-            container.Bind<IDispatch<Content>>().To<AddContentDispatcher>();
+            container.Bind<IDispatch<ContentEntity>>().To<AddContentDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)
@@ -48,8 +48,8 @@ namespace Me20.Web
             // resolve things that are needed during request startup.
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                var currentUser = new User(System.Security.Claims.ClaimsPrincipal.Current)
-                .With(container.GetAll<IDispatch<User>>());
+                var currentUser = new UserEntity(System.Security.Claims.ClaimsPrincipal.Current)
+                .With(container.GetAll<IDispatch<UserEntity>>());
 
                 if (currentUser.IsValid)
                 {

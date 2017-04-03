@@ -3,6 +3,7 @@ using Me20.Common.Abstracts;
 using Me20.Common.Commands;
 using Me20.Identity.Commands;
 using Me20.Identity.Interfaces;
+using Me20.Identity.QueryMessages;
 
 namespace Me20.Identity.Actors
 {
@@ -14,7 +15,10 @@ namespace Me20.Identity.Actors
                 msg => msg.IsValid);
 
             Receive<SubscribeToTagCommand>(msg => Context.Child(msg.UserName).Forward(msg));
+
             Receive<AddContentCommand>(msg => Context.Child(msg.SendeeUserName).Forward(msg));
+
+            Receive<GetAllTagNamesForUserQueryMessage>(msg => Context.Child(msg.UserName).Forward(msg));
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInCommand msg)

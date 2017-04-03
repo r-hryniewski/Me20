@@ -4,7 +4,7 @@ using Me20.Identity.Commands;
 
 namespace Me20.Core.Identity
 {
-    public class UserLoggedInDispatcher : DispatcherBase<User>
+    public class UserLoggedInDispatcher : DispatcherBase<UserEntity>
     {
         //Helper property equals to InternalName in base class
         public static readonly string Name = "UserLoggedIn";
@@ -12,7 +12,7 @@ namespace Me20.Core.Identity
         public UserLoggedInDispatcher() : base()
         { }
 
-        public override void Dispatch(User item, string userName)
+        public override void Dispatch(UserEntity item, string userName)
         {
             ActorModel.UsersManagerActorRef.Tell(new UserLoggedInCommand(item.AuthenticationType, item.Id));
         }

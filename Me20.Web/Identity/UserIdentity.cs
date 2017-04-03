@@ -13,7 +13,7 @@ namespace Me20.Web.Identity
 
         public string UserName { get; private set; }
 
-        public UserIdentity(User user)
+        public UserIdentity(UserEntity user)
         {
             UserName = user.UserName;
         }

@@ -5,6 +5,7 @@ using Me20.Common.Commands;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Commands;
 using Me20.Identity.Events;
+using Me20.Identity.QueryMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,9 +31,10 @@ namespace Me20.Identity.Actors
             Command<SubscribeToTagCommand>(cmd => HandleAddSubscribedTagCommand(cmd));
             Recover<TagSubscribedEvent>(ev => ActorState.AddSubscribedTag(ev.TagName));
 
-            //TODO: Persistence
-            Command<AddContentCommand>(msg => HandleAddContentCommand(msg));
+            Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             Recover<ContentAddedEvent>(ev => ActorState.AddContent(ev.ContentUri, ev.ContentTags));
+
+            Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryMessage(msg.UserName, ActorState.SubscribedTags)));
         }
 
         private void HandleAddContentCommand(AddContentCommand cmd)
@@ -68,8 +70,7 @@ namespace Me20.Identity.Actors
         {
             internal DateTime LastLoggedIn { get; private set; }
             private readonly HashSet<string> subscribedTags;
-            //NYI
-            //internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
+            internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
 
             internal Dictionary<string, HashSet<Uri>> ContentsByTags { get; private set; }
             internal HashSet<Uri> UntaggedContent { get; private set; }

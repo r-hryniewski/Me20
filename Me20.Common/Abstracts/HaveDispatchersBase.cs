@@ -3,14 +3,17 @@ using Me20.Common.DTO;
 using Me20.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Me20.Common.Abstracts
 {
-    public abstract class HaveDispatchersBase<T> : IHaveDispatchers<T> where T : HaveDispatchersBase<T>
+    public abstract class EntityBase<T> : IHaveDispatchers<T> where T : EntityBase<T>
     {
         protected readonly HashSet<IDispatch<T>> dispatchers;
 
-        protected HaveDispatchersBase()
+        public abstract string Uid { get; }
+
+        protected EntityBase()
         {
             dispatchers = new HashSet<IDispatch<T>>(new InternalNameEqualityComparer());
         }
