@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace Me20.Identity.Events
 {
-    internal class ContentAddedEvent
+    public class ContentAddedEvent
     {
-        internal Uri ContentUri { get; private set; }
-        internal IEnumerable<string> ContentTags { get; private set; }
+        public Uri ContentUri { get; private set; }
+        public IEnumerable<string> ContentTags { get; private set; }
 
-        internal ContentAddedEvent(Uri uri, IEnumerable<string> contentTags = null)
+        public ContentAddedEvent(Uri uri, IEnumerable<string> contentTags = null)
         {
             ContentUri = uri;
             ContentTags = contentTags;

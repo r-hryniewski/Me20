@@ -26,10 +26,9 @@ namespace Me20.Web.Modules.Api
                     .DispatchAll(Context.CurrentUser.UserName));
             };
 
-            Get["/"] = p =>
-            {
-                return null;
-            };
+            Get["/"] = p => Response.AsJson(new TagEnquirer()
+                .QueryFor(new GetAllTagNamesForUserQuery(Context.CurrentUser.UserName))
+                .Execute());
         }
     }
 }

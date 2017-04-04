@@ -246,3 +246,4 @@ ModelManifest.xml
 # NDepend
 *.ndproj
 /NDependOut
+/Me20.Web/ApplicationInsights.config

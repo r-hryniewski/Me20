@@ -2,10 +2,10 @@
 
 namespace Me20.Identity.Events
 {
-    internal class UserLoggedInEvent
+    public class UserLoggedInEvent
     {
-        internal DateTime LoginTime { get; private set; }
-        internal UserLoggedInEvent(DateTime loginTime)
+        public DateTime LoginTime { get; private set; }
+        public UserLoggedInEvent(DateTime loginTime)
         {
             LoginTime = loginTime;
         }

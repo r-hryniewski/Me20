@@ -2,14 +2,11 @@
 using Me20.Core.Contents;
 using Me20.Core.Identity;
 using Me20.Core.Tags;
-using Me20.Identity.Interfaces;
 using Me20.Web.Identity;
-using Me20.Web.Modules.Api;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
 using Nancy.Conventions;
-using Nancy.Session;
 using Ninject;
 
 namespace Me20.Web

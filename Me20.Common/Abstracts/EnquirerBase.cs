@@ -8,15 +8,12 @@ namespace Me20.Common.Abstracts
 {
     public abstract class EnquirerBase<T> : IEnquire<T> where T : IEntity
     {
-        public TimeSpan AcceptableTimeout { get; protected set; }
-        protected readonly ICollection<IQuery<T>> queries;
-        protected virtual ICollection<T> Results { get; set; }
+        public TimeSpan AcceptableTimeout { get; protected set; } = TimeSpan.FromSeconds(30);
+        protected readonly ICollection<IQuery<T>> queries = new List<IQuery<T>>();
+        protected readonly ICollection<T> results  = new HashSet<T>(); //TODO: Comparer
 
         protected EnquirerBase()
         {
-            queries = new List<IQuery<T>>();
-            AcceptableTimeout = TimeSpan.FromSeconds(30);
-            Results = new HashSet<T>();//TODO: Some kind of comparer?
         }
 
         public IEnquire<T> WaitFor(TimeSpan timeout)
@@ -46,10 +43,10 @@ namespace Me20.Common.Abstracts
             //TODO: Distinct by IEntity Comparer
             foreach (var result in queries.SelectMany(q => q.Execute(this)))
             {
-                Results.Add(result);
+                results.Add(result);
             }
-            if (Results.Any())
-                return new HttpResult<IEnumerable<T>>(Results, 200);
+            if (results.Any())
+                return new HttpResult<IEnumerable<T>>(results, 200);
             else
                 return HttpResult<IEnumerable<T>>.CreateErrorResult(404, "Not found any results");
         }
