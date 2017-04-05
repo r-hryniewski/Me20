@@ -22,9 +22,7 @@ var dashboard = new Vue({
                 .then(
                 response => {
                     var tag = response.body.item;
-                    this.Tags.push({
-                        TagName: tag.tagName
-                    });
+                    this.Tags.push(this.newTag(tag.tagName));
                 },
                 response => {
                     //TODO: Alert window
@@ -36,10 +34,7 @@ var dashboard = new Vue({
                 .then(
                 response => {
                     var content = response.body.item;
-                    this.Content.push({
-                        Url: content.uri,
-                        Tags: content.tags
-                        });
+                    this.Content.push(this.newContent(content.uri, content.tags.map(this.newTag)));
                 },
                 response => {
                     //TODO: Alert window
@@ -50,14 +45,25 @@ var dashboard = new Vue({
             this.$http.get('/api/tags/')
                 .then(
                     response => {
-                        var tags = response.body.item;
-                        console.log(tags);
+                        var tags = response.body.item.map(t => this.newTag(t.tagName));
+                        this.Tags.push.apply(this.Tags, tags);
                     },
                     response => {
                         //TODO: Alert window
                         console.log(response);
                     }
                 );
+        },
+        newTag: function (tagName) {
+            return {
+                TagName: tagName
+            };
+        },
+        newContent: function (url, tags) {
+            return {
+                Url: url,
+                Tags: tags
+            };
         }
     },
     created: function () {
