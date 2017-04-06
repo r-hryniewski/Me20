@@ -74,6 +74,7 @@
     <Compile Include="Abstracts\ReceiveActorBase.cs" />
     <Compile Include="Commands\AddContentCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Interfaces\IQuery.cs" />
@@ -91,9 +92,7 @@
     <Compile Include="Messages\CreateContentfNotExistsMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Query\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />

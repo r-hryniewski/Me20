@@ -2,10 +2,12 @@
 using Akka.Persistence;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
+using Me20.Common.Extensions;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Commands;
 using Me20.Identity.Events;
 using Me20.Identity.QueryMessages;
+using Me20.Identity.QueryResultMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +27,12 @@ namespace Me20.Identity.Actors
 
             Recover<SnapshotOffer>(offer => ActorState = (UserActorState)offer.Snapshot);
 
+            RegisterCommands();
+
+            RegisterQueries();
+        }
+        private void RegisterCommands()
+        {
             Command<UserLoggedInCommand>(cmd => HandleUserLoggedInMessage(cmd));
             Recover<UserLoggedInEvent>(ev => ActorState.RestoreLastLoggedIn(ev.LoginTime));
 
@@ -33,10 +41,13 @@ namespace Me20.Identity.Actors
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             Recover<ContentAddedEvent>(ev => ActorState.AddContent(ev.ContentUri, ev.ContentTags));
-
-            Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryMessage(msg.UserName, ActorState.SubscribedTags)));
         }
+        private void RegisterQueries()
+        {
+            Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
 
+            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(ActorState.ContentsWithTags)));
+        }
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
             var @event = new ContentAddedEvent(cmd.ContentUri, cmd.ContentTags);
@@ -72,14 +83,15 @@ namespace Me20.Identity.Actors
             private readonly HashSet<string> subscribedTags;
             internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
 
-            internal Dictionary<string, HashSet<Uri>> ContentsByTags { get; private set; }
-            internal HashSet<Uri> UntaggedContent { get; private set; }
+            internal Dictionary<Uri, HashSet<string>> ContentsWithTags { get; private set; }
+            //[Obsolete("Not used anymore for now")]
+            //internal HashSet<Uri> UntaggedContent { get; private set; }
 
             internal UserActorState(string authenthicationType, string id) : base(authenthicationType, id)
             {
                 subscribedTags = new HashSet<string>();
-                ContentsByTags = new Dictionary<string, HashSet<Uri>>(StringComparer.OrdinalIgnoreCase);
-                UntaggedContent = new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/);
+                ContentsWithTags = new Dictionary<Uri, HashSet<string>>();
+                //UntaggedContent = new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/);
                 RefreshLastLoggedIn();
             }
 
@@ -98,30 +110,18 @@ namespace Me20.Identity.Actors
             /// <returns>True if state has changed</returns>
             internal bool AddContent(Uri contentUri, IEnumerable<string> contentTags = null)
             {
-                if (contentTags == null || !contentTags.Any())
-                    return UntaggedContent.Add(contentUri);
-
-                else
-                    return AddTaggedContent(contentUri, contentTags);
-            }
-
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="contentUrl"></param>
-            /// <param name="contentTags"></param>
-            /// <returns>True if state has changed</returns>
-            private bool AddTaggedContent(Uri contentUrl, IEnumerable<string> contentTags = null)
-            {
                 var result = false;
-                foreach (var tag in contentTags)
+                if (!ContentsWithTags.ContainsKey(contentUri))
                 {
-                    if (!ContentsByTags.ContainsKey(tag))
-                        ContentsByTags.Add(tag, new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/));
-
-                    if (ContentsByTags[tag].Add(contentUrl))
-                        result = true;
+                    ContentsWithTags.Add(contentUri, new HashSet<string>(contentTags ?? Enumerable.Empty<string>())); //TODO: Comparer
+                    result = true;
                 }
+
+                else if (!contentTags.IsNullOrEmpty())
+                    foreach (var tag in contentTags)
+                        if (ContentsWithTags[contentUri].Add(tag))
+                            result = true;
+
                 return result;
             }
 

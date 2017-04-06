@@ -25,6 +25,10 @@ namespace Me20.Web.Modules.Api
                     AddContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
             };
+
+            Get["/"] = p => Response.AsJson(new ContentEnquirer()
+                .QueryFor(new GetUserContentQuery(Context.CurrentUser.UserName))
+                .Execute());
         }
     }
 }

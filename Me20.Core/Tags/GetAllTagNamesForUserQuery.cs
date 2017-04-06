@@ -3,6 +3,7 @@ using Me20.Common.Interfaces;
 using Akka.Actor;
 using Me20.Identity.QueryMessages;
 using System.Linq;
+using Me20.Identity.QueryResultMessages;
 
 namespace Me20.Core.Tags
 {
@@ -18,7 +19,7 @@ namespace Me20.Core.Tags
             if (string.IsNullOrEmpty(userName))
                 return Enumerable.Empty<TagEntity>();
 
-            var result = ActorModel.UsersManagerActorRef.Ask(new GetAllTagNamesForUserQueryMessage(userName), enquirer.AcceptableTimeout).Result as GetAllTagNamesForUserQueryMessage;
+            var result = ActorModel.UsersManagerActorRef.Ask(new GetAllTagNamesForUserQueryMessage(userName), enquirer.AcceptableTimeout).Result as GetAllTagNamesForUserQueryResultMessage;
 
             return result == null ?
                 Enumerable.Empty<TagEntity>() :

@@ -18,7 +18,7 @@ var dashboard = new Vue({
     },
     methods: {
         subscribeTag: function (event) {
-            this.$http.post('/api/tags/', { TagName: event.srcElement.value })
+            this.$http.post("/api/tags/", { TagName: event.srcElement.value })
                 .then(
                 response => {
                     var tag = response.body.item;
@@ -30,7 +30,7 @@ var dashboard = new Vue({
                 });
         },
         addContent: function (event) {
-            this.$http.post('/api/content/', { Url: event.srcElement.value, Tags: [] })
+            this.$http.post("/api/content/", { Url: event.srcElement.value, Tags: [] })
                 .then(
                 response => {
                     var content = response.body.item;
@@ -42,11 +42,24 @@ var dashboard = new Vue({
                 });
         },
         loadTags: function () {
-            this.$http.get('/api/tags/')
+            this.$http.get("/api/tags/")
                 .then(
                     response => {
-                        var tags = response.body.item.map(t => this.newTag(t.tagName));
+                        var tags = response.body.item.map(x => this.newTag(x.tagName));
                         this.Tags.push.apply(this.Tags, tags);
+                    },
+                    response => {
+                        //TODO: Alert window
+                        console.log(response);
+                    }
+                );
+        },
+        loadContent: function () {
+            this.$http.get("/api/content/")
+                .then(
+                    response => {
+                        var contents = response.body.item.map(t => this.newContent(t.uri, t.tags.map(this.newTag)));
+                        this.Content.push.apply(this.Content, contents);
                     },
                     response => {
                         //TODO: Alert window
@@ -68,6 +81,6 @@ var dashboard = new Vue({
     },
     created: function () {
         this.loadTags();
+        this.loadContent();
     }
-
 });
