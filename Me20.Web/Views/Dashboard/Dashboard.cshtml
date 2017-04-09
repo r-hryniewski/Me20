@@ -1,11 +1,11 @@
 ﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Me20.Web.ViewModels.DashboardViewModel>
 
-<div id="dashboard" class="row">
+<div id="dashboard" class="row dashboard">
     <div class="col-xs-6">
         <div class="form-group">
             <label for="new-tag">Subscribe for tag</label>
             @*TODO: Autocomplete and stuff?*@
-            <input id="new-tag" v-on:keyup.enter="subscribeTag"/>
+            <input id="new-tag" v-on:keyup.enter="subscribeTag" />
         </div>
     </div>
     <div class="col-xs-6">
@@ -15,21 +15,33 @@
             <input id="new-content" v-on:keyup.enter="addContent" />
         </div>
     </div>
-    <div class="col-xs-12">
+    <div class="col-xs-12 tags-container">
         @*TODO: Make it not look like shit*@
-        Tag list
+        <ul class="tags-list">
+            <li v-for="tag in Tags" class="tag-item">
+                {{tag.TagName}}
+            </li>
+        </ul>
     </div>
     @*TODO: Stuff it into component*@
-    <div v-for="tag in Tags" class="col-sm-1">
-        {{tag.TagName}}
-    </div>
-    <div class="col-xs-12">
-        @*TODO: Make it not look like shit too*@
-        Content list
-    </div>
-    @*TODO: Stuff it into component too*@
-    <div v-for="item in Content" class="col-sm-4">
-        {{item.Url}}
+    <div class="col-xs-12 content-container">
+        <ul class="content-list">
+            <li v-for="item in Content" class="content-item">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a v-bind:href="item.Url" class="content-title" target="_blank">{{item.Title}}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        TODO: Thumbnail
+                    </div>
+                    <div class="col-md-8">
+                        TODO: Rate/tag/level
+                    </div>
+                </div>
+            </li>
+        </ul>
     </div>
 </div>
 <script>

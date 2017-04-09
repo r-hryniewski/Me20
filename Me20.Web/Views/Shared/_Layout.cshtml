@@ -5,12 +5,25 @@
     <meta name="viewport" content="width=device-width" />
     <title>TODO</title>
     <link href="~/Content/Bootstrap/stylesheets/_bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/app/app.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <p class="text-right">TODO: SOME BAR WITH LOGGING OPTIONS AND STUFF </p>
+
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Me 2.0</a>
+            </div>
+            <ul class="nav navbar-nav">
+                @*<li class="active"><a href="/">NYI</a></li>*@
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <p class="navbar-text">TODO: Login info</p>
+                <li><a href="/.auth/login/facebook"><span class="glyphicon glyphicon-log-in"></span>TODO: Login</a></li>
+            </ul>
         </div>
+    </nav>
+    <div class="container">
         @RenderBody()
     </div>
 </body>

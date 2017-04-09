@@ -76,7 +76,8 @@ var dashboard = new Vue({
         newContent: function (url, tags) {
             return {
                 Url: url,
-                Tags: tags
+                Tags: tags,
+                Title: url
             };
         }
     },

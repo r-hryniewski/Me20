@@ -199,6 +199,14 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\app\app.css">
+      <DependentUpon>app.scss</DependentUpon>
+    </Content>
+    <Content Include="Content\app\app.min.css">
+      <DependentUpon>app.css</DependentUpon>
+    </Content>
+    <Content Include="Content\app\app.scss" />
+    <None Include="Content\app\_dashboard.scss" />
     <Content Include="Content\Bootstrap\fonts\bootstrap\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Bootstrap\javascripts\bootstrap-sprockets.js" />
     <Content Include="Content\Bootstrap\javascripts\bootstrap.js" />
@@ -244,6 +252,8 @@
     </None>
     <Content Include="package.json" />
     <Content Include="Connected Services\Application Insights\ConnectedService.json" />
+    <Content Include="Content\app\_variables.scss" />
+    <Content Include="Content\app\_main.scss" />
     <None Include="Properties\PublishProfiles\me20 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\me20 - Web Deploy.pubxml" />
     <Content Include="Content\Bootstrap\stylesheets\_bootstrap.scss" />

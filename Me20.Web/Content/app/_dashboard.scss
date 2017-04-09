@@ -1,0 +1,49 @@
+﻿.container {
+    .dashboard {
+        .tags-container {
+            margin: 2rem 0 0 0;
+
+            .tags-list {
+                .tag-item {
+                    display: inline-block;
+                    border: 0.0625rem solid $dark-primary;
+                    border-radius: 0.25rem;
+                    margin: 0.25rem 0.25rem;
+                    padding: 0.125rem 0.375rem;
+                    background-color: $primary;
+                    font-size: 1.375rem;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $light-highlight;
+                        border-color: $highlight-color;
+                    }
+
+                    &.active {
+                        background-color: $highlight-color;
+                        border-color: $dark-highlight;
+
+                        &:hover {
+                            background-color: $light-primary;
+                            border-color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content-container {
+            margin: 2rem 0 0 0;
+            .content-list {
+                .content-item {
+                    display: block;
+                    border: 0.0625rem solid $dark-primary;
+                    border-radius: 0.25rem;
+                    margin: 0.25rem 0.25rem;
+                    padding: 0.125rem 0.375rem;
+                    font-size: 1.125rem;
+                }
+            }
+        }
+    }
+}

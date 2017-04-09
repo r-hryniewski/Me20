@@ -1,0 +1,28 @@
+﻿
+$primary: #caebf2;
+$secondary: #a9a9a9;
+$background: #efefef;
+
+$text-color: #545454;
+$highlight-color: #ff3b3f;
+
+//Lighter variants
+$light-percent: 5%;
+
+$light-primary: lighten($primary, $light-percent);
+$light-secondary: lighten($secondary, $light-percent);
+$light-background: lighten($background, $light-percent);
+
+$light-text: lighten($text-color, $light-percent);
+$light-highlight: lighten($highlight-color, $light-percent); 
+
+//Darker variants
+$dark-percent: 5%;
+
+$dark-primary: darken($primary, $dark-percent);
+$dark-secondary: darken($secondary, $dark-percent);
+$dark-background: darken($background, $dark-percent);
+
+$dark-text: darken($text-color, $dark-percent);
+$dark-highlight: darken($highlight-color, $dark-percent); 
+
