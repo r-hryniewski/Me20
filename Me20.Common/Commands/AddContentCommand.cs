@@ -7,13 +7,13 @@ namespace Me20.Common.Commands
 {
     public class AddContentCommand : CommandBase, IHaveUserName
     {
-        public Uri ContentUri { get; private set; }
+        public Uri Uri { get; private set; }
         public IEnumerable<string> ContentTags { get; private set; }
         public string UserName { get; private set; }
 
         public AddContentCommand(Uri uri, string userName, IEnumerable<string> contentTags = null) : base()
         {
-            ContentUri = uri;
+            Uri = uri;
             UserName = userName;
             ContentTags = contentTags;
         }

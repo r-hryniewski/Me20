@@ -37,7 +37,12 @@
                         TODO: Thumbnail
                     </div>
                     <div class="col-md-8">
-                        TODO: Rate/tag/level
+                        TODO: Tag/level
+                        @*TODO: Stars or stuff*@
+                        @for (int i = 1; i <= 5; i++)
+                        {
+                            <span v-on:click="rateContent(item, @i)">@i </span>
+                        }
                     </div>
                 </div>
             </li>

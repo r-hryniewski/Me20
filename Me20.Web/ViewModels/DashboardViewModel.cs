@@ -5,7 +5,7 @@ namespace Me20.Web.ViewModels
     public class DashboardViewModel
     {
         public string CurrentUserName { get; private set; }
-        public ushort ContentPageSize => 20;
+        public byte ContentPageSize => 20;
 
         public DashboardViewModel(IUserIdentity currentUser)
         {

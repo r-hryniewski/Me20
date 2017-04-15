@@ -7,9 +7,9 @@ namespace Me20.Identity.QueryResultMessages
     {
         public IReadOnlyDictionary<Uri, HashSet<string>> ContentWithTags { get; private set; }
 
-        public GetUserContentQueryResultMessage(IReadOnlyDictionary<Uri, HashSet<string>> contentsByTags)
+        public GetUserContentQueryResultMessage(IReadOnlyDictionary<Uri, HashSet<string>> contentsWithTags)
         {
-            ContentWithTags = contentsByTags;
+            ContentWithTags = contentsWithTags;
         }
     }
 }

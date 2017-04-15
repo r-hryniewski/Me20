@@ -37,6 +37,7 @@ namespace Me20.Web
 
             //container.Bind<IDispatch<Content>>().To<CreateContentIfNotExistsDispatcher>();
             container.Bind<IDispatch<ContentEntity>>().To<AddContentDispatcher>();
+            container.Bind<IDispatch<ContentEntity>>().To<RateContentDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)

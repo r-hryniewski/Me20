@@ -6,6 +6,7 @@ using Me20.Common.Extensions;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Commands;
 using Me20.Identity.Events;
+using Me20.Identity.Models;
 using Me20.Identity.QueryMessages;
 using Me20.Identity.QueryResultMessages;
 using System;
@@ -41,16 +42,20 @@ namespace Me20.Identity.Actors
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             Recover<ContentAddedEvent>(ev => ActorState.AddContent(ev.ContentUri, ev.ContentTags));
+
+            Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
+            Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
         }
+
         private void RegisterQueries()
         {
             Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
 
-            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(ActorState.ContentsWithTags)));
+            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage((ActorState.Contents as IReadOnlyDictionary<Uri, UsersContent>).ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Tags))));
         }
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
-            var @event = new ContentAddedEvent(cmd.ContentUri, cmd.ContentTags);
+            var @event = new ContentAddedEvent(cmd.Uri, cmd.ContentTags);
             if (ActorState.AddContent(@event.ContentUri, @event.ContentTags))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
@@ -60,6 +65,17 @@ namespace Me20.Identity.Actors
             var @event = new TagSubscribedEvent(cmd.TagName);
             if (ActorState.AddSubscribedTag(@event.TagName))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
+        }
+
+        private void HandleRateContentCommand(RateContentCommand cmd)
+        {
+            var @event = new ContentRatedEvent(cmd.ContentUri, cmd.Rating);
+            Persist(@event, ev =>
+            {
+                ActorState.RateContent(ev.Uri, ev.Rating);
+                HandleSnapshoting(ActorState);
+            }
+            );
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInCommand cmd)
@@ -83,44 +99,30 @@ namespace Me20.Identity.Actors
             private readonly HashSet<string> subscribedTags;
             internal IReadOnlyCollection<string> SubscribedTags => subscribedTags;
 
-            internal Dictionary<Uri, HashSet<string>> ContentsWithTags { get; private set; }
-            //[Obsolete("Not used anymore for now")]
-            //internal HashSet<Uri> UntaggedContent { get; private set; }
+            //Refactor this. Nested command object/model with some kind of container?
+            internal ContentContainer Contents { get; private set; }
 
             internal UserActorState(string authenthicationType, string id) : base(authenthicationType, id)
             {
                 subscribedTags = new HashSet<string>();
-                ContentsWithTags = new Dictionary<Uri, HashSet<string>>();
-                //UntaggedContent = new HashSet<Uri>(/*StringComparer.OrdinalIgnoreCase*/);
+                Contents = new ContentContainer();
                 RefreshLastLoggedIn();
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="tagName"></param>
             /// <returns>True if state has changed</returns>
             internal bool AddSubscribedTag(string tagName) => subscribedTags.Add(tagName);
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="contentUri"></param>
-            /// <param name="contentTags"></param>
             /// <returns>True if state has changed</returns>
             internal bool AddContent(Uri contentUri, IEnumerable<string> contentTags = null)
             {
                 var result = false;
-                if (!ContentsWithTags.ContainsKey(contentUri))
+                if (!Contents.ContainsKey(contentUri))
                 {
-                    ContentsWithTags.Add(contentUri, new HashSet<string>(contentTags ?? Enumerable.Empty<string>())); //TODO: Comparer
+                    Contents.Add(new UsersContent(contentUri, contentTags));
                     result = true;
                 }
-
-                else if (!contentTags.IsNullOrEmpty())
-                    foreach (var tag in contentTags)
-                        if (ContentsWithTags[contentUri].Add(tag))
-                            result = true;
+                else
+                    result = Contents[contentUri].UpdateTags(contentTags);
 
                 return result;
             }
@@ -131,6 +133,11 @@ namespace Me20.Identity.Actors
             {
                 if (LastLoggedIn < dateTime)
                     LastLoggedIn = dateTime;
+            }
+
+            internal void RateContent(Uri uri, byte rating)
+            {
+                Contents[uri].Rate(rating);
             }
 
             //TODO: Refactor this

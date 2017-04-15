@@ -21,8 +21,17 @@ namespace Me20.Web.Modules.Api
                 var content = this.Bind<ContentEntity>();
                 return Response.AsJson(content
                     .WithSpecific(dispatchers,
-                    //CreateContentIfNotExistsDispatcher.Name,
                     AddContentDispatcher.Name)
+                    .DispatchAll(Context.CurrentUser.UserName));
+            };
+
+            Post["/rate"] = p =>
+            {
+                //TODO: Rating
+                var content = this.Bind<ContentEntity>();
+                return Response.AsJson(content
+                    .WithSpecific(dispatchers,
+                    RateContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
             };
 

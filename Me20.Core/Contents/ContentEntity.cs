@@ -8,7 +8,9 @@ namespace Me20.Core.Contents
 {
     public class ContentEntity : EntityBase<ContentEntity>
     {
+        public override string Uid => Uri.ToActorPathSegment();
         public string Url { get; set; }
+
         private Uri uri;
         public Uri Uri
         {
@@ -27,8 +29,7 @@ namespace Me20.Core.Contents
         }
 
         public IEnumerable<string> Tags { get; set; }
-
-        public override string Uid => Uri.ToActorPathSegment();
+        public byte Rating { get; set; }
 
         public ContentEntity() : base()
         {

@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ActorModel.cs" />
+    <Compile Include="Contents\RateContentDispatcher.cs" />
     <Compile Include="Contents\ContentEnquirer.cs" />
     <Compile Include="Contents\ContentEntity.cs" />
     <Compile Include="Contents\CreateContentIfNotExistsDispatcher.cs" />

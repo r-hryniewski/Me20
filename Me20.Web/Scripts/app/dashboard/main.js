@@ -9,7 +9,7 @@ var dashboard = new Vue({
         CurrentUserName: AppData.currentUserName,
         HasMoreContent: true,
         Content: [],
-        Tags: []
+        Tags: [],
     },
     computed: {
         PagesLoaded: function () {
@@ -35,6 +35,18 @@ var dashboard = new Vue({
                 response => {
                     var content = response.body.item;
                     this.Content.push(this.newContent(content.uri, content.tags.map(this.newTag)));
+                },
+                response => {
+                    //TODO: Alert window
+                    console.log(response);
+                });
+        },
+        rateContent: function (content, rating) {
+
+            this.$http.post("/api/content/rate", { Url: content.Url, Rating: rating })
+                .then(
+                response => {
+                    content.Rating = response.body.item.rating;
                 },
                 response => {
                     //TODO: Alert window
@@ -76,7 +88,8 @@ var dashboard = new Vue({
             return {
                 Url: url,
                 Tags: tags,
-                Title: url
+                Title: url,
+                Rating: 0
             };
         }
     },

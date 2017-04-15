@@ -1,6 +1,8 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
+using Me20.Common.Commands;
 using Me20.Common.Extensions;
+using Me20.Common.Interfaces;
 using System;
 
 namespace Me20.Content.Actors
@@ -9,7 +11,7 @@ namespace Me20.Content.Actors
     {
         public ContentManagerActor() : base()
         {
-            //Receive<CreateContentIfNotExistsMessage>(msg => HandleCreateContentIfNotExistsMessage(msg));
+            Receive<IHaveContentUri>(msg => CreateContentActorIfNotExists(msg.Uri).Tell(msg));
         }
 
         //private void HandleCreateContentIfNotExistsMessage(CreateContentIfNotExistsMessage msg)

@@ -91,6 +91,7 @@
     <Compile Include="Actors\TagActor.cs" />
     <Compile Include="Actors\ContentManagerActor.cs" />
     <Compile Include="Actors\TagsManagerActor.cs" />
+    <Compile Include="Events\ContentRatedByEvent.cs" />
     <Compile Include="Events\SubscriberAddedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
