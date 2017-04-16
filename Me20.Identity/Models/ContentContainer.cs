@@ -10,7 +10,7 @@ namespace Me20.Identity.Models
     {
         private Dictionary<string, UsersContent> items;
 
-        public ContentContainer()
+        internal ContentContainer()
         {
             items = new Dictionary<string, UsersContent>(StringComparer.OrdinalIgnoreCase);
         }

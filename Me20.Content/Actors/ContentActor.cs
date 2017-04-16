@@ -41,7 +41,7 @@ namespace Me20.Content.Actors
         {
             internal Uri Uri { get; private set; }
 
-            private Dictionary<string, byte> ratings;
+            private readonly Dictionary<string, byte> ratings;
             internal IReadOnlyDictionary<string, byte> Ratings => ratings;
             
             internal ContentActorState(Uri uri)
