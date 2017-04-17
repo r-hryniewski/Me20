@@ -51,7 +51,7 @@ namespace Me20.Identity.Actors
         {
             Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
 
-            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage((ActorState.Contents as IReadOnlyDictionary<Uri, UsersContent>).ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Tags))));
+            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(ActorState.Contents)));
 
             Command<GetUserContentDetailsQueryMessage>(msg => Sender.Tell(new GetUserContentDetailsQueryResultMessage(ActorState.Contents[msg.Uri])));
         }
@@ -71,7 +71,7 @@ namespace Me20.Identity.Actors
 
         private void HandleRateContentCommand(RateContentCommand cmd)
         {
-            var @event = new ContentRatedEvent(cmd.ContentUri, cmd.Rating);
+            var @event = new ContentRatedEvent(cmd.Uri, cmd.Rating);
             Persist(@event, ev =>
             {
                 ActorState.RateContent(ev.Uri, ev.Rating);

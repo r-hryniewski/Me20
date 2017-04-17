@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Me20.Identity.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Me20.Identity.QueryResultMessages
 {
@@ -7,9 +9,9 @@ namespace Me20.Identity.QueryResultMessages
     {
         public IReadOnlyDictionary<Uri, HashSet<string>> ContentWithTags { get; private set; }
 
-        public GetUserContentQueryResultMessage(IReadOnlyDictionary<Uri, HashSet<string>> contentsWithTags)
+        internal GetUserContentQueryResultMessage(ContentContainer usersContentsContainer)
         {
-            ContentWithTags = contentsWithTags;
+            ContentWithTags = usersContentsContainer.Values.ToDictionary(c => c.Uri, c => c.Tags);
         }
     }
 }

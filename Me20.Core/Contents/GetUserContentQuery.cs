@@ -32,8 +32,6 @@ namespace Me20.Core.Contents
                         Tags = cwt.Value.Select(v => new TagDTO(v, true)).ToList()
                     }
                 );
-
-
         }
     }
 }

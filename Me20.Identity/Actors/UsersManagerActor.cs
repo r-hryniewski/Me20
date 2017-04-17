@@ -16,14 +16,6 @@ namespace Me20.Identity.Actors
                 msg => msg.IsValid);
 
             Receive<IHaveUserName>(msg => Context.Child(msg.UserName).Forward(msg));
-
-            //Receive<SubscribeToTagCommand>(msg => Context.Child(msg.UserName).Forward(msg));
-
-            //Receive<AddContentCommand>(msg => Context.Child(msg.UserName).Forward(msg));
-
-            //Receive<GetAllTagNamesForUserQueryMessage>(msg => Context.Child(msg.UserName).Forward(msg));
-
-            //Receive<GetUserContentQueryMessage>(msg => Context.Child(msg.UserName).Forward(msg));
         }
 
         private void HandleUserLoggedInMessage(UserLoggedInCommand msg)
