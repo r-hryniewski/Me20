@@ -102,8 +102,10 @@
     <Compile Include="Models\UsersContent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryMessages\GetAllTagNamesForUserQueryMessage.cs" />
+    <Compile Include="QueryMessages\GetUserContentDetailsQueryMessage.cs" />
     <Compile Include="QueryMessages\GetUserContentQueryMessage.cs" />
     <Compile Include="QueryResultMessages\GetAllTagNamesForUserQueryResultMessage.cs" />
+    <Compile Include="QueryResultMessages\GetUserContentDetailsQueryResultMessage.cs" />
     <Compile Include="QueryResultMessages\GetUserContentQueryResultMessage.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -91,11 +91,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ActorModel.cs" />
+    <Compile Include="Contents\ContentDetailsEnquirer.cs" />
+    <Compile Include="Contents\GetUserContentDetailsQuery.cs" />
+    <Compile Include="Contents\GetContentDetailsQuery.cs" />
     <Compile Include="Contents\RateContentDispatcher.cs" />
     <Compile Include="Contents\ContentEnquirer.cs" />
     <Compile Include="Contents\ContentEntity.cs" />
     <Compile Include="Contents\CreateContentIfNotExistsDispatcher.cs" />
     <Compile Include="Contents\GetUserContentQuery.cs" />
+    <Compile Include="DTO\TagDTO.cs" />
     <Compile Include="Identity\UserEntity.cs" />
     <Compile Include="Contents\AddContentDispatcher.cs" />
     <Compile Include="Identity\UserLoggedInDispatcher.cs" />

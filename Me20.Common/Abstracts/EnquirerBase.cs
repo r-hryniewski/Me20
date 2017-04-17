@@ -10,7 +10,8 @@ namespace Me20.Common.Abstracts
     {
         public TimeSpan AcceptableTimeout { get; protected set; } = TimeSpan.FromSeconds(30);
         protected readonly ICollection<IQuery<T>> queries = new List<IQuery<T>>();
-        protected readonly ICollection<T> results  = new HashSet<T>(); //TODO: Comparer
+        protected readonly ICollection<T> results = new HashSet<T>();
+        protected virtual ICollection<T> Results => results;
 
         protected EnquirerBase()
         {
@@ -34,6 +35,9 @@ namespace Me20.Common.Abstracts
                 this.queries.Add(query);
             return this;
         }
+
+        public IEnquire<T> QueryForAll(params IQuery<T>[] queries) => QueryForAll(queries.AsEnumerable());
+
         public virtual HttpResult<IEnumerable<T>> Execute()
         {
             if (queries.Count < 1)
@@ -41,16 +45,20 @@ namespace Me20.Common.Abstracts
 
             //TODO: Parallel and async
             //TODO: Distinct by IEntity Comparer
-            foreach (var result in queries.SelectMany(q => q.Execute(this)))
-            {
-                results.Add(result);
-            }
-            if (results.Any())
-                return new HttpResult<IEnumerable<T>>(results, 200);
+            FetchResultsFromQueries();
+
+            if (Results.Any())
+                return new HttpResult<IEnumerable<T>>(Results, 200);
             else
                 return HttpResult<IEnumerable<T>>.CreateErrorResult(404, "Not found any results");
         }
 
-        public IEnquire<T> QueryForAll(params IQuery<T>[] queries) => QueryForAll(queries.AsEnumerable());
+        protected void FetchResultsFromQueries()
+        {
+            foreach (var result in queries.SelectMany(q => q.Execute(this)))
+            {
+                Results.Add(result);
+            }
+        }
     }
 }

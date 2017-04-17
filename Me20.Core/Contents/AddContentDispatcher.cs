@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
+using System.Linq;
 
 namespace Me20.Core.Contents
 {
@@ -14,7 +15,7 @@ namespace Me20.Core.Contents
 
         public override void Dispatch(ContentEntity item, string userName)
         {
-            ActorModel.UsersManagerActorRef.Tell(new AddContentCommand(item.Uri, userName, item.Tags));
+            ActorModel.UsersManagerActorRef.Tell(new AddContentCommand(item.Uri, userName, item.Tags.Select(t => t.TagName)));
         }
     }
 }

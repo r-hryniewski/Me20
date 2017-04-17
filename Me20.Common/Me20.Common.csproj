@@ -76,6 +76,7 @@
     <Compile Include="Commands\AddContentCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\IHaveContentUriExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
     <Compile Include="Interfaces\IHaveContentUri.cs" />

@@ -15,7 +15,7 @@ namespace Me20.Identity.Models
             items = new Dictionary<string, UsersContent>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public UsersContent this[Uri key] => items[key.ToActorPathSegment()];
+        public UsersContent this[Uri key] => items[key.ToSchemalessUriAsBase64()];
 
         public IEnumerable<Uri> Keys => items.Values.Select(c => c.Uri);
 
@@ -25,19 +25,19 @@ namespace Me20.Identity.Models
 
         public bool IsReadOnly => false;
 
-        public bool ContainsKey(Uri key) => items.ContainsKey(key.ToActorPathSegment());
+        public bool ContainsKey(Uri key) => items.ContainsKey(key.ToSchemalessUriAsBase64());
 
-        public bool TryGetValue(Uri key, out UsersContent value) => items.TryGetValue(key.ToActorPathSegment(), out value);
+        public bool TryGetValue(Uri key, out UsersContent value) => items.TryGetValue(key.ToSchemalessUriAsBase64(), out value);
 
         public IEnumerator<KeyValuePair<Uri, UsersContent>> GetEnumerator() => items.Values.Select(c => new KeyValuePair<Uri, UsersContent>(c.Uri, c)).GetEnumerator();
 
-        public void Add(UsersContent item) => items.Add(item.Uri.ToActorPathSegment(), item);
+        public void Add(UsersContent item) => items.Add(item.Uri.ToSchemalessUriAsBase64(), item);
 
         public void Clear() => items.Clear();
 
-        public bool Contains(UsersContent item) => items.ContainsKey(item.Uri.ToActorPathSegment());
+        public bool Contains(UsersContent item) => items.ContainsKey(item.Uri.ToSchemalessUriAsBase64());
 
-        public bool Remove(UsersContent item) => items.Remove(item.Uri.ToActorPathSegment());
+        public bool Remove(UsersContent item) => items.Remove(item.Uri.ToSchemalessUriAsBase64());
 
         IEnumerator<UsersContent> IEnumerable<UsersContent>.GetEnumerator() => items.Values.GetEnumerator();
 

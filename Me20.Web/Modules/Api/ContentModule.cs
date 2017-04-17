@@ -38,6 +38,15 @@ namespace Me20.Web.Modules.Api
             Get["/"] = p => Response.AsJson(new ContentEnquirer()
                 .QueryFor(new GetUserContentQuery(Context.CurrentUser.UserName))
                 .Execute());
+
+            Get["/details/"] = p =>
+            {
+                var enquirer = this.Bind<ContentDetailsEnquirer>();
+                return Response.AsJson(enquirer
+                    .QueryForAll(new GetUserContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri),
+                        new GetContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri))
+                    .Execute());
+            };
         }
     }
 }

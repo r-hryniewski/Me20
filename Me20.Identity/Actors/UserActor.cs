@@ -52,6 +52,8 @@ namespace Me20.Identity.Actors
             Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
 
             Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage((ActorState.Contents as IReadOnlyDictionary<Uri, UsersContent>).ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Tags))));
+
+            Command<GetUserContentDetailsQueryMessage>(msg => Sender.Tell(new GetUserContentDetailsQueryResultMessage(ActorState.Contents[msg.Uri])));
         }
         private void HandleAddContentCommand(AddContentCommand cmd)
         {

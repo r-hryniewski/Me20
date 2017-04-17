@@ -3,8 +3,11 @@ using Akka.Persistence;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
 using Me20.Content.Events;
+using Me20.Content.QueryMessages;
+using Me20.Content.QueryResultMessages;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Me20.Content.Actors
 {
@@ -23,6 +26,8 @@ namespace Me20.Content.Actors
 
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedByEvent>(ev => ActorState.Rate(ev.UserName, ev.Rating));
+
+            Command<GetContentDetailsQueryMessage>(msg => Sender.Tell(new GetContentDetailsQueryResultMessage(ActorState.Uri, ActorState.AverageRating, ActorState.Tags, ActorState.Ratings.ContainsKey(msg.UserName) ? ActorState.Ratings[msg.UserName] : (byte)0)));
         }
 
         private void HandleRateContentCommand(RateContentCommand cmd)
@@ -43,11 +48,14 @@ namespace Me20.Content.Actors
 
             private readonly Dictionary<string, byte> ratings;
             internal IReadOnlyDictionary<string, byte> Ratings => ratings;
+            internal double AverageRating => Ratings.Values.Any() ? Ratings.Values.OfType<int>().Average() : 0;
+            internal readonly HashSet<string> Tags;
             
             internal ContentActorState(Uri uri)
             {
                 Uri = uri;
                 ratings = new Dictionary<string, byte>(StringComparer.OrdinalIgnoreCase);
+                Tags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 //TODO: Level
                 //TODO: ReadedBy
                 //TODO: TimeLastOpened

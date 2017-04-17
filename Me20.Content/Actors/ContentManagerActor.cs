@@ -11,7 +11,7 @@ namespace Me20.Content.Actors
     {
         public ContentManagerActor() : base()
         {
-            Receive<IHaveContentUri>(msg => CreateContentActorIfNotExists(msg.Uri).Tell(msg));
+            Receive<IHaveContentUri>(msg => CreateContentActorIfNotExists(msg.Uri).Forward(msg));
         }
 
         //private void HandleCreateContentIfNotExistsMessage(CreateContentIfNotExistsMessage msg)
@@ -21,7 +21,7 @@ namespace Me20.Content.Actors
 
         private IActorRef CreateContentActorIfNotExists(Uri uri)
         {
-            var actorPathSegment = uri.ToActorPathSegment();
+            var actorPathSegment = uri.ToSchemalessUriAsBase64();
             if (!Context.Child(actorPathSegment).IsNobody())
                 return Context.Child(actorPathSegment);
 

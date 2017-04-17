@@ -4,6 +4,7 @@ using Akka.Actor;
 using Me20.Identity.QueryMessages;
 using System.Linq;
 using Me20.Identity.QueryResultMessages;
+using System;
 
 namespace Me20.Core.Tags
 {
@@ -17,7 +18,7 @@ namespace Me20.Core.Tags
         public IEnumerable<TagEntity> Execute(IEnquire<TagEntity> enquirer)
         {
             if (string.IsNullOrEmpty(userName))
-                return Enumerable.Empty<TagEntity>();
+                throw new ArgumentException("userName parameter in GetAllTagNamesForUserQuery should not be null or empty");
 
             var result = ActorModel.UsersManagerActorRef.Ask(new GetAllTagNamesForUserQueryMessage(userName), enquirer.AcceptableTimeout).Result as GetAllTagNamesForUserQueryResultMessage;
 
