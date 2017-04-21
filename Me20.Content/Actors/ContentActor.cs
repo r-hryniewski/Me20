@@ -27,7 +27,20 @@ namespace Me20.Content.Actors
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedByEvent>(ev => ActorState.Rate(ev.UserName, ev.Rating));
 
+            Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
+            Recover<ContentTagedEvent>(ev => ActorState.UpdateTags(ev.Tags));
+
             Command<GetContentDetailsQueryMessage>(msg => Sender.Tell(new GetContentDetailsQueryResultMessage(ActorState.Uri, ActorState.AverageRating, ActorState.Tags, ActorState.Ratings.ContainsKey(msg.UserName) ? ActorState.Ratings[msg.UserName] : (byte)0)));
+        }
+
+        private void HandleAddContentCommand(AddContentCommand cmd)
+        {
+            if (cmd.ContentTags != null && cmd.ContentTags.Any())
+            {
+                var @event = new ContentTagedEvent(cmd.ContentTags);
+                if (ActorState.UpdateTags(@event.Tags))
+                    Persist(@event, ev => HandleSnapshoting(ActorState));
+            }
         }
 
         private void HandleRateContentCommand(RateContentCommand cmd)
@@ -50,7 +63,7 @@ namespace Me20.Content.Actors
             internal IReadOnlyDictionary<string, byte> Ratings => ratings;
             internal double AverageRating => Ratings.Values.Any() ? Ratings.Values.OfType<int>().Average() : 0;
             internal readonly HashSet<string> Tags;
-            
+
             internal ContentActorState(Uri uri)
             {
                 Uri = uri;
@@ -68,6 +81,13 @@ namespace Me20.Content.Actors
                 else
                     ratings.Add(userName, rating);
             }
+
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="tags"></param>
+            /// <returns>True if state has changed (any tags were added)</returns>
+            internal bool UpdateTags(HashSet<string> tags) => !(tags.Select(t => Tags.Add(t)).All(x => !x));
         }
     }
 }
