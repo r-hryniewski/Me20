@@ -50,5 +50,11 @@ namespace Me20.Common.Abstracts
 
             return new HttpResult<T>((T)this, System.Net.HttpStatusCode.Accepted);
         }
+
+        public T AllowAnonymous()
+        {
+            allowAnonymous = true;
+            return (T)this;
+        }
     }
 }
