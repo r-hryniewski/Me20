@@ -2,8 +2,10 @@
 using Akka.Persistence;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
+using Me20.Common.Comparers;
 using Me20.Common.Interfaces;
-using Me20.Content.Events;
+using Me20.Content.Events.Tags;
+using System;
 using System.Collections.Generic;
 
 namespace Me20.Content.Actors
@@ -23,8 +25,15 @@ namespace Me20.Content.Actors
             Command<SubscribeToTagCommand>(cmd => HandleAddSubscriberCommand(cmd));
             Recover<SubscriberAddedEvent>(ev => ActorState.AddSubscriber(ev));
 
-            //TODO: Create container for content marked with this tag
-            //TODO: Handle receiving added tagged content message
+            Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
+            Recover<ContentTaggedEvent>(ev => ActorState.AddContent(ev.Uri));
+        }
+
+        private void HandleAddContentCommand(AddContentCommand cmd)
+        {
+            var @event = new ContentTaggedEvent(cmd.Uri);
+            if (ActorState.AddContent(@event.Uri))
+                Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
         private void HandleAddSubscriberCommand(SubscribeToTagCommand cmd)
@@ -42,18 +51,22 @@ namespace Me20.Content.Actors
         {
             internal string TagName { get; private set; }
             private readonly HashSet<string> subscribers;
-
             //NYI
             //internal IReadOnlyCollection<string> Subscribers => subscribers;
+
+            private readonly HashSet<Uri> contents;
+            internal IReadOnlyCollection<Uri> Contents => contents;
 
             internal TagActorState(string tagName)
             {
                 TagName = tagName;
                 subscribers = new HashSet<string>();
+                contents = new HashSet<Uri>(new SchemalessBase64UriComparer());
             }
 
             internal bool AddSubscriber(IHaveUserName userNameContainer) => subscribers.Add(userNameContainer.UserName);
-        }
 
+            internal bool AddContent(Uri uri) => contents.Add(uri);
+        }
     }
 }

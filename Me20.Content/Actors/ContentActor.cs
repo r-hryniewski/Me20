@@ -2,7 +2,8 @@
 using Akka.Persistence;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
-using Me20.Content.Events;
+using Me20.Common.Extensions;
+using Me20.Content.Events.Contents;
 using Me20.Content.QueryMessages;
 using Me20.Content.QueryResultMessages;
 using System;
@@ -28,7 +29,7 @@ namespace Me20.Content.Actors
             Recover<ContentRatedByEvent>(ev => ActorState.Rate(ev.UserName, ev.Rating));
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
-            Recover<ContentTagedEvent>(ev => ActorState.UpdateTags(ev.Tags));
+            Recover<ContentTaggedWithEvent>(ev => ActorState.UpdateTags(ev.Tags));
 
             Command<GetContentDetailsQueryMessage>(msg => Sender.Tell(new GetContentDetailsQueryResultMessage(ActorState.Uri, ActorState.AverageRating, ActorState.Tags, ActorState.Ratings.ContainsKey(msg.UserName) ? ActorState.Ratings[msg.UserName] : (byte)0)));
         }
@@ -37,7 +38,7 @@ namespace Me20.Content.Actors
         {
             if (cmd.ContentTags != null && cmd.ContentTags.Any())
             {
-                var @event = new ContentTagedEvent(cmd.ContentTags);
+                var @event = new ContentTaggedWithEvent(cmd.ContentTags);
                 if (ActorState.UpdateTags(@event.Tags))
                     Persist(@event, ev => HandleSnapshoting(ActorState));
             }
@@ -87,7 +88,7 @@ namespace Me20.Content.Actors
             /// </summary>
             /// <param name="tags"></param>
             /// <returns>True if state has changed (any tags were added)</returns>
-            internal bool UpdateTags(HashSet<string> tags) => !(tags.Select(t => Tags.Add(t)).All(x => !x));
+            internal bool UpdateTags(HashSet<string> tags) => Tags.AddRangeAny(tags);
         }
     }
 }

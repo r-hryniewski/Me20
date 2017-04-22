@@ -12,7 +12,7 @@ namespace Me20.Core.Contents
     {
         public Uri Uri { get; set; }
 
-        private new ICollection<ContentEntity> results = new List<ContentEntity>();
+        private readonly new ICollection<ContentEntity> results = new List<ContentEntity>();
         protected override ICollection<ContentEntity> Results => this.results;
         public ContentDetailsEnquirer() : base()
         {

@@ -1,6 +1,6 @@
 ﻿using Me20.Common.Interfaces;
 
-namespace Me20.Content.Events
+namespace Me20.Content.Events.Tags
 {
     public class SubscriberAddedEvent : IHaveUserName
     {

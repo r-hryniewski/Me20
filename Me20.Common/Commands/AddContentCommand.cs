@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Me20.Common.Commands
 {
-    public class AddContentCommand : CommandBase, IHaveUserName, IHaveContentUri
+    public class AddContentCommand : CommandBase, IHaveUserName, IHaveContentUri, IHaveContentTags
     {
         public Uri Uri { get; private set; }
         public IEnumerable<string> ContentTags { get; private set; }

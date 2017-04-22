@@ -1,7 +1,6 @@
 ﻿using Me20.Common.Interfaces;
-using System;
 
-namespace Me20.Content.Events
+namespace Me20.Content.Events.Contents
 {
     public class ContentRatedByEvent : IHaveUserName
     {

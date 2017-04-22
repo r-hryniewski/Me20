@@ -18,6 +18,7 @@ namespace Me20.Core.Contents
             var command = new AddContentCommand(item.Uri, userName, item.Tags.Select(t => t.TagName));
             ActorModel.UsersManagerActorRef.Tell(command);
             ActorModel.ContentManagerActorRef.Tell(command);
+            ActorModel.TagsManagerActorRef.Tell(command);
         }
     }
 }

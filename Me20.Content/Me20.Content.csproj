@@ -90,9 +90,10 @@
     <Compile Include="Actors\TagActor.cs" />
     <Compile Include="Actors\ContentManagerActor.cs" />
     <Compile Include="Actors\TagsManagerActor.cs" />
-    <Compile Include="Events\ContentRatedByEvent.cs" />
-    <Compile Include="Events\ContentTagedEvent.cs" />
-    <Compile Include="Events\SubscriberAddedEvent.cs" />
+    <Compile Include="Events\Tags\ContentTaggedEvent.cs" />
+    <Compile Include="Events\Contents\ContentRatedByEvent.cs" />
+    <Compile Include="Events\Contents\ContentTaggedWithEvent.cs" />
+    <Compile Include="Events\Tags\SubscriberAddedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryMessages\GetContentDetailsQueryMessage.cs" />
     <Compile Include="QueryResultMessages\GetContentDetailsQueryResultMessage.cs" />

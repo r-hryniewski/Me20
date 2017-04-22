@@ -3,19 +3,20 @@ using Me20.Common.DTO;
 using Me20.Common.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace Me20.Common.Abstracts
 {
     public abstract class EntityBase<T> : IHaveDispatchers<T> where T : EntityBase<T>
     {
         protected readonly HashSet<IDispatch<T>> dispatchers;
+        protected bool allowAnonymous;
 
         public abstract string Uid { get; }
 
         protected EntityBase()
         {
             dispatchers = new HashSet<IDispatch<T>>(new InternalNameEqualityComparer());
+            allowAnonymous = false;
         }
 
         public virtual T With(IDispatch<T> dispatcher)
@@ -41,7 +42,7 @@ namespace Me20.Common.Abstracts
 
         public virtual HttpResult<T> DispatchAll(string userName)
         {
-            if (string.IsNullOrEmpty(userName))
+            if (!allowAnonymous && string.IsNullOrEmpty(userName))
                 return HttpResult<T>.CreateErrorResult(401, "UserName is empty, you're not authenthicated in any way.");
 
             foreach (var dispatcher in dispatchers)

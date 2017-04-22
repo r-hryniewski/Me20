@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Me20.Content.Events
+namespace Me20.Content.Events.Contents
 {
-    public class ContentTagedEvent
+    public class ContentTaggedWithEvent
     {
         public HashSet<string> Tags { get; private set; }
 
-        public ContentTagedEvent(IEnumerable<string> tagNames)
+        public ContentTaggedWithEvent(IEnumerable<string> tagNames)
         {
             Tags = new HashSet<string>(tagNames, StringComparer.OrdinalIgnoreCase);
         }

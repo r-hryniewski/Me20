@@ -75,10 +75,14 @@
     <Compile Include="Commands\RateContentCommand.cs" />
     <Compile Include="Commands\AddContentCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
+    <Compile Include="Comparers\SchemalessBase64UriComparer.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\ISetExtensions.cs" />
     <Compile Include="Extensions\IHaveContentUriExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
+    <Compile Include="Interfaces\IHaveContentTag.cs" />
+    <Compile Include="Interfaces\IHaveContentTags.cs" />
     <Compile Include="Interfaces\IHaveContentUri.cs" />
     <Compile Include="Interfaces\IQuery.cs" />
     <Compile Include="Interfaces\IEntity.cs" />

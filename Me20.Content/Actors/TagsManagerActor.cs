@@ -1,6 +1,7 @@
 ﻿using Akka.Actor;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
+using Me20.Common.Interfaces;
 
 namespace Me20.Content.Actors
 {
@@ -9,6 +10,14 @@ namespace Me20.Content.Actors
         public TagsManagerActor() : base()
         {
             Receive<SubscribeToTagCommand>(msg => CreateTagActorIfNotExists(msg.TagName).Forward(msg));
+
+            Receive<IHaveContentTag>(msg => CreateTagActorIfNotExists(msg.ContentTag).Forward(msg));
+
+            Receive<IHaveContentTags>(msg =>
+            {
+                foreach (var tag in msg.ContentTags)
+                    CreateTagActorIfNotExists(tag).Forward(msg);
+            });
         }
 
         private IActorRef CreateTagActorIfNotExists(string tagName)
