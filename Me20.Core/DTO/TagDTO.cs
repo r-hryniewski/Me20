@@ -2,16 +2,22 @@
 
 namespace Me20.Core.DTO
 {
-    public struct TagDTO : IEquatable<TagDTO>
+    public class TagDTO : IEquatable<TagDTO>
     {
         public readonly string TagName;
         public readonly bool TagedByUser;
 
-        public TagDTO(string tagName, bool taggedByuser)
+        public TagDTO()
+        {
+
+        }
+
+        public TagDTO(string tagName, bool taggedByuser) : base()
         {
             TagName = tagName;
             TagedByUser = taggedByuser;
         }
+
 
         public override bool Equals(object obj)
         {

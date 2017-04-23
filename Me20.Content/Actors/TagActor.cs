@@ -26,12 +26,17 @@ namespace Me20.Content.Actors
             Recover<SubscriberAddedEvent>(ev => ActorState.AddSubscriber(ev));
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
+            Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
             Recover<ContentTaggedEvent>(ev => ActorState.AddContent(ev.Uri));
         }
 
-        private void HandleAddContentCommand(AddContentCommand cmd)
+        private void HandleTagContentCommand(TagContentCommand cmd) => AddTaggedContent(cmd.Uri);
+
+        private void HandleAddContentCommand(AddContentCommand cmd) => AddTaggedContent(cmd.Uri);
+
+        private void AddTaggedContent(Uri uri)
         {
-            var @event = new ContentTaggedEvent(cmd.Uri);
+            var @event = new ContentTaggedEvent(uri);
             if (ActorState.AddContent(@event.Uri))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }

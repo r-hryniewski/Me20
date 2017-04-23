@@ -34,6 +34,15 @@ namespace Me20.Web.Modules.Api
                     .DispatchAll(Context.CurrentUser.UserName));
             };
 
+            Post["/tag"] = p =>
+            {
+                var content = this.Bind<ContentEntity>();
+                return Response.AsJson(content
+                    .WithSpecific(dispatchers,
+                        TagContentDispatcher.Name)
+                    .DispatchAll(Context.CurrentUser.UserName));
+            };
+
             Get["/"] = p => Response.AsJson(new ContentEnquirer()
                 .QueryFor(new GetUserContentQuery(Context.CurrentUser.UserName))
                 .Execute());

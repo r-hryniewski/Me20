@@ -22,11 +22,12 @@ namespace Me20.Content.Actors
 
         private IActorRef CreateTagActorIfNotExists(string tagName)
         {
-            if (!Context.Child(tagName).IsNobody())
-                return Context.Child(tagName);
+            var actorPath = ChildActorPathValidator(tagName);
+            if (!Context.Child(actorPath).IsNobody())
+                return Context.Child(actorPath);
 
             else
-                return Context.ActorOf(TagActor.Props(tagName), tagName);
+                return Context.ActorOf(TagActor.Props(tagName), actorPath);
         }
 
         public static Props Props => Props.Create(() => new TagsManagerActor());

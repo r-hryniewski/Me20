@@ -26,10 +26,11 @@ namespace Me20.Identity.Actors
 
         private IActorRef CreateUserActorIfNotExists(IHaveAuthenthicationInfo authenthicationInfo)
         {
-            if (!Context.Child(authenthicationInfo.UserName).IsNobody())
-                return Context.Child(authenthicationInfo.UserName);
+            var actorPath = authenthicationInfo.UserName;
+            if (!Context.Child(actorPath).IsNobody())
+                return Context.Child(actorPath);
             else
-                return Context.ActorOf(UserActor.Props(authenthicationInfo.AuthenticationType, authenthicationInfo.Id), authenthicationInfo.UserName);
+                return Context.ActorOf(UserActor.Props(authenthicationInfo.AuthenticationType, authenthicationInfo.Id), actorPath);
         }
 
         public static Props Props => Props.Create(() => new UsersManagerActor());

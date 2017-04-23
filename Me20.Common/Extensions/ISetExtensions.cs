@@ -13,7 +13,7 @@ namespace Me20.Common.Extensions
         /// <returns>Number of items that was successfully added</returns>
         public static long AddRange<T>(this ISet<T> source, IEnumerable<T> items)
         {
-            if (source.IsNullOrEmpty() || items.IsNullOrEmpty())
+            if (source == null || items.IsNullOrEmpty())
                 return 0;
 
             var successfullyAdded = 0L;
@@ -34,7 +34,7 @@ namespace Me20.Common.Extensions
         /// <returns>True if any element was added sucessfully</returns>
         public static bool AddRangeAny<T>(this ISet<T> source, IEnumerable<T> items)
         {
-            if (source.IsNullOrEmpty() || items.IsNullOrEmpty())
+            if (source == null || items.IsNullOrEmpty())
                 return false;
 
             var anyAdded = false;
@@ -54,7 +54,7 @@ namespace Me20.Common.Extensions
         /// <returns>True if all elements was added sucessfully</returns>
         public static bool AddRangeAll<T>(this ISet<T> source, IEnumerable<T> items)
         {
-            if (source.IsNullOrEmpty() || items.IsNullOrEmpty())
+            if (source == null || items.IsNullOrEmpty())
                 return false;
 
             var allAdded = true;

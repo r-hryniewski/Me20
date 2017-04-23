@@ -33,6 +33,16 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xs-11">
+                        <ul class="content-tags-list">
+                            <li class="tag" v-for="ct in item.Tags">{{ct.TagName}}</li>
+                        </ul>
+                    </div>
+                    <div class="col-xs-1">
+                        <span v-on:click="item.AddTag()">TODO:ADDTAG</span>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-4">
                         TODO: Thumbnail
                     </div>
@@ -43,6 +53,11 @@
                         {
                             <span v-on:click="rateContent(item, @i)">@i </span>
                         }
+                    </div>
+                </div>
+                <div class="row" v-if="item.DetailsLoaded">
+                    <div class="col-xs-12">
+                        Rating: {{item.Rating}} | Avg Rating: {{item.AverageRating}}
                     </div>
                 </div>
             </li>

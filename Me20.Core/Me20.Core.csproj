@@ -91,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ActorModel.cs" />
+    <Compile Include="Contents\TagContentDispatcher.cs" />
     <Compile Include="Contents\ContentDetailsEnquirer.cs" />
     <Compile Include="Contents\GetUserContentDetailsQuery.cs" />
     <Compile Include="Contents\GetContentDetailsQuery.cs" />
