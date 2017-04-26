@@ -18,8 +18,7 @@ namespace Me20.Web.Modules.Api
             //TODO: Change it to post after doing some frontend
             Post["/"] = p =>
             {
-                var content = this.Bind<ContentEntity>();
-                return Response.AsJson(content
+                return Response.AsJson(this.Bind<ContentEntity>()
                     .WithSpecific(dispatchers,
                         AddContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
@@ -27,8 +26,7 @@ namespace Me20.Web.Modules.Api
 
             Post["/rate"] = p =>
             {
-                var content = this.Bind<ContentEntity>();
-                return Response.AsJson(content
+                return Response.AsJson(this.Bind<ContentEntity>()
                     .WithSpecific(dispatchers,
                         RateContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
@@ -36,8 +34,7 @@ namespace Me20.Web.Modules.Api
 
             Post["/tag"] = p =>
             {
-                var content = this.Bind<ContentEntity>();
-                return Response.AsJson(content
+                return Response.AsJson(this.Bind<ContentEntity>()
                     .WithSpecific(dispatchers,
                         TagContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));

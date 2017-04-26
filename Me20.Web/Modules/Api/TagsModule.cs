@@ -17,8 +17,7 @@ namespace Me20.Web.Modules.Api
 
             Post["/"] = p =>
             {
-                var tag = this.Bind<TagEntity>();
-                return Response.AsJson(tag
+                return Response.AsJson(this.Bind<TagEntity>()
                     .WithSpecific(dispatchers,
                     //Not Used at the moment
                     //CreateTagIfNotExistsDispatcher.Name,

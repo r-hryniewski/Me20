@@ -343,6 +343,7 @@
   <ItemGroup>
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Extensions\NancyExtensions.cs" />
+    <Compile Include="Modules\Api\ExternalContentModule.cs" />
     <Compile Include="Startup\FilterConfig.cs" />
     <Compile Include="Modules\Api\ContentModule.cs" />
     <Compile Include="Modules\Api\TagsModule.cs" />
