@@ -76,6 +76,7 @@
     <Compile Include="Commands\RateContentCommand.cs" />
     <Compile Include="Commands\AddContentCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
+    <Compile Include="Comparers\SchemalessMD5UriComparer.cs" />
     <Compile Include="Comparers\SchemalessBase64UriComparer.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ISetExtensions.cs" />

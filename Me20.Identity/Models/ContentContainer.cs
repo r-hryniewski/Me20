@@ -15,7 +15,7 @@ namespace Me20.Identity.Models
             items = new Dictionary<string, UsersContent>(StringComparer.OrdinalIgnoreCase);
         }
 
-        public UsersContent this[Uri key] => items[key.ToSchemalessUriAsBase64()];
+        public UsersContent this[Uri key] => items[key.ToSchemalessUriAsMD5()];
 
         public IEnumerable<Uri> Keys => items.Values.Select(c => c.Uri);
 
@@ -25,19 +25,19 @@ namespace Me20.Identity.Models
 
         public bool IsReadOnly => false;
 
-        public bool ContainsKey(Uri key) => items.ContainsKey(key.ToSchemalessUriAsBase64());
+        public bool ContainsKey(Uri key) => items.ContainsKey(key.ToSchemalessUriAsMD5());
 
-        public bool TryGetValue(Uri key, out UsersContent value) => items.TryGetValue(key.ToSchemalessUriAsBase64(), out value);
+        public bool TryGetValue(Uri key, out UsersContent value) => items.TryGetValue(key.ToSchemalessUriAsMD5(), out value);
 
         public IEnumerator<KeyValuePair<Uri, UsersContent>> GetEnumerator() => items.Values.Select(c => new KeyValuePair<Uri, UsersContent>(c.Uri, c)).GetEnumerator();
 
-        public void Add(UsersContent item) => items.Add(item.Uri.ToSchemalessUriAsBase64(), item);
+        public void Add(UsersContent item) => items.Add(item.Uri.ToSchemalessUriAsMD5(), item);
 
         public void Clear() => items.Clear();
 
-        public bool Contains(UsersContent item) => items.ContainsKey(item.Uri.ToSchemalessUriAsBase64());
+        public bool Contains(UsersContent item) => items.ContainsKey(item.Uri.ToSchemalessUriAsMD5());
 
-        public bool Remove(UsersContent item) => items.Remove(item.Uri.ToSchemalessUriAsBase64());
+        public bool Remove(UsersContent item) => items.Remove(item.Uri.ToSchemalessUriAsMD5());
 
         IEnumerator<UsersContent> IEnumerable<UsersContent>.GetEnumerator() => items.Values.GetEnumerator();
 

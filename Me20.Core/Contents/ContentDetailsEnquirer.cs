@@ -36,7 +36,7 @@ namespace Me20.Core.Contents
 
         private IEnumerable<ContentEntity> CombineResults()
         {
-            return Results.GroupBy(ce => ce.SchemalessUriAsBase64(), StringComparer.OrdinalIgnoreCase)
+            return Results.GroupBy(ce => ce.SchemalessUriAsMD5(), StringComparer.OrdinalIgnoreCase)
                             .Select(g =>
                             {
                                 var averageRatings = g.Select(x => x.AverageRating).Where(ar => ar > 0).ToArray();

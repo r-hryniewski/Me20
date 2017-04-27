@@ -10,7 +10,7 @@ namespace Me20.Core.Contents
 {
     public class ContentEntity : EntityBase<ContentEntity>, IHaveContentUri
     {
-        public override string Uid => Uri.ToSchemalessUriAsBase64();
+        public override string Uid => Uri.ToSchemalessUriAsMD5();
         public string Url { get; set; }
 
         private Uri uri;

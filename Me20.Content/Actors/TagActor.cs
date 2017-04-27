@@ -66,7 +66,7 @@ namespace Me20.Content.Actors
             {
                 TagName = tagName;
                 subscribers = new HashSet<string>();
-                contents = new HashSet<Uri>(new SchemalessBase64UriComparer());
+                contents = new HashSet<Uri>(new SchemalessMD5UriComparer());
             }
 
             internal bool AddSubscriber(IHaveUserName userNameContainer) => subscribers.Add(userNameContainer.UserName);

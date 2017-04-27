@@ -21,7 +21,7 @@ namespace Me20.Content.Actors
 
         private IActorRef CreateContentActorIfNotExists(Uri uri)
         {
-            var actorPathSegment = uri.ToSchemalessUriAsBase64();
+            var actorPathSegment = uri.ToSchemalessUriAsMD5();
             if (!Context.Child(actorPathSegment).IsNobody())
                 return Context.Child(actorPathSegment);
 
