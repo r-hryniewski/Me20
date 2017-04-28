@@ -89,7 +89,7 @@
     <Compile Include="Abstracts\AuthenthicationInfoBase.cs" />
     <Compile Include="Abstracts\UserDataBase.cs" />
     <Compile Include="Actors\UsersManagerActor.cs" />
-    <Compile Include="Events\ContentTaggedEvent.cs" />
+    <Compile Include="Events\ContentTaggedByUserEvent.cs" />
     <Compile Include="Events\ContentAddedEvent.cs" />
     <Compile Include="Events\ContentRatedEvent.cs" />
     <Compile Include="Events\TagSubscribedEvent.cs" />

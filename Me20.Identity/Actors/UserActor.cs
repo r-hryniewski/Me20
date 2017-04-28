@@ -32,20 +32,23 @@ namespace Me20.Identity.Actors
 
             RegisterQueries();
         }
+
+        //TODO: Some kind of collection that registers this stuff in foreach?
         private void RegisterCommands()
         {
+            //Logging in persisted at 15 mins
             Command<UserLoggedInCommand>(cmd => HandleUserLoggedInMessage(cmd));
             Recover<UserLoggedInEvent>(ev => ActorState.RestoreLastLoggedIn(ev.LoginTime));
-
+            //Tag subscribtion
             Command<SubscribeToTagCommand>(cmd => HandleAddSubscribedTagCommand(cmd));
             Recover<TagSubscribedEvent>(ev => ActorState.AddSubscribedTag(ev.TagName));
-
+            //Content added by user
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
-
+            //Content tagged by user
             Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
-            Recover<ContentTaggedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
-
+            Recover<ContentTaggedByUserEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
+            //Content rated by user
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
         }
@@ -67,7 +70,7 @@ namespace Me20.Identity.Actors
 
         private void HandleTagContentCommand(TagContentCommand cmd)
         {
-            var @event = new ContentTaggedEvent(cmd.Uri, cmd.ContentTags);
+            var @event = new ContentTaggedByUserEvent(cmd.Uri, cmd.ContentTags);
             if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
