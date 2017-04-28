@@ -41,7 +41,10 @@ namespace Me20.Identity.Actors
             Recover<TagSubscribedEvent>(ev => ActorState.AddSubscribedTag(ev.TagName));
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
-            Recover<ContentAddedEvent>(ev => ActorState.AddContent(ev.ContentUri, ev.ContentTags));
+            Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
+
+            Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
+            Recover<ContentTaggedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
 
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
@@ -58,7 +61,14 @@ namespace Me20.Identity.Actors
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
             var @event = new ContentAddedEvent(cmd.Uri, cmd.ContentTags);
-            if (ActorState.AddContent(@event.ContentUri, @event.ContentTags))
+            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags))
+                Persist(@event, ev => HandleSnapshoting(ActorState));
+        }
+
+        private void HandleTagContentCommand(TagContentCommand cmd)
+        {
+            var @event = new ContentTaggedEvent(cmd.Uri, cmd.ContentTags);
+            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
@@ -106,7 +116,7 @@ namespace Me20.Identity.Actors
 
             internal UserActorState(string authenthicationType, string id) : base(authenthicationType, id)
             {
-                subscribedTags = new HashSet<string>();
+                subscribedTags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 Contents = new ContentContainer();
                 RefreshLastLoggedIn();
             }
@@ -115,7 +125,7 @@ namespace Me20.Identity.Actors
             internal bool AddSubscribedTag(string tagName) => subscribedTags.Add(tagName);
 
             /// <returns>True if state has changed</returns>
-            internal bool AddContent(Uri contentUri, IEnumerable<string> contentTags = null)
+            internal bool AddOrUpdateContent(Uri contentUri, IEnumerable<string> contentTags = null)
             {
                 var result = false;
                 if (!Contents.ContainsKey(contentUri))

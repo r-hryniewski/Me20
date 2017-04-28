@@ -47,7 +47,7 @@ namespace Me20.Core.Contents
                                     AverageRating = averageRatings.Any() ? averageRatings.Average() : 0,
                                     Tags = g.SelectMany(ce => ce.Tags)
                                      .GroupBy(t => t.TagName, StringComparer.OrdinalIgnoreCase)
-                                     .Select(gTags => new TagDTO (gTags.Key, gTags.Any(t => t.TagedByUser)))
+                                     .Select(gTags => new TagDTO (gTags.Key, gTags.Any(t => t.TaggedByUser)))
                                      .ToList()
                                 };
                             });

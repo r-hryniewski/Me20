@@ -49,6 +49,25 @@
                         font-size: 1.25rem;
                         font-weight: bold;
                     }
+
+                    .content-tags-list {
+                        list-style: none;
+
+                        .tag {
+                            display: inline-block;
+                            background-color: $light-primary;
+                            border-radius: 0.25rem;
+                            cursor: pointer;
+
+                            &.tagged {
+                                background-color: $light-highlight;
+                            }
+
+                            &:hover {
+                                background-color: $highlight-color;
+                            }
+                        }
+                    }
                 }
             }
         }

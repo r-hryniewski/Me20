@@ -32,6 +32,17 @@
       float: right;
       font-size: 1.25rem;
       font-weight: bold; }
+    .container .dashboard .content-container .content-list .content-item .content-tags-list {
+      list-style: none; }
+      .container .dashboard .content-container .content-list .content-item .content-tags-list .tag {
+        display: inline-block;
+        background-color: #def3f7;
+        border-radius: 0.25rem;
+        cursor: pointer; }
+        .container .dashboard .content-container .content-list .content-item .content-tags-list .tag.tagged {
+          background-color: #ff5558; }
+        .container .dashboard .content-container .content-list .content-item .content-tags-list .tag:hover {
+          background-color: #ff3b3f; }
 
 html {
   font-size: 16px; }

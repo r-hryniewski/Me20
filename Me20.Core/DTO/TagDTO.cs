@@ -5,7 +5,7 @@ namespace Me20.Core.DTO
     public class TagDTO : IEquatable<TagDTO>
     {
         public readonly string TagName;
-        public readonly bool TagedByUser;
+        public readonly bool TaggedByUser;
 
         public TagDTO()
         {
@@ -15,7 +15,7 @@ namespace Me20.Core.DTO
         public TagDTO(string tagName, bool taggedByuser) : base()
         {
             TagName = tagName;
-            TagedByUser = taggedByuser;
+            TaggedByUser = taggedByuser;
         }
 
 
@@ -26,11 +26,11 @@ namespace Me20.Core.DTO
             return base.Equals(obj);
         }
 
-        public bool Equals(TagDTO other) => this.TagName.Equals(other.TagName, StringComparison.OrdinalIgnoreCase) && this.TagedByUser == other.TagedByUser;
+        public bool Equals(TagDTO other) => this.TagName.Equals(other.TagName, StringComparison.OrdinalIgnoreCase) && this.TaggedByUser == other.TaggedByUser;
 
         public override int GetHashCode()
         {
-            return TagName.GetHashCode() * TagedByUser.GetHashCode();
+            return TagName.GetHashCode() * TaggedByUser.GetHashCode();
         }
     }
 }
