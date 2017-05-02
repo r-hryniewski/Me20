@@ -24,6 +24,15 @@ namespace Me20.Web.Modules.Api
                         AddContentDispatcher.Name)
                     .DispatchAll(string.Empty));
             };
+
+            Get["/suggested/"] = p =>
+            {
+                var enquirer = this.Bind<ContentDetailsEnquirer>();
+                return Response.AsJson(enquirer
+                    .QueryForAll(new GetUserContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri),
+                        new GetContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri))
+                    .Execute());
+            };
         }
     }
 }

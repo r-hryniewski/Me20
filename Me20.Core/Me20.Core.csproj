@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ActorModel.cs" />
+    <Compile Include="Contents\GetTaggedContentQuery.cs" />
+    <Compile Include="Contents\SuggestedContentEnquirer.cs" />
     <Compile Include="Contents\TagContentDispatcher.cs" />
     <Compile Include="Contents\ContentDetailsEnquirer.cs" />
     <Compile Include="Contents\GetUserContentDetailsQuery.cs" />

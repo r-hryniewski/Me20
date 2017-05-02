@@ -40,8 +40,6 @@ namespace Me20.Core.Contents
                     Rating = result.Rating,
                     Tags = result.Tags.Select(t => new TagDTO(t, false)).ToList()
                 }.AsEnumerable();
-
-
         }
     }
 }
