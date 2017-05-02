@@ -36,7 +36,10 @@
                     <div class="col-xs-11">
                         <ul class="content-tags-list">
                             <li class="tag" v-bind:class="{tagged : ct.TaggedByUser}" v-for="ct in item.Tags">
-                                <div>
+                                <div v-if="ct.TaggedByUser">
+                                    {{ct.TagName}}
+                                </div>
+                                <div v-else v-on:click="item.AddTag(ct.TagName)">
                                     {{ct.TagName}}
                                 </div>
                             </li>

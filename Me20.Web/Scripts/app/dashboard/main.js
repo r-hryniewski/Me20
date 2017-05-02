@@ -103,35 +103,36 @@ var dashboard = new Vue({
                 GetDetails: function () {
                     this.$http.get("/api/content/details/?uri=" + this.Url)
                         .then(
-                            response => {
-                                if (response.body.item[0]) {
-                                    console.log("Content details fetched");
-                                    console.log(response.body.item[0]);
-                                    var contentDetails = response.body.item[0];
-                                    this.Tags = contentDetails.tags.map(t => {
-                                        return {
-                                            TagName: t.tagName,
-                                            TaggedByUser: t.taggedByUser
-                                        };
-                                    });
-                                    //TODO: Title
-                                    this.Rating = contentDetails.rating;
-                                    this.AverageRating = contentDetails.averageRating;
-                                    this.DetailsLoaded = true;
-                                    this.SortTags();
-                                }
-                                else {
-                                    console.log("No details for content '" + this.Url + "'");
-                                }
-                            },
-                            response => {
-                                console.log("Getting details for content '" + this.Url + "' failed.");
-                                console.log(response);
+                        response => {
+                            if (response.body.item[0]) {
+                                console.log("Content details fetched");
+                                console.log(response.body.item[0]);
+                                var contentDetails = response.body.item[0];
+                                this.Tags = contentDetails.tags.map(t => {
+                                    return {
+                                        TagName: t.tagName,
+                                        TaggedByUser: t.taggedByUser
+                                    };
+                                });
+                                //TODO: Title
+                                this.Rating = contentDetails.rating;
+                                this.AverageRating = contentDetails.averageRating;
+                                this.DetailsLoaded = true;
+                                this.SortTags();
                             }
+                            else {
+                                console.log("No details for content '" + this.Url + "'");
+                            }
+                        },
+                        response => {
+                            console.log("Getting details for content '" + this.Url + "' failed.");
+                            console.log(response);
+                        }
                         );
                 },
-                AddTag: function () {
-                    var tagName = prompt("Tag name");
+                AddTag: function (tagName) {
+                    if (!tagName)
+                        var tagName = prompt("Tag name");
                     if (tagName) {
                         var newTag = {
                             TagName: tagName,
@@ -139,24 +140,31 @@ var dashboard = new Vue({
                         };
                         this.$http.post("/api/content/tag", { Url: this.Url, Tags: [newTag] })
                             .then(
-                                response => {
-                                    var tags = response.body.item.tags.map(t => {
-                                        return {
-                                            TagName: t.tagName,
-                                            TaggedByUser: t.taggedByUser
-                                        };
-                                    });
-                                    if (tags)
-                                    {
-                                        for (var i = 0; i < tags.length; i++) {
-                                            this.Tags.push(tags[i]);
-                                        }
+                            response => {
+                                var tags = response.body.item.tags.map(t => {
+                                    return {
+                                        TagName: t.tagName,
+                                        TaggedByUser: t.taggedByUser
+                                    };
+                                });
+                                if (tags) {
+                                    var tagNames = this.Tags.map(t => t.TagName.toLowerCase());
+                                    for (var i = 0; i < tags.length; i++) {
+                                        var tagToAdd = tags[i];
+                                        var index = tagNames.indexOf(tagToAdd.TagName.toLowerCase());
+
+                                        if (index >= 0)
+                                            this.Tags[index].TaggedByUser = true;
+                                        else
+                                            this.Tags.push(tagToAdd);
+
                                     }
-                                    this.SortTags();
-                                },
-                                response => {
-                                    console.log(response);
                                 }
+                                this.SortTags();
+                            },
+                            response => {
+                                console.log(response);
+                            }
                             );
                     }
                 },

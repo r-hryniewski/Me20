@@ -2,28 +2,28 @@
   margin: 2rem 0 0 0; }
   .container .dashboard .tags-container .tags-list .tag-item {
     display: inline-block;
-    border: 0.0625rem solid #b6e3ed;
+    border: 0.0625rem solid #22527b;
     border-radius: 0.25rem;
     margin: 0.25rem 0.25rem;
     padding: 0.125rem 0.375rem;
-    background-color: #caebf2;
+    background-color: #285f8f;
     font-size: 1.375rem;
     cursor: pointer; }
     .container .dashboard .tags-container .tags-list .tag-item:hover {
-      background-color: #ff5558;
-      border-color: #ff3b3f; }
+      background-color: #6a00b4;
+      border-color: #5b009a; }
     .container .dashboard .tags-container .tags-list .tag-item.active {
-      background-color: #ff3b3f;
-      border-color: #ff2226; }
+      background-color: #5b009a;
+      border-color: #4c0081; }
       .container .dashboard .tags-container .tags-list .tag-item.active:hover {
-        background-color: #def3f7;
-        border-color: #caebf2; }
+        background-color: #2d6da3;
+        border-color: #285f8f; }
 
 .container .dashboard .content-container {
   margin: 2rem 0 0 0; }
   .container .dashboard .content-container .content-list .content-item {
     display: block;
-    border: 0.0625rem solid #b6e3ed;
+    border: 0.0625rem solid #22527b;
     border-radius: 0.25rem;
     margin: 0.25rem 0.25rem;
     padding: 0.125rem 0.375rem;
@@ -36,35 +36,37 @@
       list-style: none; }
       .container .dashboard .content-container .content-list .content-item .content-tags-list .tag {
         display: inline-block;
-        background-color: #def3f7;
+        background-color: #2d6da3;
         border-radius: 0.25rem;
-        cursor: pointer; }
+        cursor: pointer;
+        padding: 0.1875rem 0.25rem 0.1875rem 0.25rem;
+        margin: 0.25rem 0.375rem 0.25rem 0.375rem; }
         .container .dashboard .content-container .content-list .content-item .content-tags-list .tag.tagged {
-          background-color: #ff5558; }
+          background-color: #6a00b4; }
         .container .dashboard .content-container .content-list .content-item .content-tags-list .tag:hover {
-          background-color: #ff3b3f; }
+          background-color: #5b009a; }
 
 html {
   font-size: 16px; }
   html body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: #545454;
-    background-color: #fcfcfc;
+    color: #fff;
+    background-color: #313131;
     min-height: 100vh;
     font-size: 1rem; }
     html body nav.navbar.navbar-default {
-      background-color: #def3f7;
+      background-color: #2d6da3;
       border: none;
       margin-bottom: 0; }
       html body nav.navbar.navbar-default .container-fluid {
         font-weight: 600; }
         html body nav.navbar.navbar-default .container-fluid .navbar-header .navbar-brand {
-          color: #ff3b3f;
+          color: #5b009a;
           font-size: 1.5rem;
           font-weight: 700;
           text-decoration: none; }
         html body nav.navbar.navbar-default .container-fluid ul.nav li.active {
-          background-color: #ff5558; }
+          background-color: #6a00b4; }
           html body nav.navbar.navbar-default .container-fluid ul.nav li.active a {
             background-color: inherit; }
     html body .container {
@@ -74,7 +76,7 @@ html {
             border-right-width: 0.0625rem;
             border-left-style: solid;
             border-right-style: solid;*/
-      background-color: #efefef;
+      background-color: #242424;
       min-height: 100vh;
       padding: 3rem 1.75rem 2rem 1.75rem; }
 
