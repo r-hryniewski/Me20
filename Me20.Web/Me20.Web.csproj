@@ -328,6 +328,7 @@
     <Content Include="Content\Bootstrap\stylesheets\bootstrap\mixins\_background-variant.scss" />
     <Content Include="Content\Bootstrap\stylesheets\bootstrap\mixins\_alerts.scss" />
     <Content Include="Scripts\bundles\dashboard\bundle.js.map" />
+    <Content Include="Views\Login\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
@@ -344,6 +345,7 @@
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Extensions\NancyExtensions.cs" />
     <Compile Include="Modules\Api\ExternalContentModule.cs" />
+    <Compile Include="Modules\LoginModule.cs" />
     <Compile Include="Startup\FilterConfig.cs" />
     <Compile Include="Modules\Api\ContentModule.cs" />
     <Compile Include="Modules\Api\TagsModule.cs" />
