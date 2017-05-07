@@ -2,10 +2,9 @@
 using Me20.Common.Comparers;
 using Me20.Common.Extensions;
 using Me20.Common.Interfaces;
+using Me20.Content.QueryMessages;
 using Me20.Content.QueryResultMessages;
 using Me20.Core.DTO;
-using Me20.Identity.QueryMessages;
-using Me20.Identity.QueryResultMessages;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -14,31 +13,37 @@ using System.Threading.Tasks;
 
 namespace Me20.Core.Contents
 {
+    //TODO: Rename
     public class GetTaggedContentQuery : IQuery<ContentEntity>
     {
         private readonly IEnumerable<string> tagNames;
+        public int Count { get; set; } = 10;
+
         public GetTaggedContentQuery(IEnumerable<string> tagNames)
         {
             this.tagNames = tagNames;
         }
+
+        //TODO: Refactor
         public IEnumerable<ContentEntity> Execute(IEnquire<ContentEntity> enquirer)
         {
-            var tasks = new List<Task>();
             var results = new ConcurrentBag<ContentEntity>();
-
-            var taggedContentsHashset = new HashSet<Uri>(new SchemalessMD5UriComparer());
             var taggedContentsQueue = new ConcurrentQueue<Uri>();
 
             var taggedContentsTasks = tagNames.Select(tag =>
-                ActorModel.TagsManagerActorRef.Ask("TODO: TaggedContentQuery").ContinueWith(t =>
-                /*TODO: t.Result as QueryResult*/taggedContentsQueue.Enqueue(new Uri("TODO")))
+                ActorModel.TagsManagerActorRef.Ask(new GetTaggedContentQueryMessage(tag)).ContinueWith(t =>
+                {
+                    if (t.Result is GetTaggedContentQueryResultMessage result && !result.Contents.IsNullOrEmpty())
+                        foreach (var content in result.Contents)
+                            taggedContentsQueue.Enqueue(content);
+                })
             ).ToArray();
 
             Task.WaitAny(taggedContentsTasks);
 
-            while (taggedContentsQueue.TryDequeue(out Uri ContentUri) && results.Count <= 10)
+            while (taggedContentsQueue.TryDequeue(out Uri contentUri) && results.Count <= Count)
             {
-                tasks.Add(ActorModel.ContentManagerActorRef.Ask(new GetContentDetailsQuery(string.Empty, ContentUri)).ContinueWith(t =>
+                ActorModel.ContentManagerActorRef.Ask(new GetContentDetailsQueryMessage(string.Empty, contentUri)).ContinueWith(t =>
                     {
                         if (t.Result is GetContentDetailsQueryResultMessage queryResult)
                             results.Add(new ContentEntity()
@@ -49,13 +54,12 @@ namespace Me20.Core.Contents
                                 Tags = queryResult.Tags.Select(tag => new TagDTO(tag, false)).ToList()
                             });
                     }
-                ));
+                );
             }
 
             return results.IsNullOrEmpty() ?
                 Enumerable.Empty<ContentEntity>() :
-                results;
-
+                results.Take(10).ToArray();
         }
     }
 }

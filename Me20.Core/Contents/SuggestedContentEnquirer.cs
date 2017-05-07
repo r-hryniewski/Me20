@@ -8,6 +8,7 @@ using Me20.Core.DTO;
 
 namespace Me20.Core.Contents
 {
+    //TODO: Rename this
     public class SuggestedContentEnquirer : ContentEnquirer, IHaveContentTags
     {
         private readonly new ICollection<ContentEntity> results = new List<ContentEntity>();

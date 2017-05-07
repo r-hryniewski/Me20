@@ -5,6 +5,8 @@ using Me20.Common.Commands;
 using Me20.Common.Comparers;
 using Me20.Common.Interfaces;
 using Me20.Content.Events.Tags;
+using Me20.Content.QueryMessages;
+using Me20.Content.QueryResultMessages;
 using System;
 using System.Collections.Generic;
 
@@ -28,6 +30,8 @@ namespace Me20.Content.Actors
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
             Recover<ContentTaggedEvent>(ev => ActorState.AddContent(ev.Uri));
+
+            Command<GetTaggedContentQueryMessage>(cmd => Sender.Tell(new GetTaggedContentQueryResultMessage(ActorState.Contents)));
         }
 
         private void HandleTagContentCommand(TagContentCommand cmd) => AddTaggedContent(cmd.Uri);

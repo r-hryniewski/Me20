@@ -80,7 +80,9 @@
     <Compile Include="Events\Contents\ContentTaggedWithEvent.cs" />
     <Compile Include="Events\Tags\SubscriberAddedEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QueryMessages\GetTaggedContentQueryMessage.cs" />
     <Compile Include="QueryMessages\GetContentDetailsQueryMessage.cs" />
+    <Compile Include="QueryResultMessages\GetTaggedContentQueryResultMessage.cs" />
     <Compile Include="QueryResultMessages\GetContentDetailsQueryResultMessage.cs" />
   </ItemGroup>
   <ItemGroup>

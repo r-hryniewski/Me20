@@ -52,6 +52,14 @@ namespace Me20.Web.Modules.Api
                         new GetContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri))
                     .Execute());
             };
+
+            Get["/suggested/"] = p =>
+            {
+                var enquirer = this.Bind<SuggestedContentEnquirer>();
+                return Response.AsJson(enquirer
+                    .QueryForAll(new GetTaggedContentQuery(enquirer.ContentTags))
+                    .Execute());
+            };
         }
     }
 }
