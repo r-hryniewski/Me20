@@ -14,11 +14,6 @@ namespace Me20.Content.Actors
             Receive<IHaveContentUri>(msg => CreateContentActorIfNotExists(msg.Uri).Forward(msg));
         }
 
-        //private void HandleCreateContentIfNotExistsMessage(CreateContentIfNotExistsMessage msg)
-        //{
-        //    CreateContentActorIfNotExists(msg.Uri);
-        //}
-
         private IActorRef CreateContentActorIfNotExists(Uri uri)
         {
             var actorPathSegment = uri.ToSchemalessUriAsMD5();
