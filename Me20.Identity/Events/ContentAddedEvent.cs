@@ -8,11 +8,13 @@ namespace Me20.Identity.Events
     {
         public Uri ContentUri { get; private set; }
         public string[] ContentTags { get; private set; }
+        public DateTime Added { get; private set; }
 
         public ContentAddedEvent(Uri uri, IEnumerable<string> contentTags = null)
         {
             ContentUri = uri;
             ContentTags = contentTags?.ToArray();
+            Added = DateTime.UtcNow;
         }
     }
 }

@@ -1,11 +1,12 @@
-﻿using Nancy.Security;
+﻿using Me20.Common;
+using Nancy.Security;
 
 namespace Me20.Web.ViewModels
 {
     public class DashboardViewModel
     {
         public string CurrentUserName { get; private set; }
-        public byte ContentPageSize => 20;
+        public byte ContentPageSize => Constants.ContentPageSize;
 
         public DashboardViewModel(IUserIdentity currentUser)
         {

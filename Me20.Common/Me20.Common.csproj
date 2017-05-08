@@ -77,6 +77,7 @@
     <Compile Include="Commands\AddContentCommand.cs" />
     <Compile Include="Comparers\InternalNameEqualityComparer.cs" />
     <Compile Include="Comparers\SchemalessMD5UriComparer.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ISetExtensions.cs" />
     <Compile Include="Extensions\IHaveContentUriExtensions.cs" />

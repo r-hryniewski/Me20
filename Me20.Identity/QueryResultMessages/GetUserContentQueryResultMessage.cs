@@ -9,9 +9,9 @@ namespace Me20.Identity.QueryResultMessages
     {
         public IReadOnlyDictionary<Uri, HashSet<string>> ContentWithTags { get; private set; }
 
-        internal GetUserContentQueryResultMessage(ContentContainer usersContentsContainer)
+        internal GetUserContentQueryResultMessage(IEnumerable<UsersContent> usersContents)
         {
-            ContentWithTags = usersContentsContainer.Values.ToDictionary(c => c.Uri, c => c.Tags);
+            ContentWithTags = usersContents.ToDictionary(c => c.Uri, c => c.Tags);
         }
     }
 }

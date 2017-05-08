@@ -44,7 +44,7 @@ namespace Me20.Identity.Actors
             Recover<TagSubscribedEvent>(ev => ActorState.AddSubscribedTag(ev.TagName));
             //Content added by user
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
-            Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
+            Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags, ev.Added));
             //Content tagged by user
             Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
             Recover<ContentTaggedByUserEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
@@ -57,14 +57,16 @@ namespace Me20.Identity.Actors
         {
             Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
 
-            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(ActorState.Contents)));
+            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(((IEnumerable<UsersContent>)ActorState.Contents)
+                .OrderByDescending(c => c.Added)
+                .Take(msg.Take))));
 
             Command<GetUserContentDetailsQueryMessage>(msg => Sender.Tell(new GetUserContentDetailsQueryResultMessage(ActorState.Contents[msg.Uri])));
         }
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
             var @event = new ContentAddedEvent(cmd.Uri, cmd.ContentTags);
-            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags))
+            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags, @event.Added))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
@@ -128,12 +130,12 @@ namespace Me20.Identity.Actors
             internal bool AddSubscribedTag(string tagName) => subscribedTags.Add(tagName);
 
             /// <returns>True if state has changed</returns>
-            internal bool AddOrUpdateContent(Uri contentUri, IEnumerable<string> contentTags = null)
+            internal bool AddOrUpdateContent(Uri contentUri, IEnumerable<string> contentTags = null, DateTime? added = null)
             {
                 var result = false;
                 if (!Contents.ContainsKey(contentUri))
                 {
-                    Contents.Add(new UsersContent(contentUri, contentTags));
+                    Contents.Add(new UsersContent(contentUri, contentTags, added ?? DateTime.UtcNow));
                     result = true;
                 }
                 else
