@@ -5,14 +5,14 @@
         <div class="form-group">
             <label for="new-tag">Subscribe for tag</label>
             @*TODO: Autocomplete and stuff?*@
-            <input id="new-tag" v-on:keyup.enter="subscribeTag" />
+            <input class="textinput" id="textinput new-tag" v-on:keyup.enter="subscribeTag" />
         </div>
     </div>
     <div class="col-xs-6">
         <div class="form-group">
             <label for="new-content">Add content</label>
             @*TODO: ??No idea yet??*@
-            <input id="new-content" v-on:keyup.enter="addContent" />
+            <input class="textinput" id="new-content" v-on:keyup.enter="addContent" />
         </div>
     </div>
     <div class="col-xs-12 tags-container">
@@ -69,6 +69,7 @@
                 </div>
             </li>
         </ul>
+        <p class="text-center load-more" v-if="HasMoreContent"><a v-on:click="loadContent()">Load more...</a></p>
     </div>
 </div>
 <script>

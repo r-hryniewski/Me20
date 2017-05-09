@@ -13,7 +13,7 @@ var dashboard = new Vue({
     },
     computed: {
         PagesLoaded: function () {
-            return this.Content.length / AppData.contentPageSize;
+            return Math.floor(this.Content.length / AppData.contentPageSize);
         }
     },
     methods: {
@@ -23,10 +23,12 @@ var dashboard = new Vue({
                 response => {
                     var tag = response.body.item;
                     this.Tags.push(this.newTag(tag.tagName, true));
+                    event.srcElement.value = "";
                 },
                 response => {
                     //TODO: Alert window
                     console.log(response);
+                    event.srcElement.value = "";
                 }
                 );
         },
@@ -37,11 +39,13 @@ var dashboard = new Vue({
                     var responseItem = response.body.item;
                     var content = this.newContent(responseItem.uri, responseItem.tags.map(t => this.newTag(t, true)), this.$http);
                     this.Content.push(content);
+                    event.srcElement.value = "";
                     content.GetDetails();
                 },
                 response => {
                     //TODO: Alert window
                     console.log(response);
+                    event.srcElement.value = "";
                 }
                 );
         },
@@ -72,18 +76,24 @@ var dashboard = new Vue({
                 );
         },
         loadContent: function () {
-            this.$http.get("/api/content/")
+            if (this.HasMoreContent) {
+                this.$http.get("/api/content?page=" + (this.PagesLoaded + 1))
                 .then(
-                response => {
-                    var contents = response.body.item.map(c => this.newContent(c.uri, c.tags.map(t => this.newTag(t, true)), this.$http));
-                    this.Content.push.apply(this.Content, contents);
-                    this.Content.forEach(c => c.GetDetails());
-                },
-                response => {
-                    //TODO: Alert window
-                    console.log(response);
-                }
+                    response => {
+                        var contents = response.body.item.map(c => this.newContent(c.uri, c.tags.map(t => this.newTag(t, true)), this.$http));
+                        this.Content.push.apply(this.Content, contents);
+
+                        if (contents.length < AppData.contentPageSize)
+                            this.HasMoreContent = false;
+
+                        this.Content.forEach(c => c.GetDetails());
+                    },
+                    response => {
+                        //TODO: Alert window
+                        console.log(response);
+                    }
                 );
+            }
         },
         newTag: function (tagName, taggedByUser) {
             return {
@@ -132,7 +142,7 @@ var dashboard = new Vue({
                 },
                 AddTag: function (tagName) {
                     if (!tagName)
-                        var tagName = prompt("Tag name");
+                        tagName = prompt("Tag name");
                     if (tagName) {
                         var newTag = {
                             TagName: tagName,

@@ -18,26 +18,38 @@
 
                 .navbar-header {
                     .navbar-brand {
-                        color: $highlight-color;
+                        color: $light-secondary;
                         font-size: 1.5rem;
                         font-weight: 700;
                         text-decoration: none;
                     }
                 }
 
-                ul.nav {
-                    li {
-                        &.active {
-                            background-color: $light-highlight;
-
-                            a {
-                                background-color: inherit;
+                ul {
+                    &.nav {
+                        li {
+                            &.active {
+                                background-color: $light-highlight;
                             }
                         }
-                    }
-                }
 
-                .navbar-text {
+                        .navbar-login {
+                            background-color: inherit;
+                            color: $text-color;
+
+                            a {
+                                color: $text-color;
+
+                                span {
+                                    color: $text-color;
+                                }
+                            }
+                        }
+
+                        .navbar-text {
+                            color: $text-color;
+                        }
+                    }
                 }
             }
         }
@@ -52,6 +64,21 @@
             background-color: $background;
             min-height: 100vh;
             padding: 3rem 1.75rem 2rem 1.75rem;
+        }
+
+        a {
+            cursor: pointer;
+        }
+
+        input {
+            &.textinput {
+                color: $primary;
+                border-radius: 0.5rem;
+                border-color: $light-primary;
+                padding: 0.675rem 0.875rem;
+                line-height: 1.5rem;
+                font-size: 1.25rem;
+            }
         }
     }
 }

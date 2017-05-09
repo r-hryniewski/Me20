@@ -41,7 +41,7 @@ namespace Me20.Web.Modules.Api
             };
 
             Get["/"] = p => Response.AsJson(new ContentEnquirer()
-                .QueryFor(new GetUserContentQuery(Context.CurrentUser.UserName))
+                .QueryFor(new GetUserContentQuery(Context.CurrentUser.UserName, (int)Context.Request.Query.page))
                 .Execute());
 
             Get["/details/"] = p =>

@@ -16,7 +16,7 @@
       background-color: #5b009a;
       border-color: #4c0081; }
       .container .dashboard .tags-container .tags-list .tag-item.active:hover {
-        background-color: #2d6da3;
+        background-color: #2e6ca3;
         border-color: #285f8f; }
 
 .container .dashboard .content-container {
@@ -36,7 +36,7 @@
       list-style: none; }
       .container .dashboard .content-container .content-list .content-item .content-tags-list .tag {
         display: inline-block;
-        background-color: #2d6da3;
+        background-color: #2e6ca3;
         border-radius: 0.25rem;
         cursor: pointer;
         padding: 0.1875rem 0.25rem 0.1875rem 0.25rem;
@@ -50,25 +50,32 @@ html {
   font-size: 16px; }
   html body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    color: #fff;
+    color: #eee;
     background-color: #313131;
     min-height: 100vh;
     font-size: 1rem; }
     html body nav.navbar.navbar-default {
-      background-color: #2d6da3;
+      background-color: #2e6ca3;
       border: none;
       margin-bottom: 0; }
       html body nav.navbar.navbar-default .container-fluid {
         font-weight: 600; }
         html body nav.navbar.navbar-default .container-fluid .navbar-header .navbar-brand {
-          color: #5b009a;
+          color: #b6b6b6;
           font-size: 1.5rem;
           font-weight: 700;
           text-decoration: none; }
         html body nav.navbar.navbar-default .container-fluid ul.nav li.active {
           background-color: #6a00b4; }
-          html body nav.navbar.navbar-default .container-fluid ul.nav li.active a {
-            background-color: inherit; }
+        html body nav.navbar.navbar-default .container-fluid ul.nav .navbar-login {
+          background-color: inherit;
+          color: #eee; }
+          html body nav.navbar.navbar-default .container-fluid ul.nav .navbar-login a {
+            color: #eee; }
+            html body nav.navbar.navbar-default .container-fluid ul.nav .navbar-login a span {
+              color: #eee; }
+        html body nav.navbar.navbar-default .container-fluid ul.nav .navbar-text {
+          color: #eee; }
     html body .container {
       /*border-left-color: $light-secondary;
             border-right-color: $light-secondary;
@@ -79,4 +86,13 @@ html {
       background-color: #242424;
       min-height: 100vh;
       padding: 3rem 1.75rem 2rem 1.75rem; }
+    html body a {
+      cursor: pointer; }
+    html body input.textinput {
+      color: #285f8f;
+      border-radius: 0.5rem;
+      border-color: #2e6ca3;
+      padding: 0.675rem 0.875rem;
+      line-height: 1.5rem;
+      font-size: 1.25rem; }
 

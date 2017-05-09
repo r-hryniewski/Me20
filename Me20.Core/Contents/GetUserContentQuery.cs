@@ -12,16 +12,18 @@ namespace Me20.Core.Contents
     public class GetUserContentQuery : IQuery<ContentEntity>
     {
         private readonly string userName;
-        public GetUserContentQuery(string userName)
+        private int currentPage = 0;
+        public GetUserContentQuery(string userName, int page)
         {
             this.userName = userName;
+            currentPage = page;
         }
         public IEnumerable<ContentEntity> Execute(IEnquire<ContentEntity> enquirer)
         {
             if (string.IsNullOrEmpty(userName))
                 throw new ArgumentException("userName parameter in GetUserContentQuery should not be null or empty");
 
-            var result = ActorModel.UsersManagerActorRef.Ask(new GetUserContentQueryMessage(userName), enquirer.AcceptableTimeout).Result as GetUserContentQueryResultMessage;
+            var result = ActorModel.UsersManagerActorRef.Ask(new GetUserContentQueryMessage(userName, currentPage), enquirer.AcceptableTimeout).Result as GetUserContentQueryResultMessage;
 
             return result == null ?
                 Enumerable.Empty<ContentEntity>() :

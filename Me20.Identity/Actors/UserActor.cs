@@ -59,6 +59,7 @@ namespace Me20.Identity.Actors
 
             Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(((IEnumerable<UsersContent>)ActorState.Contents)
                 .OrderByDescending(c => c.Added)
+                .Skip((msg.CurrentPage - 1) * msg.Take)
                 .Take(msg.Take))));
 
             Command<GetUserContentDetailsQueryMessage>(msg => Sender.Tell(new GetUserContentDetailsQueryResultMessage(ActorState.Contents[msg.Uri])));
