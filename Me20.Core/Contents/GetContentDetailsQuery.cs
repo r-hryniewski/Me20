@@ -7,39 +7,68 @@ using Me20.Core.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Me20.Common.DTO;
+using System.Threading;
+using System.Threading.Tasks;
+using Me20.Identity.QueryMessages;
+using Me20.Identity.QueryResultMessages;
 
 namespace Me20.Core.Contents
 {
     public class GetContentDetailsQuery : IQuery<ContentEntity>
     {
-        private readonly string userName;
-        private readonly Uri uri;
+        public Uri Uri {get;set;}
 
-        public GetContentDetailsQuery(string userName, Uri uri)
+        //TODO: Exctract to separate methods
+        public async Task<HttpResult<ContentEntity>> ExecuteAsync(string userName, CancellationToken ct)
         {
-            this.userName = userName;
-            this.uri = uri;
-        }
+            try
+            {
+                if (string.IsNullOrEmpty(userName))
+                    return HttpResult<ContentEntity>.CreateErrorResult(401);
 
-        public IEnumerable<ContentEntity> Execute(IEnquire<ContentEntity> enquirer)
-        {
-            if (uri == null)
-                throw new ArgumentException("uri parameter in GetContentDetailsQuery should not be null");
+                if (Uri == null)
+                    throw new ArgumentException("uri parameter in GetContentDetailsQuery should not be null");
 
-            if (string.IsNullOrEmpty(userName))
-                throw new ArgumentException("userName parameter in GetContentDetailsQuery should not be null or empty");
+                var contentDetailsQueryTask = ActorModel.ContentManagerActorRef.Ask(new GetContentDetailsQueryMessage(userName, Uri), ct);
+                var userDetailsQueryTask = ActorModel.UsersManagerActorRef.Ask(new GetUserContentDetailsQueryMessage(userName, Uri), ct);
 
-            var result = ActorModel.ContentManagerActorRef.Ask(new GetContentDetailsQueryMessage(userName, uri), enquirer.AcceptableTimeout).Result as GetContentDetailsQueryResultMessage;
+                var contentDetailsQueryResult = await contentDetailsQueryTask as GetContentDetailsQueryResultMessage;
+                var usersContentDetailsQueryResult = await userDetailsQueryTask as GetUserContentDetailsQueryResultMessage;
 
-            return result == null ?
-                Enumerable.Empty<ContentEntity>() :
-                new ContentEntity()
+                var result = new ContentEntity()
                 {
-                    Url = result.Uri.ToString(),
-                    AverageRating = result.AverageRating,
-                    Rating = result.Rating,
-                    Tags = result.Tags.Select(t => new TagDTO(t, false)).ToList()
-                }.AsEnumerable();
+                    Url = Uri.ToString()
+                };
+                if (contentDetailsQueryResult != null)
+                {
+                    result.AverageRating = contentDetailsQueryResult.AverageRating;
+                    result.Rating = contentDetailsQueryResult.Rating;
+                    result.Tags = contentDetailsQueryResult.Tags.Select(t => new TagDTO(t, false)).ToList();
+                }
+                if (usersContentDetailsQueryResult != null)
+                {
+                    result.Rating = usersContentDetailsQueryResult.Rating;
+
+                    var userTags = usersContentDetailsQueryResult.Tags.Select(t => new TagDTO(t, true));
+
+                    if (result.Tags.IsNullOrEmpty())
+                        result.Tags = userTags.ToList();
+                    else
+                        result.Tags = result.Tags.Concat(userTags).GroupBy(t => t.TagName, StringComparer.OrdinalIgnoreCase)
+                                     .Select(gTags => new TagDTO(gTags.Key, gTags.Any(t => t.TaggedByUser)))
+                                     .ToList();
+                }
+                if (result != null)
+                    return new HttpResult<ContentEntity>(result, 200);
+                else
+                    HttpResult<ContentEntity>.CreateErrorResult(404);
+            }
+            catch (Exception ex)
+            {
+                Serilog.Log.Error(ex, $"{nameof(GetContentDetailsQuery)} exception");
+            }
+            return HttpResult<ContentEntity>.CreateErrorResult(500);
         }
     }
 }

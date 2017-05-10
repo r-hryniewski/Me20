@@ -40,25 +40,11 @@ namespace Me20.Web.Modules.Api
                     .DispatchAll(Context.CurrentUser.UserName));
             };
 
-            Get["/"] = p => Response.AsJson(new ContentEnquirer()
-                .QueryFor(new GetUserContentQuery(Context.CurrentUser.UserName, (int)Context.Request.Query.page))
-                .Execute());
+            Get["/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetUserContentQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
 
-            Get["/details/"] = p =>
+            Get["/details/", true] = async (p, ct) =>
             {
-                var enquirer = this.Bind<ContentDetailsEnquirer>();
-                return Response.AsJson(enquirer
-                    .QueryForAll(new GetUserContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri),
-                        new GetContentDetailsQuery(Context.CurrentUser.UserName, enquirer.Uri))
-                    .Execute());
-            };
-
-            Get["/suggested/"] = p =>
-            {
-                var enquirer = this.Bind<SuggestedContentEnquirer>();
-                return Response.AsJson(enquirer
-                    .QueryForAll(new GetTaggedContentQuery(enquirer.ContentTags))
-                    .Execute());
+                return Response.AsJson(await this.Bind<GetContentDetailsQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
             };
         }
     }

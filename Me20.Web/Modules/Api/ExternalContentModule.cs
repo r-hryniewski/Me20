@@ -24,6 +24,11 @@ namespace Me20.Web.Modules.Api
                         AddContentDispatcher.Name)
                     .DispatchAll(string.Empty));
             };
+
+            Get["/tagged/", true] = async (p, ct) =>
+            {
+                return Response.AsJson(await this.Bind<GetTaggedContentQuery>().ExecuteAsync(ct));
+            };
         }
     }
 }

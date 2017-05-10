@@ -6,34 +6,39 @@ using Me20.Identity.QueryResultMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Me20.Common.DTO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Me20.Core.Contents
 {
-    public class GetUserContentQuery : IQuery<ContentEntity>
+    public class GetUserContentQuery : IQuery<IEnumerable<ContentEntity>>
     {
-        private readonly string userName;
-        private int currentPage = 0;
-        public GetUserContentQuery(string userName, int page)
-        {
-            this.userName = userName;
-            currentPage = page;
-        }
-        public IEnumerable<ContentEntity> Execute(IEnquire<ContentEntity> enquirer)
-        {
-            if (string.IsNullOrEmpty(userName))
-                throw new ArgumentException("userName parameter in GetUserContentQuery should not be null or empty");
+        public int Page { get; set; }
 
-            var result = ActorModel.UsersManagerActorRef.Ask(new GetUserContentQueryMessage(userName, currentPage), enquirer.AcceptableTimeout).Result as GetUserContentQueryResultMessage;
+        public async Task<HttpResult<IEnumerable<ContentEntity>>> ExecuteAsync(string userName, CancellationToken ct)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userName))
+                    return HttpResult<IEnumerable<ContentEntity>>.CreateErrorResult(401);
 
-            return result == null ?
-                Enumerable.Empty<ContentEntity>() :
-                result.ContentWithTags.Select(cwt =>
+                if (await ActorModel.UsersManagerActorRef.Ask(new GetUserContentQueryMessage(userName, Page), ct) is GetUserContentQueryResultMessage result)
+                {
+                    return new HttpResult<IEnumerable<ContentEntity>>(result.ContentWithTags.Select(cwt =>
                     new ContentEntity
                     {
                         Url = cwt.Key.ToString(),
                         Tags = cwt.Value.Select(v => new TagDTO(v, true)).ToList()
                     }
-                );
+                ));
+                }
+            }
+            catch (Exception ex)
+            {
+                Serilog.Log.Error(ex, $"{nameof(GetUserContentQuery)} exception");
+            }
+            return HttpResult<IEnumerable<ContentEntity>>.CreateErrorResult(500);
         }
     }
 }

@@ -115,10 +115,10 @@ var dashboard = new Vue({
                     this.$http.get("/api/content/details/?uri=" + this.Url)
                         .then(
                         response => {
-                            if (response.body.item[0]) {
+                            if (response.body.item) {
                                 console.log("Content details fetched");
-                                console.log(response.body.item[0]);
-                                var contentDetails = response.body.item[0];
+                                console.log(response.body.item);
+                                var contentDetails = response.body.item;
                                 this.Tags = contentDetails.tags.map(t => {
                                     return {
                                         TagName: t.tagName,
