@@ -27,41 +27,35 @@
     <div class="col-xs-12 content-container">
         <ul class="content-list">
             <li v-for="item in Content" class="content-item">
-                <div class="row">
+                <div class="row header-container">
                     <div class="col-xs-12">
                         <a v-bind:href="item.Url" class="content-title" target="_blank">{{item.Title}}</a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-11">
+                <div class="row content-tags-list-container">
+                    <div class="col-xs-12">
                         <ul class="content-tags-list">
                             <li class="tag" v-bind:class="{tagged : ct.TaggedByUser}" v-for="ct in item.Tags">
-                                <div v-if="ct.TaggedByUser">
+                                <a v-if="ct.TaggedByUser">
                                     {{ct.TagName}}
-                                </div>
-                                <div v-else v-on:click="item.AddTag(ct.TagName)">
+                                </a>
+                                <a v-bind:title="'Tag content with ' + ct.TagName" v-else v-on:click="item.AddTag(ct.TagName)">
                                     {{ct.TagName}}
-                                </div>
+                                </a>
+                            </li>
+                            <li class="add-tag">
+                                <a title="Add tag to content">
+                                    <span class="glyphicon glyphicon-plus-sign" v-on:click="item.AddTag()"></span>
+                                </a>
                             </li>
                         </ul>
                     </div>
-                    <div class="col-xs-1">
-                        <span v-on:click="item.AddTag()">TODO:ADDTAG</span>
-                    </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-8">
-                        TODO: Fancy stars for rating
-                        @*TODO: Stars or stuff*@
-                        @for (int i = 1; i <= 5; i++)
-                        {
-                            <span v-on:click="rateContent(item, @i)">@i </span>
-                        }
-                    </div>
-                </div>
-                <div class="row" v-if="item.DetailsLoaded">
                     <div class="col-xs-12">
-                        Rating: {{item.Rating}} | Avg Rating: {{item.AverageRating}}
+                        <a class="rating-box" v-bind:title="'Average rating: ' + item.AverageRating">
+                            <span class="rating glyphicon" v-for="n in 5" v-bind:class="n <= item.Rating ? 'glyphicon-star rated' : 'glyphicon-star-empty'" v-on:click="rateContent(item, n)"></span>
+                        </a>
                     </div>
                 </div>
             </li>

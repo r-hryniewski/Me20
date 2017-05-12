@@ -38,7 +38,7 @@ var dashboard = new Vue({
                 response => {
                     var responseItem = response.body.item;
                     var content = this.newContent(responseItem.uri, responseItem.tags.map(t => this.newTag(t, true)), this.$http);
-                    this.Content.push(content);
+                    this.Content.splice(0, 0, content);
                     event.srcElement.value = "";
                     content.GetDetails();
                 },
@@ -126,7 +126,7 @@ var dashboard = new Vue({
                                 });
                                 //TODO: Title
                                 this.Rating = contentDetails.rating;
-                                this.AverageRating = contentDetails.averageRating;
+                                this.AverageRating = contentDetails.averageRating.toFixed(2);
                                 this.DetailsLoaded = true;
                                 this.SortTags();
                             }
