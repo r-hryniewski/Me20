@@ -41,7 +41,7 @@ namespace Me20.Identity.Actors
             Recover<UserLoggedInEvent>(ev => ActorState.RestoreLastLoggedIn(ev.LoginTime));
             //Tag subscribtion
             Command<SubscribeToTagCommand>(cmd => HandleAddSubscribedTagCommand(cmd));
-            Recover<TagSubscribedEvent>(ev => ActorState.AddSubscribedTag(ev.TagName));
+            Recover<TagSubscribedEvent>(ev => HandleTagSubscribedEvent(ev));
             //Content added by user
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags, ev.Added));
@@ -51,6 +51,7 @@ namespace Me20.Identity.Actors
             //Content rated by user
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
+
         }
 
         private void RegisterQueries()
@@ -81,8 +82,13 @@ namespace Me20.Identity.Actors
         private void HandleAddSubscribedTagCommand(SubscribeToTagCommand cmd)
         {
             var @event = new TagSubscribedEvent(cmd.TagName);
-            if (ActorState.AddSubscribedTag(@event.TagName))
+            if (HandleTagSubscribedEvent(@event))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
+        }
+
+        private bool HandleTagSubscribedEvent(TagSubscribedEvent ev)
+        {
+            return ActorState.AddSubscribedTag(ev.TagName);
         }
 
         private void HandleRateContentCommand(RateContentCommand cmd)
