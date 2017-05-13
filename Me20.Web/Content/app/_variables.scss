@@ -7,7 +7,7 @@ $text-color: #eee;
 $highlight-color: #E86317;
 
 //Lighter variants
-$light-percent: 5%;
+$light-percent: 7.5%;
 
 $light-primary: lighten($primary, $light-percent);
 $light-secondary: lighten($secondary, $light-percent);
@@ -17,7 +17,7 @@ $light-text: lighten($text-color, $light-percent);
 $light-highlight: lighten($highlight-color, $light-percent); 
 
 //Darker variants
-$dark-percent: 5%;
+$dark-percent: 7.5%;
 
 $dark-primary: darken($primary, $dark-percent);
 $dark-secondary: darken($secondary, $dark-percent);

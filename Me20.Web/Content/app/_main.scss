@@ -68,11 +68,11 @@
 
         a {
             cursor: pointer;
-            color: $primary;
+            color: $light-primary;
 
             &:hover {
                 text-decoration: none;
-                color: $light-primary;
+                color: lighten($light-primary, $light-percent);
             }
         }
 
