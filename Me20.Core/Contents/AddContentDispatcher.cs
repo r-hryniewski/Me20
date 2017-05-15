@@ -16,7 +16,7 @@ namespace Me20.Core.Contents
 
         public override void Dispatch(ContentEntity item, string userName)
         {
-            var command = new AddContentCommand(item.Uri, userName, item.Tags.Select(t => t.TagName));
+            var command = new AddContentCommand(item.Uri, item.Title, userName, item.Tags.Select(t => t.TagName));
             ActorModel.ContentManagerActorRef.Tell(command);
 
             if (!command.ContentTags.IsNullOrEmpty())

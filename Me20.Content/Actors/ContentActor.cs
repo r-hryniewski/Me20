@@ -29,15 +29,32 @@ namespace Me20.Content.Actors
             Recover<ContentRatedByEvent>(ev => ActorState.Rate(ev.UserName, ev.Rating));
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
+            Recover<ContentTitleChangedEvent>(ev => ActorState.SetDefaultTitle(ev.Title));
+
             Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
             Recover<ContentTaggedWithEvent>(ev => ActorState.UpdateTags(ev.Tags));
 
-            Command<GetContentDetailsQueryMessage>(msg => Sender.Tell(new GetContentDetailsQueryResultMessage(ActorState.Uri, ActorState.AverageRating, ActorState.Tags, ActorState.Ratings.ContainsKey(msg.UserName) ? ActorState.Ratings[msg.UserName] : (byte)0)));
+            Command<GetContentDetailsQueryMessage>(msg => Sender.Tell(new GetContentDetailsQueryResultMessage(ActorState.Uri, ActorState.DefaultTitle, ActorState.AverageRating, ActorState.Tags, ActorState.Ratings.ContainsKey(msg.UserName) ? ActorState.Ratings[msg.UserName] : (byte)0)));
+        }
+
+        private void HandleAddContentCommand(AddContentCommand cmd)
+        {
+            TagContentWith(cmd.ContentTags);
+
+            if((string.IsNullOrWhiteSpace(ActorState.DefaultTitle) || ActorState.DefaultTitle.Equals(ActorState.Uri.ToString(), StringComparison.OrdinalIgnoreCase)) && 
+                !string.IsNullOrWhiteSpace(cmd.Title) && !cmd.Title.Equals(cmd.Uri.ToString(), StringComparison.OrdinalIgnoreCase))
+            {
+                var @event = new ContentTitleChangedEvent(cmd.Title);
+                Persist(@event, ev => 
+                {
+                    ActorState.SetDefaultTitle(ev.Title);
+                    HandleSnapshoting(ActorState);
+                });
+
+            }
         }
 
         private void HandleTagContentCommand(TagContentCommand cmd) => TagContentWith(cmd.ContentTags);
-
-        private void HandleAddContentCommand(AddContentCommand cmd) => TagContentWith(cmd.ContentTags);
 
         private void TagContentWith(IEnumerable<string> tagNames)
         {
@@ -64,6 +81,7 @@ namespace Me20.Content.Actors
         private sealed class ContentActorState
         {
             internal Uri Uri { get; private set; }
+            internal string DefaultTitle { get; private set; }
 
             private readonly Dictionary<string, byte> ratings;
             internal IReadOnlyDictionary<string, byte> Ratings => ratings;
@@ -73,6 +91,7 @@ namespace Me20.Content.Actors
             internal ContentActorState(Uri uri)
             {
                 Uri = uri;
+                DefaultTitle = Uri.ToString();
                 ratings = new Dictionary<string, byte>(StringComparer.OrdinalIgnoreCase);
                 Tags = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                 //TODO: Level
@@ -86,6 +105,11 @@ namespace Me20.Content.Actors
                     ratings[userName] = rating;
                 else
                     ratings.Add(userName, rating);
+            }
+
+            internal void SetDefaultTitle(string title)
+            {
+                DefaultTitle = title;
             }
 
             /// <summary>

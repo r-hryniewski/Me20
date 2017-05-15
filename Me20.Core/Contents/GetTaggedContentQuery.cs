@@ -51,7 +51,8 @@ namespace Me20.Core.Contents
                                 Url = queryResult.Uri.ToString(),
                                 AverageRating = queryResult.AverageRating,
                                 Rating = queryResult.Rating,
-                                Tags = queryResult.Tags.Select(tag => new TagDTO(tag, false)).ToList()
+                                Tags = queryResult.Tags.Select(tag => new TagDTO(tag, false)).ToList(),
+                                Title = queryResult.Title
                             });
                     }
                 }

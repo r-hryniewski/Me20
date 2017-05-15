@@ -38,13 +38,15 @@ namespace Me20.Core.Contents
 
                 var result = new ContentEntity()
                 {
-                    Url = Uri.ToString()
+                    Url = Uri.ToString(),
+                    Title = Uri.ToString()
                 };
                 if (contentDetailsQueryResult != null)
                 {
                     result.AverageRating = contentDetailsQueryResult.AverageRating;
                     result.Rating = contentDetailsQueryResult.Rating;
                     result.Tags = contentDetailsQueryResult.Tags.Select(t => new TagDTO(t, false)).ToList();
+                    result.Title = contentDetailsQueryResult.Title;
                 }
                 if (usersContentDetailsQueryResult != null)
                 {
@@ -58,6 +60,8 @@ namespace Me20.Core.Contents
                         result.Tags = result.Tags.Concat(userTags).GroupBy(t => t.TagName, StringComparer.OrdinalIgnoreCase)
                                      .Select(gTags => new TagDTO(gTags.Key, gTags.Any(t => t.TaggedByUser)))
                                      .ToList();
+                    if (!usersContentDetailsQueryResult.Title.Equals(Uri.ToString(), StringComparison.InvariantCultureIgnoreCase))
+                        result.Title = usersContentDetailsQueryResult.Title;
                 }
                 if (result != null)
                     return new HttpResult<ContentEntity>(result, 200);

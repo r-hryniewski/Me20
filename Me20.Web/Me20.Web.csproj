@@ -60,11 +60,17 @@
     <Reference Include="Akka.Persistence.SqlServer, Version=1.1.1.7, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Akka.Persistence.SqlServer.1.1.1.7-beta\lib\net45\Akka.Persistence.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Akka.Serialization.Hyperion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Akka.Serialization.Hyperion.1.2.0.36-beta\lib\net45\Akka.Serialization.Hyperion.dll</HintPath>
+    </Reference>
     <Reference Include="Google.ProtocolBuffers, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.dll</HintPath>
     </Reference>
     <Reference Include="Google.ProtocolBuffers.Serialization, Version=2.4.1.555, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
       <HintPath>..\packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="Hyperion, Version=0.9.2.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Hyperion.0.9.2\lib\net45\Hyperion.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
@@ -344,6 +350,7 @@
   <ItemGroup>
     <Compile Include="ErrorHandler\AiHandleErrorAttribute.cs" />
     <Compile Include="Extensions\NancyExtensions.cs" />
+    <Compile Include="Modules\Api\ExternalTagsModule.cs" />
     <Compile Include="Modules\Api\ExternalContentModule.cs" />
     <Compile Include="Modules\LoginModule.cs" />
     <Compile Include="Startup\FilterConfig.cs" />

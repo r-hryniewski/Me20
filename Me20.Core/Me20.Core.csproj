@@ -92,6 +92,7 @@
     <Compile Include="Identity\UserLoggedInDispatcher.cs" />
     <Compile Include="Interfaces\IHaveActorAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tags\GetTagsListQuery.cs" />
     <Compile Include="Tags\GetAllTagNamesForUserQuery.cs" />
     <Compile Include="Tags\TagEntity.cs" />
     <Compile Include="Tags\CreateTagIfNotExistsDispatcher.cs" />

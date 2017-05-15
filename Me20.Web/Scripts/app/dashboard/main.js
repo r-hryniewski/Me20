@@ -124,7 +124,7 @@ var dashboard = new Vue({
                                         TaggedByUser: t.taggedByUser
                                     };
                                 });
-                                //TODO: Title
+                                this.Title = contentDetails.title;
                                 this.Rating = contentDetails.rating;
                                 this.AverageRating = contentDetails.averageRating.toFixed(2);
                                 this.DetailsLoaded = true;

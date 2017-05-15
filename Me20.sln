@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Web", "Me20.Web\Me20.Web.csproj", "{82D8D9D1-F45E-488D-807C-2823F56760C7}"
 EndProject
@@ -18,6 +18,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{2264CAFD-19B0-4CF9-A1F4-EBEDB13E9289}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Content", "Me20.Content\Me20.Content.csproj", "{5DECEAEA-D621-4DB8-8741-4A7A70633C2D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Bot", "Me20.Bot\Me20.Bot.csproj", "{33C9365E-263F-44AA-A343-23C4F223EA12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{5DECEAEA-D621-4DB8-8741-4A7A70633C2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DECEAEA-D621-4DB8-8741-4A7A70633C2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DECEAEA-D621-4DB8-8741-4A7A70633C2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33C9365E-263F-44AA-A343-23C4F223EA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33C9365E-263F-44AA-A343-23C4F223EA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33C9365E-263F-44AA-A343-23C4F223EA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33C9365E-263F-44AA-A343-23C4F223EA12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

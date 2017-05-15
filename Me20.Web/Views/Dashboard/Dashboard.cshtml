@@ -29,7 +29,7 @@
             <li v-for="item in Content" class="content-item">
                 <div class="row header-container">
                     <div class="col-xs-12">
-                        <a v-bind:href="item.Url" class="content-title" target="_blank">{{item.Title}}</a>
+                        <a v-bind:href="item.Url" class="content-title" target="_blank" v-bind:title="item.Title">{{item.Title}}</a>
                     </div>
                 </div>
                 <div class="row content-tags-list-container">

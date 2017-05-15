@@ -44,10 +44,10 @@ namespace Me20.Identity.Actors
             Recover<TagSubscribedEvent>(ev => HandleTagSubscribedEvent(ev));
             //Content added by user
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
-            Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags, ev.Added));
+            Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.Title, ev.ContentTags, ev.Added));
             //Content tagged by user
             Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
-            Recover<ContentTaggedByUserEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.ContentTags));
+            Recover<ContentTaggedByUserEvent>(ev => ActorState.AddOrUpdateContentTags(ev.ContentUri, ev.ContentTags));
             //Content rated by user
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
@@ -67,15 +67,15 @@ namespace Me20.Identity.Actors
         }
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
-            var @event = new ContentAddedEvent(cmd.Uri, cmd.ContentTags);
-            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags, @event.Added))
+            var @event = new ContentAddedEvent(cmd.Uri, cmd.Title, cmd.ContentTags);
+            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.Title, @event.ContentTags, @event.Added))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
         private void HandleTagContentCommand(TagContentCommand cmd)
         {
             var @event = new ContentTaggedByUserEvent(cmd.Uri, cmd.ContentTags);
-            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.ContentTags))
+            if (ActorState.AddOrUpdateContentTags(@event.ContentUri, @event.ContentTags))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
@@ -136,13 +136,30 @@ namespace Me20.Identity.Actors
             /// <returns>True if state has changed</returns>
             internal bool AddSubscribedTag(string tagName) => subscribedTags.Add(tagName);
 
+            //TODO: DRY
             /// <returns>True if state has changed</returns>
-            internal bool AddOrUpdateContent(Uri contentUri, IEnumerable<string> contentTags = null, DateTime? added = null)
+            internal bool AddOrUpdateContent(Uri contentUri, string title, IEnumerable<string> contentTags = null, DateTime? added = null)
             {
                 var result = false;
                 if (!Contents.ContainsKey(contentUri))
                 {
-                    Contents.Add(new UsersContent(contentUri, contentTags, added ?? DateTime.UtcNow));
+                    Contents.Add(new UsersContent(contentUri, title, contentTags, added ?? DateTime.UtcNow));
+                    result = true;
+                }
+                else
+                    result = Contents[contentUri].UpdateTags(contentTags);
+                //TODO: Update title
+
+                return result;
+            }
+
+            //TODO: DRY
+            internal bool AddOrUpdateContentTags(Uri contentUri, IEnumerable<string> contentTags = null, DateTime? added = null)
+            {
+                var result = false;
+                if (!Contents.ContainsKey(contentUri))
+                {
+                    Contents.Add(new UsersContent(contentUri, string.Empty, contentTags, added ?? DateTime.UtcNow));
                     result = true;
                 }
                 else
@@ -150,7 +167,6 @@ namespace Me20.Identity.Actors
 
                 return result;
             }
-
             internal void RefreshLastLoggedIn() => LastLoggedIn = DateTime.UtcNow;
 
             internal void RestoreLastLoggedIn(DateTime dateTime)

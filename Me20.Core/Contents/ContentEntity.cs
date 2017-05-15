@@ -12,7 +12,7 @@ namespace Me20.Core.Contents
     {
         public override string Uid => Uri.ToSchemalessUriAsMD5();
         public string Url { get; set; }
-
+        public string Title { get; set; }
         private Uri uri;
         public Uri Uri
         {
