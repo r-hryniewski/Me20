@@ -17,8 +17,7 @@ namespace Me20.Web.Modules.Api
 
             Post["/"] = p =>
             {
-                var content = this.Bind<ContentEntity>();
-                return Response.AsJson(content
+                return Response.AsJson(this.Bind<ContentEntity>()
                     .AllowAnonymous()
                     .WithSpecific(dispatchers,
                         AddContentDispatcher.Name)

@@ -19,8 +19,12 @@ namespace Me20.Core.Contents
     public class GetTaggedContentQuery : IAnonymousQuery<IEnumerable<ContentEntity>>
     {
         public string[] Tags { get; set; }
-        public int Count { get; set; } = 10;
+        public int Count { get; set; }
 
+        public GetTaggedContentQuery()
+        {
+            Count = 10;
+        }
         public async Task<HttpResult<IEnumerable<ContentEntity>>> ExecuteAsync(CancellationToken ct)
         {
             try
@@ -29,36 +33,35 @@ namespace Me20.Core.Contents
                     return HttpResult<IEnumerable<ContentEntity>>.CreateErrorResult(400);
 
                 var results = new ConcurrentBag<ContentEntity>();
-                var taggedContentsQueue = new ConcurrentQueue<Uri>();
+                var taggedContentsStack = new ConcurrentStack<Uri>();
 
                 var taggedContentsTasks = Tags.Select(tag =>
                     ActorModel.TagsManagerActorRef.Ask(new GetTaggedContentQueryMessage(tag), ct).ContinueWith(t =>
                     {
                         if (t.Result is GetTaggedContentQueryResultMessage result && !result.Contents.IsNullOrEmpty())
-                            foreach (var content in result.Contents)
-                                taggedContentsQueue.Enqueue(content);
+                            taggedContentsStack.PushRange(result.Contents.ToArray());
                     })
                 ).ToArray();
 
                 Task.WaitAny(taggedContentsTasks);
 
-                while (taggedContentsQueue.TryDequeue(out Uri contentUri) && results.Count <= Count)
+                while (taggedContentsStack.TryPop(out Uri contentUri) && results.Count < Count)
                 {
                     if (await ActorModel.ContentManagerActorRef.Ask(new GetContentDetailsQueryMessage(string.Empty, contentUri), ct) is GetContentDetailsQueryResultMessage queryResult)
-                    { 
-                            results.Add(new ContentEntity()
-                            {
-                                Url = queryResult.Uri.ToString(),
-                                AverageRating = queryResult.AverageRating,
-                                Rating = queryResult.Rating,
-                                Tags = queryResult.Tags.Select(tag => new TagDTO(tag, false)).ToList(),
-                                Title = queryResult.Title
-                            });
+                    {
+                        results.Add(new ContentEntity()
+                        {
+                            Url = queryResult.Uri.ToString(),
+                            AverageRating = queryResult.AverageRating,
+                            Rating = queryResult.Rating,
+                            Tags = queryResult.Tags.Select(tag => new TagDTO(tag, false)).ToList(),
+                            Title = queryResult.Title
+                        });
                     }
                 }
 
                 return new HttpResult<IEnumerable<ContentEntity>>(results.Any() ?
-                    results.Take(10).ToArray() :
+                    results.Take(Count).ToArray() :
                     Enumerable.Empty<ContentEntity>());
             }
             catch (Exception ex)

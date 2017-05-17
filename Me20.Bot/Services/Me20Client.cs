@@ -24,7 +24,7 @@ namespace Me20.Bot.Services
         {
             using (var client = new HttpClient() { BaseAddress = me20BaseUrl })
             {
-                using (var response = await client.GetAsync($"api/external/content/tagged?tags={tag}"))
+                using (var response = await client.GetAsync($"api/external/content/tagged?count={count}&tags={tag}"))
                 {
                     try
                     {
