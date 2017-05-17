@@ -19,6 +19,22 @@ namespace Me20.Content.Actors
             {
                 CreateTagActorIfNotExists(msg.TagName).Forward(msg);
             });
+            Receive<TagContentCommand>(msg => 
+            {
+                foreach (var tag in msg.ContentTags)
+                {
+                    CreateTagActorIfNotExists(tag).Forward(msg);
+                    RegisterTag(tag);
+                }
+            });
+            Receive<AddContentCommand>(msg => 
+            {
+                foreach (var tag in msg.ContentTags)
+                {
+                    CreateTagActorIfNotExists(tag).Forward(msg);
+                    RegisterTag(tag);
+                }
+            });
 
             Receive<GetTagsListQueryMessage>(msg => tagsListActor.Forward(msg));
 
@@ -33,8 +49,6 @@ namespace Me20.Content.Actors
 
         private IActorRef CreateTagActorIfNotExists(string tagName)
         {
-            RegisterTag(tagName);
-
             var actorPath = ChildActorPathValidator(tagName);
             if (!Context.Child(actorPath).IsNobody())
                 return Context.Child(actorPath);
