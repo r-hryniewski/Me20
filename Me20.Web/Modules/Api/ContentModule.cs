@@ -15,37 +15,29 @@ namespace Me20.Web.Modules.Api
         {
             dispatchers = _dispatchers;
 
-            //TODO: Change it to post after doing some frontend
-            Post["/"] = p =>
-            {
-                return Response.AsJson(this.Bind<ContentEntity>()
+            Get["/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetUserContentQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
+
+            Get["/details/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetContentDetailsQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
+
+            Post["/"] = p => Response.AsJson(this.Bind<ContentEntity>()
                     .WithSpecific(dispatchers,
                         AddContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
-            };
 
-            Post["/rate"] = p =>
-            {
-                return Response.AsJson(this.Bind<ContentEntity>()
+            Post["/rate"] = p => Response.AsJson(this.Bind<ContentEntity>()
                     .WithSpecific(dispatchers,
                         RateContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
-            };
 
-            Post["/tag"] = p =>
-            {
-                return Response.AsJson(this.Bind<ContentEntity>()
+            Post["/tag"] = p => Response.AsJson(this.Bind<ContentEntity>()
                     .WithSpecific(dispatchers,
                         TagContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
-            };
 
-            Get["/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetUserContentQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
-
-            Get["/details/", true] = async (p, ct) =>
-            {
-                return Response.AsJson(await this.Bind<GetContentDetailsQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
-            };
+            Delete["/"] = p => Response.AsJson(this.Bind<ContentEntity>()
+                    .WithSpecific(dispatchers,
+                        RemoveUserContentDispatcher.Name)
+                    .DispatchAll(Context.CurrentUser.UserName));
         }
     }
 }

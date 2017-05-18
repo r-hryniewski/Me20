@@ -20,6 +20,7 @@ namespace Me20.Common.Abstracts
             eventCounter++;
             if (eventCounter >= SnapshotInterval)
             {
+                //Save snapshot and reset counter
                 SaveSnapshot(state);
                 eventCounter = 0;
             }

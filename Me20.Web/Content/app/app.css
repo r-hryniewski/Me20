@@ -27,7 +27,8 @@
     border-radius: 0.25rem;
     margin: 0.75rem 0.25rem;
     padding: 0.375rem 0.625rem;
-    font-size: 1.125rem; }
+    font-size: 1.125rem;
+    position: relative; }
     .container .dashboard .content-container .content-list .content-item .content-title {
       float: right;
       font-size: 1.25rem;
@@ -75,6 +76,24 @@
         color: #E86317; }
       .container .dashboard .content-container .content-list .content-item .rating-box:hover .rating:hover ~ .rating {
         color: #00a6b4; }
+    .container .dashboard .content-container .content-list .content-item .content-actions {
+      position: absolute;
+      width: 100%;
+      text-align: right;
+      top: -1.625rem;
+      right: 0;
+      display: none; }
+      .container .dashboard .content-container .content-list .content-item .content-actions a {
+        color: #00a6b4;
+        margin-left: 0.25rem;
+        margin-right: 0.25rem; }
+        .container .dashboard .content-container .content-list .content-item .content-actions a:hover {
+          color: #eb7a3a; }
+    .container .dashboard .content-container .content-list .content-item:hover {
+      margin-top: 2.125rem; }
+      .container .dashboard .content-container .content-list .content-item:hover .content-actions {
+        display: inline-block;
+        padding-bottom: 2rem; }
 
 html {
   font-size: 16px; }

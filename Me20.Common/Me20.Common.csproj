@@ -77,6 +77,7 @@
     <Compile Include="Abstracts\HaveDispatchersBase.cs" />
     <Compile Include="Abstracts\ReceivePersistentActorBase.cs" />
     <Compile Include="Abstracts\ReceiveActorBase.cs" />
+    <Compile Include="Commands\RemoveUserContentCommand.cs" />
     <Compile Include="Commands\TagContentCommand.cs" />
     <Compile Include="Commands\RateContentCommand.cs" />
     <Compile Include="Commands\AddContentCommand.cs" />

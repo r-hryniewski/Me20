@@ -37,7 +37,9 @@ namespace Me20.Identity.Models
 
         public bool Contains(UsersContent item) => items.ContainsKey(item.Uri.ToSchemalessUriAsMD5());
 
-        public bool Remove(UsersContent item) => items.Remove(item.Uri.ToSchemalessUriAsMD5());
+        public bool Remove(UsersContent item) => Remove(item.Uri);
+
+        public bool Remove(Uri uri) => items.Remove(uri.ToSchemalessUriAsMD5());
 
         IEnumerator<UsersContent> IEnumerable<UsersContent>.GetEnumerator() => items.Values.GetEnumerator();
 

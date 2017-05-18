@@ -27,6 +27,9 @@
     <div class="col-xs-12 content-container">
         <ul class="content-list">
             <li v-for="item in Content" class="content-item">
+                <div class="content-actions">
+                    <a class="glyphicon glyphicon-remove-circle" v-bind:title="'Delete: ' + item.Title" v-on:click="removeContent(item)"></a>
+                </div>
                 <div class="row header-container">
                     <div class="col-xs-12">
                         <a v-bind:href="item.Url" class="content-title" target="_blank" v-bind:title="item.Title">{{item.Title}}</a>

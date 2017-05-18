@@ -79,7 +79,7 @@ var dashboard = new Vue({
         loadContent: function () {
             if (this.HasMoreContent) {
                 this.$http.get("/api/content?page=" + (this.PagesLoaded + 1))
-                .then(
+                    .then(
                     response => {
                         var contents = response.body.item.map(c => this.newContent(c.uri, c.tags.map(t => this.newTag(t, true)), this.$http));
                         this.Content.push.apply(this.Content, contents);
@@ -93,8 +93,19 @@ var dashboard = new Vue({
                         //TODO: Alert window
                         console.log(response);
                     }
-                );
+                    );
             }
+        },
+        removeContent: function (content) {
+            this.$http.delete("/api/content", { body: content }).then(
+                response => {
+                    var index = this.Content.indexOf(content);
+                    this.Content.splice(index, 1);
+                },
+                response => {
+                    console.log(response);
+                }
+            );
         },
         newTag: function (tagName, taggedByUser) {
             return {

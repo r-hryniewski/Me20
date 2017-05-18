@@ -18,6 +18,8 @@ namespace Me20.Content.Actors
         {
             TagsList = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
+            Recover<SnapshotOffer>(offer => TagsList = (HashSet<string>)offer.Snapshot);
+
             Command<string>(tagName => 
             {
                 if (TagsList.Add(tagName))
@@ -27,7 +29,6 @@ namespace Me20.Content.Actors
 
             Command<GetTagsListQueryMessage>(msg => Sender.Tell(new GetTagsListQueryResultMessage(TagsList)));
 
-            Recover<SnapshotOffer>(offer => TagsList = (HashSet<string>)offer.Snapshot);
         }
 
         public static Props Props => Props.Create(() => new TagsListActor());

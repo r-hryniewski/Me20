@@ -43,6 +43,7 @@
                     margin: 0.75rem 0.25rem;
                     padding: 0.375rem 0.625rem;
                     font-size: 1.125rem;
+                    position: relative;
 
                     .content-title {
                         float: right;
@@ -120,6 +121,34 @@
                             .rating:hover ~ .rating {
                                 color: $light-primary;
                             }
+                        }
+                    }
+
+                    .content-actions {
+                        position: absolute;
+                        width: 100%;
+                        text-align: right;
+                        top: -1.625rem;
+                        right: 0;
+                        display: none;
+
+                        a {
+                            color: $light-primary;
+                            margin-left: 0.25rem;
+                            margin-right: 0.25rem;
+
+                            &:hover {
+                                color: $light-highlight;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        margin-top: 2.125rem;
+
+                        .content-actions {
+                            display: inline-block;
+                            padding-bottom: 2rem;
                         }
                     }
                 }

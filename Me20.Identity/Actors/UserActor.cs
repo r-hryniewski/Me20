@@ -52,6 +52,9 @@ namespace Me20.Identity.Actors
             Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
             Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
 
+            Command<RemoveUserContentCommand>(cmd => HandleRemoveUserContentCommand(cmd));
+            Recover<UserContentRemovedEvent>(ev => ActorState.HandleContentRemovedEvent(ev));
+
         }
 
         private void RegisterQueries()
@@ -69,6 +72,13 @@ namespace Me20.Identity.Actors
         {
             var @event = new ContentAddedEvent(cmd.Uri, cmd.Title, cmd.ContentTags);
             if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.Title, @event.ContentTags, @event.Added))
+                Persist(@event, ev => HandleSnapshoting(ActorState));
+        }
+
+        private void HandleRemoveUserContentCommand(RemoveUserContentCommand cmd)
+        {
+            var @event = new UserContentRemovedEvent(cmd.Uri);
+            if (ActorState.HandleContentRemovedEvent(@event))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
@@ -180,6 +190,8 @@ namespace Me20.Identity.Actors
                 Contents[uri].Rate(rating);
             }
 
+            internal bool HandleContentRemovedEvent(UserContentRemovedEvent ev) => Contents.Remove(ev.Uri);
+
             //TODO: Refactor this
             //Not used at the moment
             //internal bool HasChanged(UserLoggedInMessage msg)
@@ -214,4 +226,6 @@ namespace Me20.Identity.Actors
             //}
         }
     }
+
+    
 }
