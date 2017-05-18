@@ -96,15 +96,18 @@ var dashboard = new Vue({
             }
         },
         removeContent: function (content) {
-            this.$http.delete("/api/content", { body: content }).then(
-                response => {
-                    var index = this.Content.indexOf(content);
-                    this.Content.splice(index, 1);
-                },
-                response => {
-                    console.log(response);
-                }
-            );
+            if (confirm("Do you want to remove '" + content.Title +"' from your contents list?"))
+            {
+                this.$http.delete("/api/content", { body: content }).then(
+                    response => {
+                        var index = this.Content.indexOf(content);
+                        this.Content.splice(index, 1);
+                    },
+                    response => {
+                        console.log(response);
+                    }
+                );
+            }
         },
         newTag: function (tagName, taggedByUser) {
             return {
