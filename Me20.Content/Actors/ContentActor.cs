@@ -29,6 +29,7 @@ namespace Me20.Content.Actors
             Recover<ContentRatedByEvent>(ev => ActorState.Rate(ev.UserName, ev.Rating));
 
             Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
+            Command<RenameUserContentCommand>(cmd => HandleRenameUserContentCommand(cmd));
             Recover<ContentTitleChangedEvent>(ev => ActorState.SetDefaultTitle(ev.Title));
 
             Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
@@ -40,12 +41,16 @@ namespace Me20.Content.Actors
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
             TagContentWith(cmd.ContentTags);
+            SetDefaultTitle(cmd.Title);
+        }
 
-            if((string.IsNullOrWhiteSpace(ActorState.DefaultTitle) || ActorState.DefaultTitle.Equals(ActorState.Uri.ToString(), StringComparison.OrdinalIgnoreCase)) && 
-                !string.IsNullOrWhiteSpace(cmd.Title) && !cmd.Title.Equals(cmd.Uri.ToString(), StringComparison.OrdinalIgnoreCase))
+        private void SetDefaultTitle(string title)
+        {
+            if ((string.IsNullOrWhiteSpace(ActorState.DefaultTitle) || ActorState.DefaultTitle.Equals(ActorState.Uri.ToString(), StringComparison.OrdinalIgnoreCase)) &&
+                            !string.IsNullOrWhiteSpace(title) && !title.Equals(ActorState.Uri.ToString(), StringComparison.OrdinalIgnoreCase))
             {
-                var @event = new ContentTitleChangedEvent(cmd.Title);
-                Persist(@event, ev => 
+                var @event = new ContentTitleChangedEvent(title);
+                Persist(@event, ev =>
                 {
                     ActorState.SetDefaultTitle(ev.Title);
                     HandleSnapshoting(ActorState);
@@ -53,6 +58,8 @@ namespace Me20.Content.Actors
 
             }
         }
+
+        private void HandleRenameUserContentCommand(RenameUserContentCommand cmd) => SetDefaultTitle(cmd.Title);
 
         private void HandleTagContentCommand(TagContentCommand cmd) => TagContentWith(cmd.ContentTags);
 

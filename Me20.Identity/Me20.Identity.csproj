@@ -84,6 +84,7 @@
     <Compile Include="Events\ContentAddedEvent.cs" />
     <Compile Include="Events\ContentRatedEvent.cs" />
     <Compile Include="Events\TagSubscribedEvent.cs" />
+    <Compile Include="Events\UserContentRenamedEvent.cs" />
     <Compile Include="Events\UserContentRemovedEvent.cs" />
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Interfaces\IHaveAuthenthicationInfo.cs" />

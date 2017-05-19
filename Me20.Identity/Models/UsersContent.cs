@@ -33,6 +33,15 @@ namespace Me20.Identity.Models
 
         internal bool UpdateTags(IEnumerable<string> contentTags) => contentTags.Select(t => Tags.Add(t)).Any(t => t);
 
+        internal bool Rename(string title)
+        {
+            if (Title.Equals(title))
+                return false;
+
+            Title = title;
+            return true;
+        }
+
         internal void Rate(byte rating)
         {
             Rating = rating;

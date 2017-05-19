@@ -40,6 +40,7 @@ namespace Me20.Web
             container.Bind<IDispatch<ContentEntity>>().To<RateContentDispatcher>();
             container.Bind<IDispatch<ContentEntity>>().To<TagContentDispatcher>();
             container.Bind<IDispatch<ContentEntity>>().To<RemoveUserContentDispatcher>();
+            container.Bind<IDispatch<ContentEntity>>().To<RenameUserContentDispatcher>();
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)

@@ -38,6 +38,11 @@ namespace Me20.Web.Modules.Api
                     .WithSpecific(dispatchers,
                         RemoveUserContentDispatcher.Name)
                     .DispatchAll(Context.CurrentUser.UserName));
+
+            Put["/"] = p => Response.AsJson(this.Bind<ContentEntity>()
+                    .WithSpecific(dispatchers,
+                        RenameUserContentDispatcher.Name)
+                    .DispatchAll(Context.CurrentUser.UserName));
         }
     }
 }

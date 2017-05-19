@@ -55,6 +55,8 @@ namespace Me20.Identity.Actors
             Command<RemoveUserContentCommand>(cmd => HandleRemoveUserContentCommand(cmd));
             Recover<UserContentRemovedEvent>(ev => ActorState.HandleContentRemovedEvent(ev));
 
+            Command<RenameUserContentCommand>(cmd => HandleRenameUserContentCommand(cmd));
+            Recover<UserContentRenamedEvent>(ev => ActorState.HandleContentRenamedEvent(ev));
         }
 
         private void RegisterQueries()
@@ -79,6 +81,13 @@ namespace Me20.Identity.Actors
         {
             var @event = new UserContentRemovedEvent(cmd.Uri);
             if (ActorState.HandleContentRemovedEvent(@event))
+                Persist(@event, ev => HandleSnapshoting(ActorState));
+        }
+
+        private void HandleRenameUserContentCommand(RenameUserContentCommand cmd)
+        {
+            var @event = new UserContentRenamedEvent(cmd.Uri, cmd.Title);
+            if (ActorState.HandleContentRenamedEvent(@event))
                 Persist(@event, ev => HandleSnapshoting(ActorState));
         }
 
@@ -191,6 +200,13 @@ namespace Me20.Identity.Actors
             }
 
             internal bool HandleContentRemovedEvent(UserContentRemovedEvent ev) => Contents.Remove(ev.Uri);
+
+            internal bool HandleContentRenamedEvent(UserContentRenamedEvent ev)
+            {
+                if (Contents.TryGetValue(ev.Uri, out UsersContent content))
+                    return content.Rename(ev.Title);
+                return false;
+            }
 
             //TODO: Refactor this
             //Not used at the moment

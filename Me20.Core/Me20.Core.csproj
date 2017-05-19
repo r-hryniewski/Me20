@@ -80,6 +80,7 @@
   <ItemGroup>
     <Compile Include="Common\ActorModel.cs" />
     <Compile Include="Contents\GetTaggedContentQuery.cs" />
+    <Compile Include="Contents\RenameUserContentDispatcher.cs" />
     <Compile Include="Contents\RemoveUserContentDispatcher.cs" />
     <Compile Include="Contents\TagContentDispatcher.cs" />
     <Compile Include="Contents\GetContentDetailsQuery.cs" />

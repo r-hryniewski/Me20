@@ -4,15 +4,18 @@ using System;
 
 namespace Me20.Common.Commands
 {
-    public class RemoveUserContentCommand : CommandBase, IHaveUserName, IHaveContentUri 
+    public class RenameUserContentCommand : CommandBase, IHaveUserName, IHaveContentUri 
     {
         public Uri Uri { get; private set; }
+        public string Title { get; private set; }
         public string UserName { get; private set; }
 
-        public RemoveUserContentCommand(Uri uri, string userName) : base()
+        public RenameUserContentCommand
+            (Uri uri, string userName, string title) : base()
         {
             Uri = uri;
             UserName = userName;
+            Title = title;
         }
     }
 }

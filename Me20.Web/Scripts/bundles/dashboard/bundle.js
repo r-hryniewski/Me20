@@ -97,8 +97,7 @@ var dashboard = new Vue({
             }
         },
         removeContent: function (content) {
-            if (confirm("Do you want to remove '" + content.Title +"' from your contents list?"))
-            {
+            if (confirm("Do you want to remove '" + content.Title + "' from your contents list?")) {
                 this.$http.delete("/api/content", { body: content }).then(
                     response => {
                         var index = this.Content.indexOf(content);
@@ -109,6 +108,18 @@ var dashboard = new Vue({
                     }
                 );
             }
+        },
+        renameContent: function (content) {
+            var newTitle = prompt("Enter new title for " + content.Title, content.Title);
+            var newContent = { Url: content.Url, Title: newTitle };
+            this.$http.put("/api/content", newContent).then(
+                response => {
+                    content.Title = response.body.item.title;
+                },
+                response => {
+                    console.log(response);
+                }
+            );
         },
         newTag: function (tagName, taggedByUser) {
             return {

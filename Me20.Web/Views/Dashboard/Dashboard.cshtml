@@ -28,6 +28,7 @@
         <ul class="content-list">
             <li v-for="item in Content" class="content-item">
                 <div class="content-actions">
+                    <a class="glyphicon glyphicon-edit" v-bind:title="'Rename: ' + item.Title" v-on:click="renameContent(item)"></a>
                     <a class="glyphicon glyphicon-remove-circle" v-bind:title="'Delete: ' + item.Title" v-on:click="removeContent(item)"></a>
                 </div>
                 <div class="row header-container">
