@@ -23,7 +23,7 @@ namespace Me20.Bot.Dialogs
         public async Task None(IDialogContext context, LuisResult result)
         {
             //TODO: Help msg?
-            await context.PostAsync("I'm sorry I don't know what you mean. TODO: Help msg?");
+            await context.PostAsync($"I'm sorry I don't know what you mean. Can you explain it in different words? There is also possiblity I don't know words you've used yet.{Environment.NewLine}You can also ask for help and/or say hi to me!");
             context.Wait(MessageReceived);
         }
 
@@ -41,8 +41,7 @@ namespace Me20.Bot.Dialogs
                 context.Call(new TagQueryDialog(tag), Callback);
             else
             {
-                await context.PostAsync("I'm sorry I don't know what you mean. TODO: Help msg?");
-                context.Wait(MessageReceived);
+                await None(context, result);
             }
         }
 
@@ -51,6 +50,13 @@ namespace Me20.Bot.Dialogs
         {
             //TODO: Tag form
             context.Call(new TagsListDialog(), Callback);
+        }
+
+        [LuisIntent("Utilities.Help")]
+        public async Task Help(IDialogContext context, LuisResult result)
+        {
+            //TODO: Help form
+            context.Call(new HelpDialog(), Callback);
         }
 
         private async Task Callback(IDialogContext context, IAwaitable<object> result)

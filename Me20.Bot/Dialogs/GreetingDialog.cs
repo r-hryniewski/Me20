@@ -20,7 +20,8 @@ namespace Me20.Bot.Dialogs
         public static async Task Respond(IDialogContext context)
         {
             
-                await context.PostAsync($"Hello, I'm Me2.0 bot and once my brilliant creator place something here I'll explain how I work.");
+                await context.PostAsync($"Hello, it's nice to meet you. I'm Me2.0 bot and I'm companion app for my creator's pet project Me 2.0 available at https://me20.azurewebsites.net. You can also read some more about me at my creator's blog at http://hryniewski.net");
+            await context.PostAsync($"I'm still learning but I'll understand most things you'll say to me, but in case you need help just ask for it, in case I don't understand that too just write 'HELP!'.");
         }
     }
 }

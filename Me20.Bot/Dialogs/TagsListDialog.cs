@@ -26,7 +26,7 @@ namespace Me20.Bot.Dialogs
                 // return our reply to the user
                 if (tagsList != null && tagsList.Any())
                 {
-                    await context.PostAsync($"I know about {tagsList.Length} tags now. Feel free to ask me about any of the following: {tagsList.OrderBy(x => x).Aggregate(seed: new StringBuilder(), func: (sb, tag) => sb.Append("'").Append(tag).Append("', "), resultSelector: sb => sb.ToString().TrimEnd(new char[] { ',', ' ' }))}.");
+                    await context.PostAsync($"I know about {tagsList.Length} tags now. Feel free to ask me about any of the following: {tagsList.OrderBy(x => x).Aggregate(seed: new StringBuilder(), func: (sb, tag) => sb.Append("'").Append(tag).Append("', "), resultSelector: sb => sb.ToString().TrimEnd(new char[] { ',', ' ' }))}. (The more I look at this list the more I think my creator should think about some kind of moderation)");
                 }
                 else
                 {

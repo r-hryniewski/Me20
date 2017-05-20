@@ -89,7 +89,6 @@ var dashboard = new Vue({
                         this.Content.forEach(c => c.GetDetails());
                     },
                     response => {
-                        //TODO: Alert window
                         console.log(response);
                     }
                     );
