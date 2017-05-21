@@ -9,8 +9,17 @@ namespace Me20.Content.Actors
 {
     public class ContentManagerActor : ReceiveActorBase
     {
+        private readonly IActorRef contentListActor;
+
         public ContentManagerActor() : base()
         {
+            contentListActor = Context.ActorOf(ContentListActor.Props, Guid.NewGuid().ToString());
+
+            Receive<AddContentCommand>(msg =>
+            {
+                contentListActor.Tell(msg.Uri);
+                CreateContentActorIfNotExists(msg.Uri).Forward(msg);
+            });
             Receive<IHaveContentUri>(msg => CreateContentActorIfNotExists(msg.Uri).Forward(msg));
         }
 

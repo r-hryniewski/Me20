@@ -80,6 +80,7 @@
     <Compile Include="Actors\ContentActor.cs" />
     <Compile Include="Actors\TagActor.cs" />
     <Compile Include="Actors\ContentManagerActor.cs" />
+    <Compile Include="Actors\ContentListActor.cs" />
     <Compile Include="Actors\TagsListActor.cs" />
     <Compile Include="Actors\TagsManagerActor.cs" />
     <Compile Include="Events\Contents\ContentTitleChangedEvent.cs" />
