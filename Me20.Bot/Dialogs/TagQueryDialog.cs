@@ -13,9 +13,11 @@ namespace Me20.Bot.Dialogs
     {
 
         readonly string tag;
-        public TagQueryDialog(string _tag)
+        public int count;
+        public TagQueryDialog(string _tag, int _count)
         {
             tag = _tag;
+            count = _count > 0 ? _count : 5;
         }
 
         public async Task StartAsync(IDialogContext context)
@@ -28,7 +30,7 @@ namespace Me20.Bot.Dialogs
         {
             //TODO: Extract and wrap this in something
             // calculate something for us to return
-            var contents = await new Me20Client().GetByTagAsync(tag);
+            var contents = await new Me20Client().GetByTagAsync(tag, count);
             // return our reply to the user
             if (contents != null && contents.Any())
             {

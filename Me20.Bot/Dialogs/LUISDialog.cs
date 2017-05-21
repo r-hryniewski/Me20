@@ -37,8 +37,15 @@ namespace Me20.Bot.Dialogs
         public async Task TagQuery(IDialogContext context, LuisResult result)
         {
             var tag = result.Entities.Where(e => e.Type.Equals("Tag", StringComparison.OrdinalIgnoreCase)).FirstOrDefault()?.Entity;
-            if (!string.IsNullOrEmpty(tag))
-                context.Call(new TagQueryDialog(tag), Callback);
+
+            int count = 0;
+            var countEntity = result.Entities.Where(e => e.Type.Equals("builtin.number", StringComparison.OrdinalIgnoreCase)).FirstOrDefault();
+
+            if (countEntity != null && countEntity.Resolution.TryGetValue("value", out object countObj) && int.TryParse(countObj.ToString(), out int countInt))
+                count = countInt;
+
+            if (!string.IsNullOrWhiteSpace(tag))
+                context.Call(new TagQueryDialog(tag, count), Callback);
             else
             {
                 await None(context, result);
