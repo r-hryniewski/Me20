@@ -1,9 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<dynamic>
+<!DOCTYPE html>
 
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>TODO</title>
+    <title>Me 2.0 - Your personal content aggregator (at least until I don't think about some better title)</title>
     <link href="~/Content/Bootstrap/stylesheets/_bootstrap.css" rel="stylesheet" />
     <link href="~/Content/app/app.min.css" rel="stylesheet" />
 </head>
@@ -17,15 +18,18 @@
             <ul class="nav navbar-nav">
                 @*<li class="active"><a href="/">NYI</a></li>*@
             </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <p class="navbar-text">TODO: Login info</p>
-                <li class="navbar-login">
-                    <a href="/.auth/login/facebook">
-                    <span class="glyphicon glyphicon-log-in"></span>
-                        TODO: Login
-                    </a>
-                </li>
-            </ul>
+            @if (Html.RenderContext.Context.CurrentUser != null && !string.IsNullOrEmpty(Html.RenderContext.Context.CurrentUser.UserName))
+            {
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="navbar-login">
+                        <a href="/.auth/logout">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            }
         </div>
     </nav>
     <div class="container">
