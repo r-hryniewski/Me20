@@ -66,6 +66,13 @@ namespace Me20.Bot.Dialogs
             context.Call(new HelpDialog(), Callback);
         }
 
+        [LuisIntent("Insult")]
+        public async Task Insult(IDialogContext context, LuisResult result)
+        {
+            //TODO: Help form
+            context.Call(new InsultDialog(), Callback);
+        }
+
         private async Task Callback(IDialogContext context, IAwaitable<object> result)
         {
             context.Wait(MessageReceived);
