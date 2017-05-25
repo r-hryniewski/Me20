@@ -13,6 +13,6 @@ namespace Me20.Common.Abstracts
             Logger = Logging.GetLogger(Context);
         }
 
-        protected virtual string ChildActorPathValidator(string input) => input.ToLower().ToMD5();
+        protected virtual string ChildActorPathEncoder(string input) => input.ToLower().ToMD5();
     }
 }

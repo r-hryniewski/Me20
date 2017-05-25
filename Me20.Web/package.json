@@ -5,6 +5,7 @@
   "devDependencies": {
     "vue": "^2.2.6",
     "vue-resource": "^1.2.1",
+    "vee-validate": "^2.0.0-rc.3",
     "browserify": "^14.1.0",
     "watchify": "^3.9.0",
     "gulp": "^3.9.1",

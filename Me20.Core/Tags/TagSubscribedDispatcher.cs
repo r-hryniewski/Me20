@@ -10,15 +10,18 @@ namespace Me20.Core.Tags
         public static readonly string Name = "TagSubscribed";
 
         public TagSubscribedDispatcher() : base()
-        {}
+        { }
 
         public override void Dispatch(TagEntity item, string userName)
         {
             //TODO: Go through user manager for that
             var command = new SubscribeToTagCommand(userName, item.TagName);
+            if (item.TagName.Length <= 25)
+            {
+                ActorModel.UsersManagerActorRef.Tell(command);
+                ActorModel.TagsManagerActorRef.Tell(command);
+            }
 
-            ActorModel.UsersManagerActorRef.Tell(command);
-            ActorModel.TagsManagerActorRef.Tell(command);
         }
     }
 }

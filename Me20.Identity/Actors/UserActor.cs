@@ -126,9 +126,12 @@ namespace Me20.Identity.Actors
             if ((DateTime.UtcNow - ActorState.LastLoggedIn).TotalMinutes > 15)
             {
                 var @event = new UserLoggedInEvent(DateTime.UtcNow);
-                Persist(@event, ev => HandleSnapshoting(ActorState));
+                Persist(@event, ev =>
+                {
+                    ActorState.RefreshLastLoggedIn();
+                    HandleSnapshoting(ActorState);
+                });
             }
-            ActorState.RefreshLastLoggedIn();
         }
 
         public static Props Props(string authenthicationType, string id)
@@ -243,5 +246,5 @@ namespace Me20.Identity.Actors
         }
     }
 
-    
+
 }

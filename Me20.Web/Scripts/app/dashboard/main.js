@@ -1,7 +1,28 @@
 ﻿var Vue = require("vue");
+var VeeValidate = require("vee-validate");
 var VueResource = require("vue-resource");
 
+var veeValidateConfig = {
+    errorBagName: 'errors', // change if property conflicts.
+    fieldsBagName: 'fields',
+    delay: 0,
+    locale: 'en',
+    dictionary: null,
+    strict: true,
+    enableAutoClasses: false,
+    classNames: {
+        touched: 'touched', // the control has been blurred
+        untouched: 'untouched', // the control hasn't been blurred
+        valid: 'valid', // model is valid
+        invalid: 'invalid', // model is invalid
+        pristine: 'pristine', // control has not been interacted with
+        dirty: 'dirty' // control has been interacted with
+    },
+    events: 'input|blur'
+};
+
 Vue.use(VueResource);
+Vue.use(VeeValidate, veeValidateConfig);
 
 var dashboard = new Vue({
     el: "#dashboard",
@@ -9,7 +30,9 @@ var dashboard = new Vue({
         CurrentUserName: AppData.currentUserName,
         HasMoreContent: true,
         Content: [],
-        Tags: []
+        Tags: [],
+        SuggestedContent: [],
+        ToggledSuggestedContent: ""
     },
     computed: {
         PagesLoaded: function () {
@@ -18,19 +41,25 @@ var dashboard = new Vue({
     },
     methods: {
         subscribeTag: function (event) {
-            this.$http.post("/api/tags/", { TagName: event.srcElement.value })
-                .then(
-                response => {
-                    var tag = response.body.item;
-                    this.Tags.push(this.newTag(tag.tagName, true));
-                    event.srcElement.value = "";
-                },
-                response => {
-                    //TODO: Alert window
-                    console.log(response);
-                    event.srcElement.value = "";
-                }
-                );
+            var input = event.srcElement.value;
+            if (input.length <= 25) {
+                this.$http.post("/api/tags/", { TagName: event.srcElement.value })
+                    .then(
+                    response => {
+                        var tag = response.body.item;
+                        this.Tags.push(this.newTag(tag.tagName, true));
+                        event.srcElement.value = "";
+                    },
+                    response => {
+                        //TODO: Alert window
+                        console.log(response);
+                        event.srcElement.value = "";
+                    }
+                    );
+            }
+            else {
+                alert("Tag name maximum length is 25 characters");
+            }
         },
         addContent: function (event) {
             this.$http.post("/api/content/", { Url: event.srcElement.value, Tags: [] })
@@ -119,6 +148,19 @@ var dashboard = new Vue({
                 }
             );
         },
+        toggleSuggestedContent: function (tagName) {
+            if (this.ToggledSuggestedContent === tagName) {
+                this.ToggledSuggestedContent = "";
+                return;
+            }
+
+            if (!this.SuggestedContent[tagName]) {
+                this.SuggestedContent[tagName] = this.newSuggestedContentContainer(tagName);
+            }
+
+            //TODO:
+            return;
+        },
         newTag: function (tagName, taggedByUser) {
             return {
                 TagName: tagName,
@@ -168,44 +210,61 @@ var dashboard = new Vue({
                     if (!tagName)
                         tagName = prompt("Tag name");
                     if (tagName) {
-                        var newTag = {
-                            TagName: tagName,
-                            TaggedByUser: true
-                        };
-                        this.$http.post("/api/content/tag", { Url: this.Url, Tags: [newTag] })
-                            .then(
-                            response => {
-                                var tags = response.body.item.tags.map(t => {
-                                    return {
-                                        TagName: t.tagName,
-                                        TaggedByUser: t.taggedByUser
-                                    };
-                                });
-                                if (tags) {
-                                    var tagNames = this.Tags.map(t => t.TagName.toLowerCase());
-                                    for (var i = 0; i < tags.length; i++) {
-                                        var tagToAdd = tags[i];
-                                        var index = tagNames.indexOf(tagToAdd.TagName.toLowerCase());
+                        if (tagName.length <= 25)
+                        {
+                            var newTag = {
+                                TagName: tagName,
+                                TaggedByUser: true
+                            };
+                            this.$http.post("/api/content/tag", { Url: this.Url, Tags: [newTag] })
+                                .then(
+                                response => {
+                                    var tags = response.body.item.tags.map(t => {
+                                        return {
+                                            TagName: t.tagName,
+                                            TaggedByUser: t.taggedByUser
+                                        };
+                                    });
+                                    if (tags) {
+                                        var tagNames = this.Tags.map(t => t.TagName.toLowerCase());
+                                        for (var i = 0; i < tags.length; i++) {
+                                            var tagToAdd = tags[i];
+                                            var index = tagNames.indexOf(tagToAdd.TagName.toLowerCase());
 
-                                        if (index >= 0)
-                                            this.Tags[index].TaggedByUser = true;
-                                        else
-                                            this.Tags.push(tagToAdd);
+                                            if (index >= 0)
+                                                this.Tags[index].TaggedByUser = true;
+                                            else
+                                                this.Tags.push(tagToAdd);
 
+                                        }
                                     }
+                                    this.SortTags();
+                                },
+                                response => {
+                                    console.log(response);
                                 }
-                                this.SortTags();
-                            },
-                            response => {
-                                console.log(response);
-                            }
-                            );
+                                );
+                        }
+                        else {
+                            alert("Tag name maximum length is 25 characters");
+                        }
                     }
                 },
                 SortTags: function () {
                     this.Tags.sort(function (x, y) { return x.TaggedByUser === y.TaggedByUser ? 0 : x.TaggedByUser ? -1 : 1; });
                 }
             };
+        },
+        newSuggestedContentContainer: function (tagName) {
+            return {
+                TagName: tagName,
+                CurrentItemIndex: 0,
+                Contents: [],
+                LoadMore: function (page, count, http) {
+                    //TODO:
+                    //???
+                }
+            }
         }
     },
     created: function () {

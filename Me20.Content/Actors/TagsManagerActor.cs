@@ -15,11 +15,11 @@ namespace Me20.Content.Actors
         {
             tagsListActor = Context.ActorOf(TagsListActor.Props, Guid.NewGuid().ToString());
 
-            Receive<SubscribeToTagCommand>(msg => 
+            Receive<SubscribeToTagCommand>(msg =>
             {
                 CreateTagActorIfNotExists(msg.TagName).Forward(msg);
             });
-            Receive<TagContentCommand>(msg => 
+            Receive<TagContentCommand>(msg =>
             {
                 foreach (var tag in msg.ContentTags)
                 {
@@ -27,37 +27,47 @@ namespace Me20.Content.Actors
                     RegisterTag(tag);
                 }
             });
-            Receive<AddContentCommand>(msg => 
+            Receive<AddContentCommand>(msg =>
             {
                 foreach (var tag in msg.ContentTags)
                 {
-                    CreateTagActorIfNotExists(tag).Forward(msg);
+                    CreateTagActorIfNotExists(tag)?.Forward(msg);
                     RegisterTag(tag);
                 }
             });
 
             Receive<GetTagsListQueryMessage>(msg => tagsListActor.Forward(msg));
 
-            Receive<IHaveContentTag>(msg => CreateTagActorIfNotExists(msg.ContentTag).Forward(msg));
+            Receive<IHaveContentTag>(msg => CreateTagActorIfNotExists(msg.ContentTag)?.Forward(msg));
 
             Receive<IHaveContentTags>(msg =>
             {
                 foreach (var tag in msg.ContentTags)
-                    CreateTagActorIfNotExists(tag).Forward(msg);
+                    CreateTagActorIfNotExists(tag)?.Forward(msg);
             });
         }
 
         private IActorRef CreateTagActorIfNotExists(string tagName)
         {
-            var actorPath = ChildActorPathValidator(tagName);
-            if (!Context.Child(actorPath).IsNobody())
-                return Context.Child(actorPath);
+            if (tagName.Length <= 25)
+            {
 
+                var actorPath = ChildActorPathEncoder(tagName);
+                if (!Context.Child(actorPath).IsNobody())
+                    return Context.Child(actorPath);
+
+                else
+                    return Context.ActorOf(TagActor.Props(tagName), actorPath);
+            }
             else
-                return Context.ActorOf(TagActor.Props(tagName), actorPath);
+                return null;
         }
 
-        private void RegisterTag(string tagName) => tagsListActor.Tell(tagName);
+        private void RegisterTag(string tagName)
+        {
+            if (tagName.Length <= 25)
+                tagsListActor.Tell(tagName);
+        }
 
         public static Props Props => Props.Create(() => new TagsManagerActor());
     }
