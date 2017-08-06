@@ -1,5 +1,6 @@
 ﻿using Me20.Common.Interfaces;
 using Me20.Core.Contents;
+using Me20.Core.Identity;
 using Me20.Core.Tags;
 using Me20.Web.Identity;
 using Nancy;
@@ -32,6 +33,8 @@ namespace Me20.Web
             //container.Bind<IDispatch<Tag>>().To<CreateTagIfNotExistsDispatcher>();
             container.Bind<IDispatch<TagEntity>>().To<TagSubscribedDispatcher>();
 
+            container.Bind<IDispatch<UserEntity>>().To<UserLoggedInDispatcher>();
+
             //container.Bind<IDispatch<Content>>().To<CreateContentIfNotExistsDispatcher>();
             container.Bind<IDispatch<ContentEntity>>().To<AddContentDispatcher>();
             container.Bind<IDispatch<ContentEntity>>().To<RateContentDispatcher>();
@@ -46,7 +49,17 @@ namespace Me20.Web
             // resolve things that are needed during request startup.
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                context.CurrentUser = new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current);
+                var currentUser = new UserEntity(System.Security.Claims.ClaimsPrincipal.Current)
+                .With(container.GetAll<IDispatch<UserEntity>>());
+
+                if (currentUser.IsValid)
+                {
+                    //TODO: Store User in session or cache
+                    currentUser.DispatchAll(currentUser.UserName);
+                    context.CurrentUser = new UserIdentity(currentUser);
+                }
+                else
+                    context.CurrentUser = UserIdentity.Empty;
 
                 return null;
             });

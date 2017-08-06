@@ -163,6 +163,7 @@
     <Compile Include="Comparers\SchemalessMD5UriComparer.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="CosmosDB\CosmosClient.cs" />
+    <Compile Include="CosmosDB\GremlinQuery.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\ISetExtensions.cs" />
     <Compile Include="Extensions\IHaveContentUriExtensions.cs" />

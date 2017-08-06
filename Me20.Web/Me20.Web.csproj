@@ -409,6 +409,7 @@
     <Content Include="Content\Bootstrap\stylesheets\bootstrap\mixins\_alerts.scss" />
     <Content Include="Scripts\bundles\dashboard\bundle.js.map" />
     <Content Include="Views\Login\Login.cshtml" />
+    <None Include="Properties\PublishProfiles\me20graph - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
