@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Web", "Me20.Web\Me20.Web.csproj", "{82D8D9D1-F45E-488D-807C-2823F56760C7}"
 EndProject
@@ -22,6 +22,18 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Bot", "Me20.Bot\Me20.Bot.csproj", "{33C9365E-263F-44AA-A343-23C4F223EA12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OldImplementations", "OldImplementations", "{295DFFA3-024B-4F8F-BA67-B8D159527EE9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.MessagingContracts", "Me20.MessagingContracts\Me20.MessagingContracts.csproj", "{480A34E6-6E0C-42BB-BEF5-E68AC4A03525}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Shared", "Me20.Shared\Me20.Shared.csproj", "{B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.ApiGateway", "Me20.ApiGateway\Me20.ApiGateway.csproj", "{179166D3-5C77-437B-B2A0-5A21CE766DA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.IdentityActors", "Me20.IdentityActors\Me20.IdentityActors.csproj", "{B8316722-A895-4D3E-9F83-47835F153163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.ActorModel", "Me20.ActorModel\Me20.ActorModel.csproj", "{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.DAL", "Me20.DAL\Me20.DAL.csproj", "{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +65,30 @@ Global
 		{33C9365E-263F-44AA-A343-23C4F223EA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33C9365E-263F-44AA-A343-23C4F223EA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33C9365E-263F-44AA-A343-23C4F223EA12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{480A34E6-6E0C-42BB-BEF5-E68AC4A03525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{480A34E6-6E0C-42BB-BEF5-E68AC4A03525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{480A34E6-6E0C-42BB-BEF5-E68AC4A03525}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{480A34E6-6E0C-42BB-BEF5-E68AC4A03525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{179166D3-5C77-437B-B2A0-5A21CE766DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{179166D3-5C77-437B-B2A0-5A21CE766DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{179166D3-5C77-437B-B2A0-5A21CE766DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{179166D3-5C77-437B-B2A0-5A21CE766DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8316722-A895-4D3E-9F83-47835F153163}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8316722-A895-4D3E-9F83-47835F153163}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8316722-A895-4D3E-9F83-47835F153163}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8316722-A895-4D3E-9F83-47835F153163}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
