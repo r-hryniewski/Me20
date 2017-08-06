@@ -81,6 +81,20 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Me20.DAL\Me20.DAL.csproj">
+      <Project>{56567aec-41cd-4c70-a12f-31cb52f7eeb2}</Project>
+      <Name>Me20.DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.MessagingContracts\Me20.MessagingContracts.csproj">
+      <Project>{480a34e6-6e0c-42bb-bef5-e68ac4a03525}</Project>
+      <Name>Me20.MessagingContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.Shared\Me20.Shared.csproj">
+      <Project>{b19ed7da-e8f6-4da9-b8cc-99ab78a4a9ee}</Project>
+      <Name>Me20.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

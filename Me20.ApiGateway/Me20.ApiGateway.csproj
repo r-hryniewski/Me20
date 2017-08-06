@@ -113,6 +113,24 @@
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Me20.ActorModel\Me20.ActorModel.csproj">
+      <Project>{f43c2d0f-5716-4c03-979d-d41faa5e9ed2}</Project>
+      <Name>Me20.ActorModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.IdentityActors\Me20.IdentityActors.csproj">
+      <Project>{b8316722-a895-4d3e-9f83-47835f153163}</Project>
+      <Name>Me20.IdentityActors</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.MessagingContracts\Me20.MessagingContracts.csproj">
+      <Project>{480a34e6-6e0c-42bb-bef5-e68ac4a03525}</Project>
+      <Name>Me20.MessagingContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.Shared\Me20.Shared.csproj">
+      <Project>{b19ed7da-e8f6-4da9-b8cc-99ab78a4a9ee}</Project>
+      <Name>Me20.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
