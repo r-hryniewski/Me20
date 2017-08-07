@@ -1,0 +1,158 @@
+﻿.container {
+    .dashboard {
+        .tags-container {
+            margin: 2rem 0 0 0;
+
+            .tags-list {
+                .tag-item {
+                    display: inline-block;
+                    border: 0.0625rem solid $dark-primary;
+                    border-radius: 0.25rem;
+                    margin: 0.25rem 0.25rem;
+                    padding: 0.125rem 0.375rem;
+                    background-color: $primary;
+                    font-size: 1.375rem;
+                    cursor: pointer;
+
+                    &:hover {
+                        background-color: $light-highlight;
+                        border-color: $highlight-color;
+                    }
+
+                    &.active {
+                        background-color: $highlight-color;
+                        border-color: $dark-highlight;
+
+                        &:hover {
+                            background-color: $light-primary;
+                            border-color: $primary;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content-container {
+            margin: 2rem 0 0 0;
+
+            .content-list {
+                .content-item {
+                    display: block;
+                    border: 0.0625rem solid $primary;
+                    border-radius: 0.25rem;
+                    margin: 0.75rem 0.25rem;
+                    padding: 0.375rem 0.625rem;
+                    font-size: 1.125rem;
+                    position: relative;
+
+                    .content-title {
+                        float: right;
+                        font-size: 1.25rem;
+                        font-weight: bold;
+                        display: block;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        max-width: 100%;
+                        text-overflow: ellipsis;
+                        padding: 0.125rem 0.125rem;
+                    }
+
+                    .content-tags-list {
+                        list-style: none;
+                        padding: 0 0 0.5rem;
+                        margin: 0.5rem 0 0 0;
+
+                        li {
+                            display: inline-block;
+                            cursor: pointer;
+                            padding: 0.1875rem 0.25rem 0.1875rem 0.25rem;
+                            margin: 0.25rem 0.375rem 0.25rem 0.375rem;
+
+                            &.tag {
+                                background-color: $light-primary;
+                                border-radius: 0.25rem;
+
+                                &.tagged {
+                                    background-color: $highlight-color;
+                                }
+
+                                &:hover {
+                                    background-color: $dark-highlight;
+                                }
+                            }
+
+                            &.add-tag {
+                                padding-left: 0;
+
+                                span {
+                                    color: $light-highlight;
+
+                                    &:hover {
+                                        color: $dark-highlight;
+                                    }
+                                }
+                            }
+
+                            > a {
+                                color: $text-color;
+                                display: inline-block;
+                            }
+                        }
+                    }
+
+                    .rating-box {
+                        display: inline;
+                        float: right;
+
+                        .rating {
+                            color: $light-primary;
+                            cursor: pointer;
+
+                            &.rated {
+                                color: $light-highlight;
+                            }
+                        }
+
+                        &:hover {
+                            .rating {
+                                color: $highlight-color;
+                            }
+
+                            .rating:hover ~ .rating {
+                                color: $light-primary;
+                            }
+                        }
+                    }
+
+                    .content-actions {
+                        position: absolute;
+                        width: 100%;
+                        text-align: right;
+                        top: -1.625rem;
+                        right: 0;
+                        display: none;
+
+                        a {
+                            color: $light-primary;
+                            margin-left: 0.25rem;
+                            margin-right: 0.25rem;
+
+                            &:hover {
+                                color: $light-highlight;
+                            }
+                        }
+                    }
+
+                    &:hover {
+                        margin-top: 2.125rem;
+
+                        .content-actions {
+                            display: inline-block;
+                            padding-bottom: 2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

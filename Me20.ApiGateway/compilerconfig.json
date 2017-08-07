@@ -1,0 +1,10 @@
+﻿[
+  {
+    "outputFile": "Content/Bootstrap/stylesheets/_bootstrap.css",
+    "inputFile": "Content/Bootstrap/stylesheets/_bootstrap.scss"
+  },
+  {
+    "outputFile": "Content/app/app.css",
+    "inputFile": "Content/app/app.scss"
+  }
+]

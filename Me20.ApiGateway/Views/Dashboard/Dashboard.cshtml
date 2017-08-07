@@ -1,0 +1,76 @@
+﻿@inherits Nancy.ViewEngines.Razor.NancyRazorViewBase<Me20.Web.ViewModels.DashboardViewModel>
+
+<div id="dashboard" class="row dashboard">
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="new-tag">Subscribe for tag</label>
+            @*TODO: Autocomplete and stuff?*@
+            <input class="textinput" id="textinput new-tag" v-on:keyup.enter="subscribeTag"/>
+        </div>
+    </div>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <label for="new-content">Add content</label>
+            @*TODO: ??No idea yet??*@
+            <input class="textinput" id="new-content" v-on:keyup.enter="addContent" />
+        </div>
+    </div>
+    <div class="col-xs-12 tags-container">
+        @*TODO: Make it not look like shit*@
+        <ul class="tags-list">
+            <li v-for="tag in Tags" class="tag-item">
+                {{tag.TagName}}
+            </li>
+        </ul>
+    </div>
+    @*TODO: Stuff it into component*@
+    <div class="col-xs-12 content-container">
+        <ul class="content-list">
+            <li v-for="item in Content" class="content-item">
+                <div class="content-actions">
+                    <a class="glyphicon glyphicon-edit" v-bind:title="'Rename: ' + item.Title" v-on:click="renameContent(item)"></a>
+                    <a class="glyphicon glyphicon-remove-circle" v-bind:title="'Delete: ' + item.Title" v-on:click="removeContent(item)"></a>
+                </div>
+                <div class="row header-container">
+                    <div class="col-xs-12">
+                        <a v-bind:href="item.Url" class="content-title" target="_blank" v-bind:title="item.Title">{{item.Title}}</a>
+                    </div>
+                </div>
+                <div class="row content-tags-list-container">
+                    <div class="col-xs-12">
+                        <ul class="content-tags-list">
+                            <li class="tag" v-bind:class="{tagged : ct.TaggedByUser}" v-for="ct in item.Tags">
+                                <a v-if="ct.TaggedByUser">
+                                    {{ct.TagName}}
+                                </a>
+                                <a v-bind:title="'Tag content with ' + ct.TagName" v-else v-on:click="item.AddTag(ct.TagName)">
+                                    {{ct.TagName}}
+                                </a>
+                            </li>
+                            <li class="add-tag">
+                                <a title="Add tag to content">
+                                    <span class="glyphicon glyphicon-plus-sign" v-on:click="item.AddTag()"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a class="rating-box" v-bind:title="'Average rating: ' + item.AverageRating">
+                            <span class="rating glyphicon" v-for="n in 5" v-bind:class="n <= item.Rating ? 'glyphicon-star rated' : 'glyphicon-star-empty'" v-on:click="rateContent(item, n)"></span>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <p class="text-center load-more" v-if="HasMoreContent"><a v-on:click="loadContent()">Load more...</a></p>
+    </div>
+</div>
+<script>
+    AppData = {
+        currentUserName: "@Model.CurrentUserName",
+        contentPageSize: @Model.ContentPageSize,
+        };
+</script>
+<script src="~/Scripts/bundles/dashboard/bundle.js"></script>
