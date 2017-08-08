@@ -1,8 +1,4 @@
-﻿//using Me20.Common.Interfaces;
-//using Me20.Core.Contents;
-//using Me20.Core.Identity;
-//using Me20.Core.Tags;
-//using Me20.Web.Identity;
+﻿using Me20.ApiGateway.Identity;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
@@ -36,17 +32,12 @@ namespace Me20.ApiGateway
             // resolve things that are needed during request startup.
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                var currentUser = new UserEntity(System.Security.Claims.ClaimsPrincipal.Current)
-                .With(container.GetAll<IDispatch<UserEntity>>());
-
+                var currentUser = new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current);
+                context.CurrentUser = currentUser;
                 if (currentUser.IsValid)
                 {
-                    //TODO: Store User in session or cache
-                    currentUser.DispatchAll(currentUser.UserName);
-                    context.CurrentUser = new UserIdentity(currentUser);
+                    //Notify actor about login
                 }
-                else
-                    context.CurrentUser = UserIdentity.Empty;
 
                 return null;
             });
