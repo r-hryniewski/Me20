@@ -68,11 +68,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActorModel.cs" />
+    <Compile Include="ActorSystemContainer.cs" />
     <Compile Include="ActorPathsHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Me20.Contracts.Actors\Me20.Contracts.Actors.csproj">
+      <Project>{B2D4336D-E41F-4EFD-B41D-940A6B335AA7}</Project>
+      <Name>Me20.Contracts.Actors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Me20.IdentityActors\Me20.IdentityActors.csproj">
       <Project>{b8316722-a895-4d3e-9f83-47835f153163}</Project>
       <Name>Me20.IdentityActors</Name>

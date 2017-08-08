@@ -3,7 +3,6 @@ using Microsoft.Owin;
 using Serilog;
 using System.Configuration;
 using Owin;
-using static Me20.ActorModel.ActorModel;
 
 [assembly: OwinStartup(typeof(Me20.ApiGateway.Startup))]
 namespace Me20.ApiGateway
@@ -19,7 +18,7 @@ namespace Me20.ApiGateway
                 .CreateLogger();
 
             //Akka ActorModel
-            StartActorSystem();
+            //StartActorSystem();
 
             //var context = new OwinContext(app.Properties);
             //var token = context.Get<CancellationToken>("host.OnAppDisposing");

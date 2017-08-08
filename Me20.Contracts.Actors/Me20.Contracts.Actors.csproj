@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B8316722-A895-4D3E-9F83-47835F153163}</ProjectGuid>
+    <ProjectGuid>{B2D4336D-E41F-4EFD-B41D-940A6B335AA7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Me20.IdentityActors</RootNamespace>
-    <AssemblyName>Me20.IdentityActors</AssemblyName>
+    <RootNamespace>Me20.Contracts.Actors</RootNamespace>
+    <AssemblyName>Me20.Contracts.Actors</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,26 +33,8 @@
     <Reference Include="Akka, Version=1.2.3.41, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Akka.1.2.3\lib\net45\Akka.dll</HintPath>
     </Reference>
-    <Reference Include="Akka.Logger.Serilog, Version=1.2.0.8, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Akka.Logger.Serilog.1.2.0\lib\net45\Akka.Logger.Serilog.dll</HintPath>
-    </Reference>
-    <Reference Include="Akka.Serialization.Hyperion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Akka.Serialization.Hyperion.1.1.3.32-beta\lib\net45\Akka.Serialization.Hyperion.dll</HintPath>
-    </Reference>
-    <Reference Include="Hyperion, Version=0.9.2.2, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Hyperion.0.9.2\lib\net45\Hyperion.dll</HintPath>
-    </Reference>
-    <Reference Include="MassTransit.AzureServiceBusTransport, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b8e0e9f2f1e657fa, processorArchitecture=MSIL">
-      <HintPath>..\packages\MassTransit.AzureServiceBus.3.5.7\lib\net452\MassTransit.AzureServiceBusTransport.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.2.5.0\lib\net46\Serilog.dll</HintPath>
-    </Reference>
-    <Reference Include="Serilog.Sinks.ApplicationInsights, Version=2.2.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
-      <HintPath>..\packages\Serilog.Sinks.ApplicationInsights.2.2.1\lib\net45\Serilog.Sinks.ApplicationInsights.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -68,21 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IKnowActor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UsersManagerActor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Me20.Contracts\Me20.Contracts.csproj">
-      <Project>{C1D9AF78-12C6-4511-B779-52C84A4F1887}</Project>
-      <Name>Me20.Contracts</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Me20.Shared\Me20.Shared.csproj">
-      <Project>{b19ed7da-e8f6-4da9-b8cc-99ab78a4a9ee}</Project>
-      <Name>Me20.Shared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

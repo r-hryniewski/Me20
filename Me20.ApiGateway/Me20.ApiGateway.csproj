@@ -313,6 +313,10 @@
       <Project>{f43c2d0f-5716-4c03-979d-d41faa5e9ed2}</Project>
       <Name>Me20.ActorModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Me20.Contracts.Actors\Me20.Contracts.Actors.csproj">
+      <Project>{B2D4336D-E41F-4EFD-B41D-940A6B335AA7}</Project>
+      <Name>Me20.Contracts.Actors</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Me20.Contracts\Me20.Contracts.csproj">
       <Project>{C1D9AF78-12C6-4511-B779-52C84A4F1887}</Project>
       <Name>Me20.Contracts</Name>

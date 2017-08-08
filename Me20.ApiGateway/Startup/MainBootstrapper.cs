@@ -1,4 +1,6 @@
 ﻿using Me20.ApiGateway.Identity;
+using Me20.Contracts.Actors;
+using Me20.IdentityActors;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
@@ -18,6 +20,8 @@ namespace Me20.ApiGateway
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
         {
             // Perform registation that should have an application lifetime
+
+            existingContainer.Bind<ActorModel.ActorSystemContainer>().ToSelf().InSingletonScope(); existingContainer.Bind<IKnowActor<UsersManagerActor>>().ToMethod(ctx => ctx.Kernel.Get<ActorModel.ActorSystemContainer>());
         }
 
         protected override void ConfigureRequestContainer(IKernel container, NancyContext context)
