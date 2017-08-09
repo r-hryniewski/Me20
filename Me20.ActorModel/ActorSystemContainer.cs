@@ -1,4 +1,5 @@
 ﻿using Akka.Actor;
+using Akka.DI.Core;
 using Me20.Contracts.Actors;
 using Me20.IdentityActors;
 using System;
@@ -17,11 +18,12 @@ namespace Me20.ActorModel
         public IActorRef UsersManagerActorRef { get; private set; }
         IActorRef IKnowActor<UsersManagerActor>.Ref => UsersManagerActorRef;
 
-        public ActorSystemContainer()
+        public ActorSystemContainer(ActorSystem actorSystem)
         {
-            System = ActorSystem.Create(ActorSystemName);
+            System = actorSystem;
 
-            UsersManagerActorRef = System.ActorOf(UsersManagerActor.Props, UsersManagerActorName);
+            var props = System.DI().Props<UsersManagerActor>();
+            UsersManagerActorRef = System.ActorOf(props, UsersManagerActorName);
         }
     }
 }

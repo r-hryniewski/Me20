@@ -27,7 +27,7 @@ namespace Me20.ApiGateway.Modules
             Get["/", true] = async (p, ct) =>
             {
 
-                var sendEnpoint = await endpointProvider.GetSendEndpoint(Shared.BusConfig.ContentReadQueueUri);
+                //var sendEnpoint = await endpointProvider.GetSendEndpoint(Shared.BusConfig.ContentReadQueueUri);
                 //await sendEnpoint.Send<something>(new { });
                 return View["dashboard", new DashboardViewModel(Context.CurrentUser)];
             };

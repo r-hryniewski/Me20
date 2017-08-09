@@ -11,6 +11,8 @@ using Ninject.Activation.Providers;
 using Ninject;
 using System;
 using MassTransit.NinjectIntegration;
+using Akka.DI.Ninject;
+using Akka.Actor;
 
 namespace Me20.ApiGateway
 {
@@ -24,12 +26,12 @@ namespace Me20.ApiGateway
 
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
         {
-            // Perform registation that should have an application lifetime
+            #region MassTransit
             existingContainer.Bind<IBusControl>().ToMethod(ctx =>
                 Bus.Factory.CreateUsingAzureServiceBus(cfg =>
                 {
                     var host = cfg.Host(
-                        connectionString: Me20.Shared.BusConfig.AzureServiceBusConnectionString,
+                        connectionString: Shared.BusConfig.AzureServiceBusConnectionString,
                         configure: hostCfg =>
                         {
                             hostCfg.OperationTimeout = TimeSpan.FromSeconds(5);
@@ -44,9 +46,15 @@ namespace Me20.ApiGateway
                     //    });
                 })).InSingletonScope();
             existingContainer.Bind<IBus, ISendEndpointProvider, IPublishEndpoint>().ToMethod(ctx => ctx.Kernel.Get<IBusControl>());
+            #endregion
 
-            existingContainer.Bind<ActorModel.ActorSystemContainer>().ToSelf().InSingletonScope();
+            #region Akka actor model
+            var actorSystem = ActorSystem.Create(Me20.ActorModel.ActorPathsHelper.ActorSystemName);
+            var propsResolver = new NinjectDependencyResolver(existingContainer, actorSystem);
+
+            existingContainer.Bind<ActorModel.ActorSystemContainer>().ToSelf().InSingletonScope().WithConstructorArgument("actorSystem", actorSystem);
             existingContainer.Bind<IKnowActor<UsersManagerActor>>().ToMethod(ctx => ctx.Kernel.Get<ActorModel.ActorSystemContainer>());
+            #endregion
         }
 
         protected override void ConfigureRequestContainer(IKernel container, NancyContext context)

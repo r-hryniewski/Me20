@@ -2,6 +2,7 @@
 using Akka.Event;
 using Me20.Contracts;
 using System;
+using MassTransit;
 
 namespace Me20.IdentityActors
 {
@@ -14,7 +15,6 @@ namespace Me20.IdentityActors
         public UsersManagerActor()
         {
             Logger = Logging.GetLogger(Context);
-
             //usersListActor = Context.ActorOf(UsersListActor.Props, Guid.NewGuid().ToString());
 
             //Receive<UserLoggedInCommand>(msg =>
@@ -41,7 +41,5 @@ namespace Me20.IdentityActors
             else
                 return null;// Context.ActorOf(UserActor.Props(userIdentity.AuthenticationType, userIdentity.Id), actorPath);
         }
-
-        public static Props Props => Props.Create(() => new UsersManagerActor());
     }
 }

@@ -46,6 +46,12 @@
     <Reference Include="Akka, Version=1.2.3.41, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Akka.1.2.3\lib\net45\Akka.dll</HintPath>
     </Reference>
+    <Reference Include="Akka.DI.Core, Version=1.1.1.27, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Akka.DI.Core.1.1.1\lib\net45\Akka.DI.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Akka.DI.Ninject, Version=1.1.1.2, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Akka.DI.Ninject.1.1.1\lib\net45\Akka.DI.Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="Akka.Logger.Serilog, Version=1.2.0.8, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Akka.Logger.Serilog.1.2.0\lib\net45\Akka.Logger.Serilog.dll</HintPath>
     </Reference>
