@@ -1,11 +1,16 @@
-﻿using Me20.ApiGateway.Identity;
+﻿using MassTransit;
+using MassTransit.AzureServiceBusTransport;
+using Me20.ApiGateway.Identity;
 using Me20.Contracts.Actors;
 using Me20.IdentityActors;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Ninject;
 using Nancy.Conventions;
+using Ninject.Activation.Providers;
 using Ninject;
+using System;
+using MassTransit.NinjectIntegration;
 
 namespace Me20.ApiGateway
 {
@@ -20,8 +25,28 @@ namespace Me20.ApiGateway
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
         {
             // Perform registation that should have an application lifetime
+            existingContainer.Bind<IBusControl>().ToMethod(ctx =>
+                Bus.Factory.CreateUsingAzureServiceBus(cfg =>
+                {
+                    var host = cfg.Host(
+                        connectionString: Me20.Shared.BusConfig.AzureServiceBusConnectionString,
+                        configure: hostCfg =>
+                        {
+                            hostCfg.OperationTimeout = TimeSpan.FromSeconds(5);
+                        });
 
-            existingContainer.Bind<ActorModel.ActorSystemContainer>().ToSelf().InSingletonScope(); existingContainer.Bind<IKnowActor<UsersManagerActor>>().ToMethod(ctx => ctx.Kernel.Get<ActorModel.ActorSystemContainer>());
+                    //cfg.ReceiveEndpoint(
+                    //    host: host, 
+                    //    queueName: "",
+                    //    configure: ec =>
+                    //    {
+                    //        ec.LoadFrom(existingContainer);
+                    //    });
+                })).InSingletonScope();
+            existingContainer.Bind<IBus, ISendEndpointProvider, IPublishEndpoint>().ToMethod(ctx => ctx.Kernel.Get<IBusControl>());
+
+            existingContainer.Bind<ActorModel.ActorSystemContainer>().ToSelf().InSingletonScope();
+            existingContainer.Bind<IKnowActor<UsersManagerActor>>().ToMethod(ctx => ctx.Kernel.Get<ActorModel.ActorSystemContainer>());
         }
 
         protected override void ConfigureRequestContainer(IKernel container, NancyContext context)
