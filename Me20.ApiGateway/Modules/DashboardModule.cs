@@ -9,11 +9,11 @@ namespace Me20.ApiGateway.Modules
 {
     public class DashboardModule : NancyModule
     {
-        private ISendEndpointProvider endpointProvider;
+        //private ISendEndpointProvider endpointProvider;
 
-        public DashboardModule(ISendEndpointProvider endpointProvider)
+        public DashboardModule(/*ISendEndpointProvider endpointProvider*/)
         {
-            this.endpointProvider = endpointProvider;
+            //this.endpointProvider = endpointProvider;
 
             Before.AddItemToEndOfPipeline(
                 ctx =>

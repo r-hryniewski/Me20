@@ -40,9 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Events\IUserLoggedInEvent.cs" />
     <Compile Include="ICanBeValidated.cs" />
+    <Compile Include="ICanValidate.cs" />
+    <Compile Include="ICircuitBreakerResult.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="IHandleCommands.cs" />
+    <Compile Include="ICommandResult.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IHaveUserName.cs" />
+    <Compile Include="IQuery.cs" />
+    <Compile Include="IHandleQueries.cs" />
+    <Compile Include="IQueryResult.cs" />
+    <Compile Include="IResult.cs" />
     <Compile Include="IUserIdentity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -13,6 +13,8 @@ using System;
 using MassTransit.NinjectIntegration;
 using Akka.DI.Ninject;
 using Akka.Actor;
+using Me20.Shared.Events;
+using Me20.Contracts;
 
 namespace Me20.ApiGateway
 {
@@ -36,7 +38,7 @@ namespace Me20.ApiGateway
                         {
                             hostCfg.OperationTimeout = TimeSpan.FromSeconds(5);
                         });
-
+            
                     //cfg.ReceiveEndpoint(
                     //    host: host, 
                     //    queueName: "",
@@ -61,6 +63,8 @@ namespace Me20.ApiGateway
         {
             // Perform registrations that should have a request lifetime
             container.Settings.AllowNullInjection = true;
+
+            container.Bind<UserIdentity, Contracts.IUserIdentity, Nancy.Security.IUserIdentity>().ToMethod(ctx => new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current));
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)
@@ -69,11 +73,11 @@ namespace Me20.ApiGateway
             // resolve things that are needed during request startup.
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
-                var currentUser = new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current);
+                var currentUser = container.Get<UserIdentity>();
                 context.CurrentUser = currentUser;
                 if (currentUser.IsValid)
                 {
-                    //Notify actor about login
+                    container.Get<IKnowActor<UsersManagerActor>>()?.Ref.Tell(new UserLoggedInEvent(currentUser));
                 }
 
                 return null;

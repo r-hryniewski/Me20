@@ -1,40 +1,49 @@
-﻿using System.Collections.Generic;
+﻿using Me20.Contracts;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System;
+using Newtonsoft.Json;
 
 namespace Me20.Shared.Results
 {
-    public class HttpResult<T>
+    public class HttpResult<TItem> : IResult<TItem>
     {
-        public T Item { get; private set; }
+        public TItem Item { get; private set; }
         public int StatusCode { get; private set; }
-        public string[] ErrorMessages { get; private set; }
 
-        public HttpResult(T item, int statusCode)
+        [JsonIgnore]
+        public string[] ErrorMessages { get; private set; }
+        IEnumerable<string> IResult.ErrorList => ErrorMessages;
+
+        [JsonIgnore]
+        bool IResult.Successful => ErrorMessages == null || ErrorMessages.Length == 0;
+
+        public HttpResult(TItem item, int statusCode)
         {
             Item = item;
             StatusCode = statusCode;
             ErrorMessages = null;
         }
 
-        public HttpResult(T item, HttpStatusCode status = HttpStatusCode.OK) : this(item, (int)status)
+        public HttpResult(TItem item, HttpStatusCode status = HttpStatusCode.OK) : this(item, (int)status)
         {}
 
-        public static HttpResult<T> CreateErrorResult(int statusCode = 400, params string[] errorMessages)
+        public static HttpResult<TItem> CreateErrorResult(int statusCode = 400, params string[] errorMessages)
         {
-            return new HttpResult<T>()
+            return new HttpResult<TItem>()
             {
-                Item = default(T),
+                Item = default(TItem),
                 StatusCode = statusCode,
                 ErrorMessages = errorMessages ?? new string[0]
             };
         }
 
-        public static HttpResult<T> CreateErrorResult(HttpStatusCode status = HttpStatusCode.BadRequest, params string[] errorMessages) => CreateErrorResult((int)status, errorMessages);
+        public static HttpResult<TItem> CreateErrorResult(HttpStatusCode status = HttpStatusCode.BadRequest, params string[] errorMessages) => CreateErrorResult((int)status, errorMessages);
 
-        public static HttpResult<T> CreateErrorResult(IEnumerable<string> errorMessages, HttpStatusCode status = HttpStatusCode.BadRequest) => CreateErrorResult((int)status, errorMessages?.ToArray());
+        public static HttpResult<TItem> CreateErrorResult(IEnumerable<string> errorMessages, HttpStatusCode status = HttpStatusCode.BadRequest) => CreateErrorResult((int)status, errorMessages?.ToArray());
 
-        public static HttpResult<T> CreateErrorResult(IEnumerable<string> errorMessages, int statusCode = 400) => CreateErrorResult(statusCode, errorMessages?.ToArray());
+        public static HttpResult<TItem> CreateErrorResult(IEnumerable<string> errorMessages, int statusCode = 400) => CreateErrorResult(statusCode, errorMessages?.ToArray());
 
         private HttpResult(){}
     }

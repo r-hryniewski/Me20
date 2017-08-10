@@ -9,20 +9,13 @@ namespace Me20.ApiGateway.Modules.Api
 {
     public class ContentModule : NancyModule
     {
-        //private readonly IEnumerable<IDispatch<ContentEntity>> dispatchers;
-
-        public ContentModule(/*IDispatch<ContentEntity>[] _dispatchers*/) : base("/api/content")
+        public ContentModule() : base("/api/content")
         {
-            //dispatchers = _dispatchers;
-
             //Get["/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetUserContentQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
 
             //Get["/details/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetContentDetailsQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));
 
-            //Post["/"] = p => Response.AsJson(this.Bind<ContentEntity>()
-            //        .WithSpecific(dispatchers,
-            //            AddContentDispatcher.Name)
-            //        .DispatchAll(Context.CurrentUser.UserName));
+            //Post["/"] = p => Response.AsJson(this.Bind<AddContentCommand>());
 
             //Post["/rate"] = p => Response.AsJson(this.Bind<ContentEntity>()
             //        .WithSpecific(dispatchers,
