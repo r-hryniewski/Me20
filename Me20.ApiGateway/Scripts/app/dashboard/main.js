@@ -62,7 +62,7 @@ var dashboard = new Vue({
             }
         },
         addContent: function (event) {
-            this.$http.post("/api/content/", { Url: event.srcElement.value, Tags: [] })
+            this.$http.post("/api/my/content/", { Url: event.srcElement.value, Tags: [] })
                 .then(
                 response => {
                     var responseItem = response.body.item;

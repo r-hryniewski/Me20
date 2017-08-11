@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\IAddContentCommand.cs" />
     <Compile Include="Events\IUserLoggedInEvent.cs" />
     <Compile Include="ICanBeValidated.cs" />
     <Compile Include="ICanValidate.cs" />
@@ -48,6 +49,7 @@
     <Compile Include="IHandleCommands.cs" />
     <Compile Include="ICommandResult.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IHaveContentUri.cs" />
     <Compile Include="IHaveUserName.cs" />
     <Compile Include="IQuery.cs" />
     <Compile Include="IHandleQueries.cs" />

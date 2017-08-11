@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Me20.Shared.Abstracts
@@ -41,7 +42,7 @@ namespace Me20.Shared.Abstracts
             return validationResult;
         }
 
-        public async Task<IQueryResult<TResult>> Handle(TQuery q)
+        public async Task<IQueryResult<TResult>> Handle(TQuery q, CancellationToken ct = default(CancellationToken))
         {
             var result = new QueryResult<TResult>();
             try
@@ -62,7 +63,7 @@ namespace Me20.Shared.Abstracts
 
                 OnBeforeQuerying?.Invoke(q);
 
-                result.Item = await Query(q);
+                result.Item = await Query(q, ct);
 
                 OnAfterQuerying?.Invoke(q, result);
             }
@@ -73,6 +74,6 @@ namespace Me20.Shared.Abstracts
             return result;
         }
 
-        public abstract Task<TResult> Query(TQuery q);
+        public abstract Task<TResult> Query(TQuery q, CancellationToken ct = default(CancellationToken));
     }
 }

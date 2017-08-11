@@ -38,7 +38,7 @@ namespace Me20.ApiGateway
                         {
                             hostCfg.OperationTimeout = TimeSpan.FromSeconds(5);
                         });
-            
+
                     //cfg.ReceiveEndpoint(
                     //    host: host, 
                     //    queueName: "",
@@ -64,7 +64,7 @@ namespace Me20.ApiGateway
             // Perform registrations that should have a request lifetime
             container.Settings.AllowNullInjection = true;
 
-            container.Bind<UserIdentity, Contracts.IUserIdentity, Nancy.Security.IUserIdentity>().ToMethod(ctx => new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current));
+            container.Bind<UserIdentity, Contracts.IUserIdentity, Nancy.Security.IUserIdentity>().ToMethod(ctx => System.Security.Claims.ClaimsPrincipal.Current.Identity.IsAuthenticated ? new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current) : null);
         }
 
         protected override void RequestStartup(IKernel container, IPipelines pipelines, NancyContext context)
@@ -74,10 +74,13 @@ namespace Me20.ApiGateway
             pipelines.BeforeRequest.AddItemToStartOfPipeline(ctx =>
             {
                 var currentUser = container.Get<UserIdentity>();
-                context.CurrentUser = currentUser;
-                if (currentUser.IsValid)
+                if (currentUser != null)
                 {
-                    container.Get<IKnowActor<UsersManagerActor>>()?.Ref.Tell(new UserLoggedInEvent(currentUser));
+                    context.CurrentUser = currentUser;
+                    if (currentUser.IsValid)
+                    {
+                        container.Get<IKnowActor<UsersManagerActor>>()?.Ref.Tell(new UserLoggedInEvent(currentUser));
+                    }
                 }
 
                 return null;

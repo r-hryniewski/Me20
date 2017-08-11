@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Me20.Shared.Abstracts
@@ -40,7 +41,7 @@ namespace Me20.Shared.Abstracts
             return validationResult;
         }
 
-        public async Task<ICommandResult> Handle(TCommand cmd)
+        public async Task<ICommandResult> Handle(TCommand cmd, CancellationToken ct = default(CancellationToken))
         {
             var result = new CommandResult();
             try
@@ -61,7 +62,7 @@ namespace Me20.Shared.Abstracts
 
                 OnBeforeCommandExecute?.Invoke(cmd);
 
-                result = await ExecuteCommand(cmd, result);
+                result = await ExecuteCommand(cmd, result, ct);
 
                 OnAfterCommandExecute?.Invoke(cmd, result);
             }
@@ -74,7 +75,7 @@ namespace Me20.Shared.Abstracts
 
 
 
-        protected abstract Task<CommandResult> ExecuteCommand(TCommand command, ICommandResult result);
+        protected abstract Task<CommandResult> ExecuteCommand(TCommand command, ICommandResult result, CancellationToken ct = default(CancellationToken));
 
     }
 }
