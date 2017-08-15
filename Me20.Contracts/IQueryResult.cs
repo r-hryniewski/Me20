@@ -8,6 +8,8 @@ namespace Me20.Contracts
 {
     public interface IQueryResult<TItem> : IResult<TItem>
     {
-        //Marker
+        IQueryResult<TItem> AddError(string errorMsg);
+        IQueryResult<TItem> AddUnexpectedError();
+        IQueryResult<TItem> AddErrorsFrom(IResult otherResult);
     }
 }

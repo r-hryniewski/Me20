@@ -9,6 +9,8 @@ namespace Me20.ApiGateway.Commands
     public class AddContent : IAddContentCommand
     {
         public string Url { get; set; }
+        public IEnumerable<string> Tags { get; set; }
+
         private Uri uri;
         public Uri ContentUri
         {
@@ -25,5 +27,6 @@ namespace Me20.ApiGateway.Commands
                 }
             }
         }
+
     }
 }

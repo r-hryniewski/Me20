@@ -24,6 +24,13 @@ namespace Me20.ApiGateway
         {
             // No registrations should be performed in here, however you may
             // resolve things that are needed during application startup.
+
+            pipelines.OnError.AddItemToStartOfPipeline(
+                item: (ctx, ex) => {
+                    var logger = container.Get<Serilog.ILogger>();
+                    logger.Error(ex, "Error handled by global exception handler");
+                    return null;
+                });
         }
 
         protected override void ConfigureApplicationContainer(IKernel existingContainer)
@@ -57,12 +64,16 @@ namespace Me20.ApiGateway
             existingContainer.Bind<ActorModel.ActorSystemContainer>().ToSelf().InSingletonScope().WithConstructorArgument("actorSystem", actorSystem);
             existingContainer.Bind<IKnowActor<UsersManagerActor>>().ToMethod(ctx => ctx.Kernel.Get<ActorModel.ActorSystemContainer>());
             #endregion
+
+            existingContainer.Bind<Serilog.ILogger>().ToMethod(ctx => Serilog.Log.Logger);
         }
 
         protected override void ConfigureRequestContainer(IKernel container, NancyContext context)
         {
             // Perform registrations that should have a request lifetime
             container.Settings.AllowNullInjection = true;
+
+            container.Bind<IHandleCommands<Commands.AddContent>>().To<CommandHandlers.AddContentCommandHandler>();
 
             container.Bind<UserIdentity, Contracts.IUserIdentity, Nancy.Security.IUserIdentity>().ToMethod(ctx => System.Security.Claims.ClaimsPrincipal.Current.Identity.IsAuthenticated ? new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current) : null);
         }
@@ -85,6 +96,8 @@ namespace Me20.ApiGateway
 
                 return null;
             });
+
+
         }
 
         protected override void ConfigureConventions(NancyConventions nancyConventions)

@@ -21,20 +21,20 @@ namespace Me20.Shared.Results
             Break = false;
         }
 
-        public ValidationResult AddError(string errorMessage, bool breakAfterAddingError = false)
+        public ICircuitBreakerResult AddError(string errorMessage, bool breakAfterAddingError = false)
         {
             Errors.Add(errorMessage);
             Break |= breakAfterAddingError;
             return this;
         }
 
-        public ValidationResult AddUnexpectedError()
+        public ICircuitBreakerResult AddUnexpectedError(bool breakAfterAddingError = false)
         {
-            AddError("Unexpected error occured");
+            AddError("Unexpected error occured", breakAfterAddingError);
             return this;
         }
 
-        public ValidationResult AddErrorsFrom(IResult otherResult)
+        public ICircuitBreakerResult AddErrorsFrom(IResult otherResult)
         {
             if (otherResult != null && otherResult.ErrorList != null)
                 Errors.AddRange(otherResult.ErrorList);

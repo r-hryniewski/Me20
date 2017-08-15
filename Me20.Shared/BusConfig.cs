@@ -13,9 +13,9 @@ namespace Me20.Shared
         public static readonly string BusEndpoint = ConfigurationManager.AppSettings[nameof(BusEndpoint)];
 
         public static readonly string IdentityReadQueueName = "identity-read";
-        public static readonly string IdentityWriteQueueName = "identity-read";
-        public static readonly string ContentReadQueueName = "identity-read";
-        public static readonly string ContentWriteQueueName = "identity-read";
+        public static readonly string IdentityWriteQueueName = "identity-write";
+        public static readonly string ContentReadQueueName = "content-read";
+        public static readonly string ContentWriteQueueName = "content-write";
 
         public static readonly Uri IdentityReadQueueUri = new Uri($"{BusEndpoint}{IdentityReadQueueName}");
         public static readonly Uri IdentityWriteQueueUri = new Uri($"{BusEndpoint}{IdentityWriteQueueName}");

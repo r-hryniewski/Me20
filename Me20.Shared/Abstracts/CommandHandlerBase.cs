@@ -43,7 +43,7 @@ namespace Me20.Shared.Abstracts
 
         public async Task<ICommandResult> Handle(TCommand cmd, CancellationToken ct = default(CancellationToken))
         {
-            var result = new CommandResult();
+            ICommandResult result = new CommandResult();
             try
             {
                 OnBeforeCommandValidation?.Invoke(cmd);
@@ -75,7 +75,7 @@ namespace Me20.Shared.Abstracts
 
 
 
-        protected abstract Task<CommandResult> ExecuteCommand(TCommand command, ICommandResult result, CancellationToken ct = default(CancellationToken));
+        protected abstract Task<ICommandResult> ExecuteCommand(TCommand command, ICommandResult result, CancellationToken ct = default(CancellationToken));
 
     }
 }

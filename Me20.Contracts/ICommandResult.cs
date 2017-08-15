@@ -8,5 +8,8 @@ namespace Me20.Contracts
 {
     public interface ICommandResult : IResult
     {
+        ICommandResult AddError(string errorMsg);
+        ICommandResult AddUnexpectedError();
+        ICommandResult AddErrorsFrom(IResult otherResult);
     }
 }

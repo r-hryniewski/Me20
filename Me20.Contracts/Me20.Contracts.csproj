@@ -50,6 +50,7 @@
     <Compile Include="ICommandResult.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IHaveContentUri.cs" />
+    <Compile Include="IHaveTags.cs" />
     <Compile Include="IHaveUserName.cs" />
     <Compile Include="IQuery.cs" />
     <Compile Include="IHandleQueries.cs" />

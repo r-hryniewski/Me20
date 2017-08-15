@@ -14,5 +14,8 @@ namespace Me20.Contracts
     public interface ICircuitBreakerResult : IResult
     {
         bool Break { get; }
+        ICircuitBreakerResult AddError(string errorMsg, bool breakAfterAddingError = false);
+        ICircuitBreakerResult AddUnexpectedError(bool breakAfterAddingError = false);
+        ICircuitBreakerResult AddErrorsFrom(IResult otherResult);
     }
 }

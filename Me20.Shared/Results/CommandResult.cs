@@ -24,19 +24,19 @@ namespace Me20.Shared.Results
             AddErrorsFrom(validationResult);
         }
 
-        public CommandResult AddError(string errorMsg)
+        public ICommandResult AddError(string errorMsg)
         {
             Errors.Add(errorMsg);
             return this;
         }
 
-        public CommandResult AddUnexpectedError()
+        public ICommandResult AddUnexpectedError()
         {
             AddError("Unexpected error occured");
             return this;
         }
 
-        public CommandResult AddErrorsFrom(IResult otherResult)
+        public ICommandResult AddErrorsFrom(IResult otherResult)
         {
             if (otherResult != null && otherResult.ErrorList != null)
                 Errors.AddRange(otherResult.ErrorList);

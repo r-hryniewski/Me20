@@ -20,19 +20,19 @@ namespace Me20.Shared.Results
             Errors = new List<string>();
         }
 
-        public QueryResult<TItem> AddError(string errorMsg)
+        public IQueryResult<TItem> AddError(string errorMsg)
         {
             Errors.Add(errorMsg);
             return this;
         }
 
-        public QueryResult<TItem> AddUnexpectedError()
+        public IQueryResult<TItem> AddUnexpectedError()
         {
             AddError("Unexpected error occured");
             return this;
         }
 
-        public QueryResult<TItem> AddErrorsFrom(IResult otherResult)
+        public IQueryResult<TItem> AddErrorsFrom(IResult otherResult)
         {
             if (otherResult != null && otherResult.ErrorList != null)
                 Errors.AddRange(otherResult.ErrorList);
