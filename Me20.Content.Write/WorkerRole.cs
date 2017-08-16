@@ -72,7 +72,6 @@ namespace Me20.Content.Write
         private async Task RunAsync(CancellationToken cancellationToken)
         {
             // TODO: Replace the following with your own logic.
-            Log.Error($"Cstring: {Shared.BusConfig.AzureServiceBusConnectionString}");
             var bus = Bus.Factory.CreateUsingAzureServiceBus(
                 configure: cfg =>
                 {
@@ -94,10 +93,9 @@ namespace Me20.Content.Write
             await bus.StartAsync();
             while (!cancellationToken.IsCancellationRequested)
             {
-                //Trace.TraceInformation("Working");
-                //await Task.Delay(1000);
+                
             }
-            await bus.StartAsync();
+            await bus.StopAsync();
         }
     }
 }
