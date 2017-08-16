@@ -9,6 +9,12 @@ using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.Diagnostics;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
+using MassTransit;
+using MassTransit.AzureServiceBusTransport;
+using Serilog;
+using System.Configuration;
+using Me20.Content.Write.CommandConsumers;
+using Microsoft.Azure;
 
 namespace Me20.Content.Write
 {
@@ -41,6 +47,11 @@ namespace Me20.Content.Write
 
             bool result = base.OnStart();
 
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo
+                .ApplicationInsightsEvents(CloudConfigurationManager.GetSetting("AppliactionInsigthsInstrumentationKey"))
+                .CreateLogger();
+
             Trace.TraceInformation("Me20.Content.Write has been started");
 
             return result;
@@ -61,11 +72,32 @@ namespace Me20.Content.Write
         private async Task RunAsync(CancellationToken cancellationToken)
         {
             // TODO: Replace the following with your own logic.
+            Log.Error($"Cstring: {Shared.BusConfig.AzureServiceBusConnectionString}");
+            var bus = Bus.Factory.CreateUsingAzureServiceBus(
+                configure: cfg =>
+                {
+                    var host = cfg.Host(
+                        connectionString: Shared.BusConfig.AzureServiceBusConnectionString,
+                        configure: hostCfg =>
+                        {
+                            hostCfg.OperationTimeout = TimeSpan.FromSeconds(5);
+                        });
+                    cfg.ReceiveEndpoint(
+                        host: host,
+                        queueName: Shared.BusConfig.ContentWriteQueueName,
+                        configure: ec =>
+                        {
+                            ec.Consumer<AddContentCommandConsumer>();
+                        });
+                });
+
+            await bus.StartAsync();
             while (!cancellationToken.IsCancellationRequested)
             {
-                Trace.TraceInformation("Working");
-                await Task.Delay(1000);
+                //Trace.TraceInformation("Working");
+                //await Task.Delay(1000);
             }
+            await bus.StartAsync();
         }
     }
 }

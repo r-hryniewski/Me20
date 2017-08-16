@@ -8,6 +8,7 @@ using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 using Microsoft.WindowsAzure;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.Azure;
 
 namespace Me20.Identity.Read
 {

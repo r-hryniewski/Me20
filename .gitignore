@@ -248,3 +248,4 @@ ModelManifest.xml
 /NDependOut
 /Me20.Web/ApplicationInsights.config
 *.pubxml
+*.cscfg

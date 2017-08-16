@@ -37,14 +37,6 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Me20.Content.Read\Me20.Content.Read.csproj">
-      <Name>Me20.Content.Read</Name>
-      <Project>{1587e467-58b1-4031-994b-8f42ccaa49df}</Project>
-      <Private>True</Private>
-      <RoleType>Worker</RoleType>
-      <RoleName>Me20.Content.Read</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
     <ProjectReference Include="..\Me20.Content.Write\Me20.Content.Write.csproj">
       <Name>Me20.Content.Write</Name>
       <Project>{a5dc341f-50b1-4959-a526-a15a2ae1f37c}</Project>
@@ -57,10 +49,14 @@
   <ItemGroup>
     <Folder Include="Me20.Content.ReadContent\" />
     <Folder Include="Me20.Content.WriteContent\" />
+    <Folder Include="Profiles" />
   </ItemGroup>
   <ItemGroup>
     <DiagnosticsConfiguration Include="Me20.Content.ReadContent\diagnostics.wadcfgx" />
     <DiagnosticsConfiguration Include="Me20.Content.WriteContent\diagnostics.wadcfgx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PublishProfile Include="Profiles\me20contentProduction.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>

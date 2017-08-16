@@ -37,14 +37,6 @@
     <ServiceConfiguration Include="ServiceConfiguration.Cloud.cscfg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Me20.Identity.Read\Me20.Identity.Read.csproj">
-      <Name>Me20.Identity.Read</Name>
-      <Project>{e6a6efdf-4405-4036-ba87-879ba7c0e720}</Project>
-      <Private>True</Private>
-      <RoleType>Worker</RoleType>
-      <RoleName>Me20.Identity.Read</RoleName>
-      <UpdateDiagnosticsConnectionStringOnPublish>True</UpdateDiagnosticsConnectionStringOnPublish>
-    </ProjectReference>
     <ProjectReference Include="..\Me20.Identity.Write\Me20.Identity.Write.csproj">
       <Name>Me20.Identity.Write</Name>
       <Project>{5002dc38-5210-4fa4-9652-b338e534823c}</Project>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Azure;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -9,8 +10,8 @@ namespace Me20.Shared
 {
     public class BusConfig
     {
-        public static readonly string AzureServiceBusConnectionString = ConfigurationManager.AppSettings[nameof(AzureServiceBusConnectionString)];
-        public static readonly string BusEndpoint = ConfigurationManager.AppSettings[nameof(BusEndpoint)];
+        public static readonly string AzureServiceBusConnectionString = CloudConfigurationManager.GetSetting(nameof(AzureServiceBusConnectionString));
+        public static readonly string BusEndpoint = CloudConfigurationManager.GetSetting(nameof(BusEndpoint));
 
         public static readonly string IdentityReadQueueName = "identity-read";
         public static readonly string IdentityWriteQueueName = "identity-write";
