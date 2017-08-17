@@ -7,14 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Me20.Content.Write.CommandConsumers
+namespace Me20.Content.WriteService.CommandConsumers
 {
     public class AddContentCommandConsumer : IConsumer<IAddContentCommand>
     {
-        public async Task Consume(ConsumeContext<IAddContentCommand> context)
+        public Task Consume(ConsumeContext<IAddContentCommand> context)
         {
             var msg = context.Message;
             Log.Information($"IAddContentCommand received with {msg.ContentUri} url");
+
+            return Task.CompletedTask;
         }
     }
 }
