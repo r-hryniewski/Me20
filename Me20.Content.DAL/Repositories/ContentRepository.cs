@@ -24,9 +24,19 @@ namespace Me20.Content.DAL.Repositories
                     await client.Execute(GremlinQuery.g.addV($"{LabelPrefix}{content.ContentUri}", content.Id));
                 }
             }
-            catch (Exception ex)
+            catch (Microsoft.Azure.Documents.DocumentClientException ex)
             {
-                Console.WriteLine(ex);
+                if (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+                {
+                    //Item already exists and cannot be added second time, do nothing
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
