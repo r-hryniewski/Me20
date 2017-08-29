@@ -181,7 +181,7 @@
       <Project>{c8a1b674-d67f-4e24-b2f7-6434718a23ec}</Project>
       <Name>_Me20.Common</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Me20.Content\_Me20.Content.csproj">
+    <ProjectReference Include="..\_Me20.Content\_Me20.Content.csproj">
       <Project>{5deceaea-d621-4db8-8741-4a7a70633c2d}</Project>
       <Name>_Me20.Content</Name>
     </ProjectReference>

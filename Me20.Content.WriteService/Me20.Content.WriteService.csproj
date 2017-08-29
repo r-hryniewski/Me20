@@ -101,10 +101,6 @@
       <Project>{c1d9af78-12c6-4511-b779-52c84a4f1887}</Project>
       <Name>Me20.Contracts</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Me20.DAL\Me20.DAL.csproj">
-      <Project>{56567aec-41cd-4c70-a12f-31cb52f7eeb2}</Project>
-      <Name>Me20.DAL</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Me20.Shared\Me20.Shared.csproj">
       <Project>{b19ed7da-e8f6-4da9-b8cc-99ab78a4a9ee}</Project>
       <Name>Me20.Shared</Name>

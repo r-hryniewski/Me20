@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Me20.DAL")]
+[assembly: AssemblyTitle("Me20.DAL.Graph")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Me20.DAL")]
+[assembly: AssemblyProduct("Me20.DAL.Graph")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("56567aec-41cd-4c70-a12f-31cb52f7eeb2")]
+[assembly: Guid("6596e166-c0c0-4023-a83a-cf2c78cc9b48")]
 
 // Version information for an assembly consists of the following four values:
 //

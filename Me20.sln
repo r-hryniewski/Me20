@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.26730.8
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{A4ADE11F-38F9-45DD-AF22-39570527D293}"
 EndProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Me20.Core", "Me20.Core\_Me
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Content", "Content", "{2264CAFD-19B0-4CF9-A1F4-EBEDB13E9289}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Me20.Content", "Me20.Content\_Me20.Content.csproj", "{5DECEAEA-D621-4DB8-8741-4A7A70633C2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Me20.Content", "_Me20.Content\_Me20.Content.csproj", "{5DECEAEA-D621-4DB8-8741-4A7A70633C2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Bot", "Me20.Bot\Me20.Bot.csproj", "{33C9365E-263F-44AA-A343-23C4F223EA12}"
 EndProject
@@ -41,13 +41,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.ActorModel", "Me20.Act
 		{B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE} = {B19ED7DA-E8F6-4DA9-B8CC-99AB78A4A9EE}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.DAL", "Me20.DAL\Me20.DAL.csproj", "{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Contracts", "Me20.Contracts\Me20.Contracts.csproj", "{C1D9AF78-12C6-4511-B779-52C84A4F1887}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Contracts.Actors", "Me20.Contracts.Actors\Me20.Contracts.Actors.csproj", "{B2D4336D-E41F-4EFD-B41D-940A6B335AA7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Content.WriteService", "Me20.Content.WriteService\Me20.Content.WriteService.csproj", "{F5333290-F8CA-4314-8B1B-C43C706DB610}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.DAL.Graph", "Me20.DAL.Graph\Me20.DAL.Graph.csproj", "{6596E166-C0C0-4023-A83A-CF2C78CC9B48}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,10 +91,6 @@ Global
 		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F43C2D0F-5716-4C03-979D-D41FAA5E9ED2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56567AEC-41CD-4C70-A12F-31CB52F7EEB2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1D9AF78-12C6-4511-B779-52C84A4F1887}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1D9AF78-12C6-4511-B779-52C84A4F1887}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1D9AF78-12C6-4511-B779-52C84A4F1887}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -107,6 +103,10 @@ Global
 		{F5333290-F8CA-4314-8B1B-C43C706DB610}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5333290-F8CA-4314-8B1B-C43C706DB610}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5333290-F8CA-4314-8B1B-C43C706DB610}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -120,5 +120,8 @@ Global
 		{2264CAFD-19B0-4CF9-A1F4-EBEDB13E9289} = {295DFFA3-024B-4F8F-BA67-B8D159527EE9}
 		{5DECEAEA-D621-4DB8-8741-4A7A70633C2D} = {2264CAFD-19B0-4CF9-A1F4-EBEDB13E9289}
 		{33C9365E-263F-44AA-A343-23C4F223EA12} = {295DFFA3-024B-4F8F-BA67-B8D159527EE9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0A2F074E-5307-4F3D-BF0C-9B3340B3C063}
 	EndGlobalSection
 EndGlobal
