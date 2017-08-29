@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C1D9AF78-12C6-4511-B779-52C84A4F1887}</ProjectGuid>
+    <ProjectGuid>{C6504EF8-0F85-4B27-99FB-8133E6405D9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Me20.Contracts</RootNamespace>
-    <AssemblyName>Me20.Contracts</AssemblyName>
+    <RootNamespace>Me20.Content.DAL</RootNamespace>
+    <AssemblyName>Me20.Content.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,25 +40,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\IAddContentCommand.cs" />
-    <Compile Include="Entities\IContent.cs" />
-    <Compile Include="Events\IUserLoggedInEvent.cs" />
-    <Compile Include="ICanBeValidated.cs" />
-    <Compile Include="ICanValidate.cs" />
-    <Compile Include="ICircuitBreakerResult.cs" />
-    <Compile Include="ICommand.cs" />
-    <Compile Include="IHandleCommands.cs" />
-    <Compile Include="ICommandResult.cs" />
-    <Compile Include="IEntity.cs" />
-    <Compile Include="IHaveContentUri.cs" />
-    <Compile Include="IHaveTags.cs" />
-    <Compile Include="IHaveUserName.cs" />
-    <Compile Include="IQuery.cs" />
-    <Compile Include="IHandleQueries.cs" />
-    <Compile Include="IQueryResult.cs" />
-    <Compile Include="IResult.cs" />
-    <Compile Include="IUserIdentity.cs" />
+    <Compile Include="Entities\ContentEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\ContentRepository.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Me20.Contracts\Me20.Contracts.csproj">
+      <Project>{c1d9af78-12c6-4511-b779-52c84a4f1887}</Project>
+      <Name>Me20.Contracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.DAL.Graph\Me20.DAL.Graph.csproj">
+      <Project>{6596e166-c0c0-4023-a83a-cf2c78cc9b48}</Project>
+      <Name>Me20.DAL.Graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Me20.Shared\Me20.Shared.csproj">
+      <Project>{b19ed7da-e8f6-4da9-b8cc-99ab78a4a9ee}</Project>
+      <Name>Me20.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

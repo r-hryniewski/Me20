@@ -49,6 +49,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Content.WriteService",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.DAL.Graph", "Me20.DAL.Graph\Me20.DAL.Graph.csproj", "{6596E166-C0C0-4023-A83A-CF2C78CC9B48}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Me20.Content.DAL", "Me20.Content.DAL\Me20.Content.DAL.csproj", "{C6504EF8-0F85-4B27-99FB-8133E6405D9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -107,6 +109,10 @@ Global
 		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6596E166-C0C0-4023-A83A-CF2C78CC9B48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6504EF8-0F85-4B27-99FB-8133E6405D9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6504EF8-0F85-4B27-99FB-8133E6405D9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6504EF8-0F85-4B27-99FB-8133E6405D9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6504EF8-0F85-4B27-99FB-8133E6405D9B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

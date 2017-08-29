@@ -27,6 +27,5 @@ namespace Me20.ApiGateway.Commands
                 }
             }
         }
-
     }
 }

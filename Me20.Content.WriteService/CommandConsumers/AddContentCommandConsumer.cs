@@ -1,4 +1,6 @@
 ﻿using MassTransit;
+using Me20.Content.DAL.Entities;
+using Me20.Content.DAL.Repositories;
 using Me20.Contracts.Commands;
 using Serilog;
 using System;
@@ -11,12 +13,15 @@ namespace Me20.Content.WriteService.CommandConsumers
 {
     public class AddContentCommandConsumer : IConsumer<IAddContentCommand>
     {
-        public Task Consume(ConsumeContext<IAddContentCommand> context)
+        public async Task Consume(ConsumeContext<IAddContentCommand> context)
         {
-            var msg = context.Message;
-            Log.Information($"IAddContentCommand received with {msg.ContentUri} url");
+            var cmd = context.Message;
+            var repo = new ContentRepository();
+            var contentToAdd = new ContentEntity(
+                uri: cmd.ContentUri,
+                tags: cmd.Tags);
 
-            return Task.CompletedTask;
+            await repo.AddAsync(contentToAdd);
         }
     }
 }

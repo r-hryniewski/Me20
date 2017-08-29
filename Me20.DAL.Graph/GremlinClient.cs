@@ -62,6 +62,15 @@ namespace Me20.DAL.Graph
             return results;
         }
 
+        public async Task Execute(string gremlinQuery, CancellationToken ct = default(CancellationToken))
+        {
+            var query = client.CreateGremlinQuery<Vertex>(await GetGraph(), gremlinQuery);
+            while (query.HasMoreResults)
+            {
+                await query.ExecuteNextAsync<Vertex>();
+            }
+        }
+
         #region IDisposable Support
         private bool disposedValue = false; // To detect redundant calls
 
