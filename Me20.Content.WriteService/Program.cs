@@ -22,14 +22,14 @@ namespace Me20.Content.WriteService
         private static async Task MainAsync()
         {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}({DateTime.UtcNow.ToString("DD-MM-YY HH:mm")} UTC): Application started");
+            Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Application started");
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
             await ConfigureLogger();
             var bus = await ConfigureBus();
             await bus.StartAsync();
 
-            await Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}({DateTime.UtcNow.ToString("DD-MM-YY HH:mm")} UTC): Application running.");
+            await Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Application running.");
             while (true)
             {
                 
@@ -49,7 +49,7 @@ namespace Me20.Content.WriteService
                 .CreateLogger();
 
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}({DateTime.UtcNow.ToString("dd-MM-yy HH:mm")} UTC): Logger configured started");
+            Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Logger configured");
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 #pragma warning restore CS1998
@@ -79,7 +79,9 @@ namespace Me20.Content.WriteService
                         });
                 });
 
-            Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}({DateTime.UtcNow.ToString("DD-MM-YY HH:mm")} UTC): Bus configured");
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Bus configured");
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
             return bus;
         }

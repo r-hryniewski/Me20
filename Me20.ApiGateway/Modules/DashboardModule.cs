@@ -24,7 +24,7 @@ namespace Me20.ApiGateway.Modules
                     return null;
                 });
 
-            Get["/", true] = async (p, ct) =>
+            Get["/"] = p =>
             {
 
                 //var sendEnpoint = await endpointProvider.GetSendEndpoint(Shared.BusConfig.ContentReadQueueUri);
