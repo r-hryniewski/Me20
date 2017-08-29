@@ -1,7 +1,7 @@
 ﻿using Akka.Actor;
-using Akka.Persistence;
 using Me20.Common.Abstracts;
 using Me20.Common.Commands;
+using Me20.Common.CosmosDB;
 using Me20.Common.Extensions;
 using Me20.Identity.Abstracts;
 using Me20.Identity.Commands;
@@ -12,21 +12,19 @@ using Me20.Identity.QueryResultMessages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Me20.Identity.Actors
 {
     //TODO: Make it persistent actor
-    public class UserActor : ReceivePersistentActorBase
+    public class UserActor : ReceiveActorBase
     {
         private UserActorState ActorState { get; set; }
-
-        public override string PersistenceId => $"user-{ActorState.UserName}";
 
         public UserActor(string authenthicationType, string id) : base()
         {
             ActorState = new UserActorState(authenthicationType, id);
-
-            Recover<SnapshotOffer>(offer => ActorState = (UserActorState)offer.Snapshot);
 
             RegisterCommands();
 
@@ -37,72 +35,63 @@ namespace Me20.Identity.Actors
         private void RegisterCommands()
         {
             //Logging in persisted at 15 mins
-            Command<UserLoggedInCommand>(cmd => HandleUserLoggedInMessage(cmd));
-            Recover<UserLoggedInEvent>(ev => ActorState.RestoreLastLoggedIn(ev.LoginTime));
+            Receive<UserLoggedInCommand>(cmd => HandleUserLoggedInMessageAsync(cmd));
             //Tag subscribtion
-            Command<SubscribeToTagCommand>(cmd => HandleAddSubscribedTagCommand(cmd));
-            Recover<TagSubscribedEvent>(ev => HandleTagSubscribedEvent(ev));
+            Receive<SubscribeToTagCommand>(cmd => HandleAddSubscribedTagCommand(cmd));
+
             //Content added by user
-            Command<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
-            Recover<ContentAddedEvent>(ev => ActorState.AddOrUpdateContent(ev.ContentUri, ev.Title, ev.ContentTags, ev.Added));
+            Receive<AddContentCommand>(cmd => HandleAddContentCommand(cmd));
             //Content tagged by user
-            Command<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
-            Recover<ContentTaggedByUserEvent>(ev => ActorState.AddOrUpdateContentTags(ev.ContentUri, ev.ContentTags));
+            Receive<TagContentCommand>(cmd => HandleTagContentCommand(cmd));
+
             //Content rated by user
-            Command<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
-            Recover<ContentRatedEvent>(ev => ActorState.RateContent(ev.Uri, ev.Rating));
+            Receive<RateContentCommand>(cmd => HandleRateContentCommand(cmd));
 
-            Command<RemoveUserContentCommand>(cmd => HandleRemoveUserContentCommand(cmd));
-            Recover<UserContentRemovedEvent>(ev => ActorState.HandleContentRemovedEvent(ev));
+            Receive<RemoveUserContentCommand>(cmd => HandleRemoveUserContentCommand(cmd));
 
-            Command<RenameUserContentCommand>(cmd => HandleRenameUserContentCommand(cmd));
-            Recover<UserContentRenamedEvent>(ev => ActorState.HandleContentRenamedEvent(ev));
+            Receive<RenameUserContentCommand>(cmd => HandleRenameUserContentCommand(cmd));
         }
 
         private void RegisterQueries()
         {
-            Command<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
+            Receive<GetAllTagNamesForUserQueryMessage>(msg => Sender.Tell(new GetAllTagNamesForUserQueryResultMessage(ActorState.SubscribedTags)));
 
-            Command<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(((IEnumerable<UsersContent>)ActorState.Contents)
+            Receive<GetUserContentQueryMessage>(msg => Sender.Tell(new GetUserContentQueryResultMessage(((IEnumerable<UsersContent>)ActorState.Contents)
                 .OrderByDescending(c => c.Added)
                 .Skip((msg.CurrentPage - 1) * msg.Take)
                 .Take(msg.Take))));
 
-            Command<GetUserContentDetailsQueryMessage>(msg => Sender.Tell(new GetUserContentDetailsQueryResultMessage(ActorState.Contents[msg.Uri])));
+            Receive<GetUserContentDetailsQueryMessage>(msg => Sender.Tell(new GetUserContentDetailsQueryResultMessage(ActorState.Contents[msg.Uri])));
         }
+
         private void HandleAddContentCommand(AddContentCommand cmd)
         {
             var @event = new ContentAddedEvent(cmd.Uri, cmd.Title, cmd.ContentTags);
-            if (ActorState.AddOrUpdateContent(@event.ContentUri, @event.Title, @event.ContentTags, @event.Added))
-                Persist(@event, ev => HandleSnapshoting(ActorState));
+            ActorState.AddOrUpdateContent(@event.ContentUri, @event.Title, @event.ContentTags, @event.Added);
         }
 
         private void HandleRemoveUserContentCommand(RemoveUserContentCommand cmd)
         {
             var @event = new UserContentRemovedEvent(cmd.Uri);
-            if (ActorState.HandleContentRemovedEvent(@event))
-                Persist(@event, ev => HandleSnapshoting(ActorState));
+            ActorState.HandleContentRemovedEvent(@event);
         }
 
         private void HandleRenameUserContentCommand(RenameUserContentCommand cmd)
         {
             var @event = new UserContentRenamedEvent(cmd.Uri, cmd.Title);
-            if (ActorState.HandleContentRenamedEvent(@event))
-                Persist(@event, ev => HandleSnapshoting(ActorState));
+            ActorState.HandleContentRenamedEvent(@event);
         }
 
         private void HandleTagContentCommand(TagContentCommand cmd)
         {
             var @event = new ContentTaggedByUserEvent(cmd.Uri, cmd.ContentTags);
-            if (ActorState.AddOrUpdateContentTags(@event.ContentUri, @event.ContentTags))
-                Persist(@event, ev => HandleSnapshoting(ActorState));
+            ActorState.AddOrUpdateContentTags(@event.ContentUri, @event.ContentTags);
         }
 
         private void HandleAddSubscribedTagCommand(SubscribeToTagCommand cmd)
         {
             var @event = new TagSubscribedEvent(cmd.TagName);
-            if (HandleTagSubscribedEvent(@event))
-                Persist(@event, ev => HandleSnapshoting(ActorState));
+            HandleTagSubscribedEvent(@event);
         }
 
         private bool HandleTagSubscribedEvent(TagSubscribedEvent ev)
@@ -113,25 +102,23 @@ namespace Me20.Identity.Actors
         private void HandleRateContentCommand(RateContentCommand cmd)
         {
             var @event = new ContentRatedEvent(cmd.Uri, cmd.Rating);
-            Persist(@event, ev =>
-            {
-                ActorState.RateContent(ev.Uri, ev.Rating);
-                HandleSnapshoting(ActorState);
-            }
-            );
+            ActorState.RateContent(@event.Uri, @event.Rating);
         }
 
-        private void HandleUserLoggedInMessage(UserLoggedInCommand cmd)
+        private async void HandleUserLoggedInMessageAsync(UserLoggedInCommand cmd)
         {
-            if ((DateTime.UtcNow - ActorState.LastLoggedIn).TotalMinutes > 15)
+
+            using (var client = new GremlinCosmosClient())
             {
-                var @event = new UserLoggedInEvent(DateTime.UtcNow);
-                Persist(@event, ev =>
-                {
-                    ActorState.RefreshLastLoggedIn();
-                    HandleSnapshoting(ActorState);
-                });
+                var ctSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                var existingVertexes = await client.Execute(GremlinQuery.g.V($"user-{cmd.UserName}"), vertex => vertex, ctSource.Token);
+                if (existingVertexes.IsNullOrEmpty())
+                    await client.Execute(GremlinQuery.g.addV("user", $"user-{cmd.UserName}").property("testInt", 1).property("testString", "string").property("testBool", true), vertex => vertex, new CancellationTokenSource(TimeSpan.FromSeconds(15)).Token);
+
+
+
             }
+            ActorState.RefreshLastLoggedIn();
         }
 
         public static Props Props(string authenthicationType, string id)
@@ -210,39 +197,6 @@ namespace Me20.Identity.Actors
                     return content.Rename(ev.Title);
                 return false;
             }
-
-            //TODO: Refactor this
-            //Not used at the moment
-            //internal bool HasChanged(UserLoggedInMessage msg)
-            //{
-            //    return (new bool[]
-            //    {
-            //        this.UserName.Equals(msg.UserName, StringComparison.OrdinalIgnoreCase),
-            //        //this.Id.Equals(msg.Id, StringComparison.OrdinalIgnoreCase),
-            //        //this.FullName.Equals(msg.FullName, StringComparison.OrdinalIgnoreCase),
-            //        //this.FirstName.Equals(msg.FirstName, StringComparison.OrdinalIgnoreCase),
-            //        //this.LastName.Equals(msg.LastName, StringComparison.OrdinalIgnoreCase),
-            //        //this.Email.Equals(msg.Email, StringComparison.OrdinalIgnoreCase),
-            //        //this.Gender.Equals(msg.Gender, StringComparison.OrdinalIgnoreCase),
-            //        //this.AuthenticationType.Equals(msg.AuthenticationType, StringComparison.OrdinalIgnoreCase)
-            //    })
-            //    .Any(x => !x);
-            //}
-
-            //TODO: Change type
-            //Not used at the moment
-            //internal void Update(UserLoggedInMessage msg)
-            //{
-            //    //TODO: Not used atm
-
-            //    //this.Id = msg.Id;
-            //    //this.FullName = msg.FullName;
-            //    //this.FirstName = msg.FirstName;
-            //    //this.LastName = msg.LastName;
-            //    //this.Email = msg.Email;
-            //    //this.Gender = msg.Gender;
-            //    //this.AuthenticationType = msg.AuthenticationType;
-            //}
         }
     }
 

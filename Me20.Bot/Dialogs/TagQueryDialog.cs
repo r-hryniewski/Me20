@@ -16,7 +16,7 @@ namespace Me20.Bot.Dialogs
         public int count;
         public TagQueryDialog(string _tag, int _count)
         {
-            tag = _tag;
+            tag = _tag.Replace(" . ", ".").Replace(". ", ".").Replace(" .", ".");
             count = _count > 0 ? _count : 5;
         }
 
