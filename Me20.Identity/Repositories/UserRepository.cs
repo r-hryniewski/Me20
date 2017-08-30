@@ -6,22 +6,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Me20.Content.DAL.Repositories
+namespace Me20.Identity.Repositories
 {
-    public class ContentRepository
+    public class UserRepository
     {
-        private const string LabelPrefix = "content-";
-        public ContentRepository()
+        private const string TypePropertyConstant = "user";
+        public UserRepository()
         {
+
         }
 
-        public async Task AddAsync(IContent content)
+        public async Task AddAsync(IUser user)
         {
             try
             {
                 using (var client = new GremlinClient())
                 {
-                    await client.Execute(GremlinQuery.g.addV($"{LabelPrefix}{content.ContentUri}", content.Id));
+                    await client.Execute(GremlinQuery.g.addV(user.UserName, user.UserName).property("type", TypePropertyConstant));
                 }
             }
             catch (Microsoft.Azure.Documents.DocumentClientException ex)

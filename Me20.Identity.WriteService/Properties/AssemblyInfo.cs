@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Me20.Identity")]
+[assembly: AssemblyTitle("Me20.Identity.WriteService")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Me20.Identity")]
+[assembly: AssemblyProduct("Me20.Identity.WriteService")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1bd1554d-1a9e-4eba-9d40-ff120a33d912")]
+[assembly: Guid("43d85ce0-b089-468e-a5ea-95b575c3c8d2")]
 
 // Version information for an assembly consists of the following four values:
 //

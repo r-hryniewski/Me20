@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Me20.Content.DAL.Entities
+namespace Me20.Content.Entities
 {
     public class ContentEntity : IContent
     {

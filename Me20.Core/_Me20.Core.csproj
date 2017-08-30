@@ -185,7 +185,7 @@
       <Project>{5deceaea-d621-4db8-8741-4a7a70633c2d}</Project>
       <Name>_Me20.Content</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Me20.Identity\_Me20.Identity.csproj">
+    <ProjectReference Include="..\_Me20.Identity\_Me20.Identity.csproj">
       <Project>{C71564D2-7ACE-4239-BC3C-5C7E05CEBD90}</Project>
       <Name>_Me20.Identity</Name>
     </ProjectReference>

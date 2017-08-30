@@ -4,6 +4,7 @@ using Me20.Contracts;
 using System;
 using MassTransit;
 using Me20.Contracts.Events;
+using Akka.DI.Core;
 
 namespace Me20.IdentityActors
 {
@@ -25,13 +26,13 @@ namespace Me20.IdentityActors
             },
                 msg => msg.IsValid);
 
-            //Receive<IHaveUserName>(msg => Context.Child(msg.UserName).Forward(msg));
+            Receive<IHaveUserName>(msg => Context.Child(msg.UserName).Forward(msg));
         }
 
         private void HandleUserLoggedInMessage(IUserLoggedInEvent msg)
         {
-                var sendee = CreateUserActorIfNotExists(msg);
-                sendee.Forward(msg);
+                /*var sendee = */CreateUserActorIfNotExists(msg);
+                //sendee.Forward(msg);
         }
 
         private IActorRef CreateUserActorIfNotExists(IUserIdentity userIdentity)
@@ -40,7 +41,7 @@ namespace Me20.IdentityActors
             if (!Context.Child(actorPath).IsNobody())
                 return Context.Child(actorPath);
             else
-                return null;// Context.ActorOf(UserActor.Props(userIdentity.AuthenticationType, userIdentity.Id), actorPath);
+                return Context.ActorOf(Context.DI().Props<UserActor>(), actorPath);
         }
     }
 }
