@@ -12,11 +12,14 @@ namespace Me20.IdentityActors
     {
         //private readonly IActorRef usersListActor;
 
-        protected ILoggingAdapter Logger { get; private set; }
+        private ILoggingAdapter Logger { get; set; }
 
-        public UsersManagerActor()
+        private readonly ISendEndpointProvider sendEndpointProvider;
+
+        public UsersManagerActor(ISendEndpointProvider sendEndpointProvider)
         {
             Logger = Logging.GetLogger(Context);
+            this.sendEndpointProvider = sendEndpointProvider;
             //usersListActor = Context.ActorOf(UsersListActor.Props, Guid.NewGuid().ToString());
 
             Receive<IUserLoggedInEvent>(msg =>
@@ -31,17 +34,21 @@ namespace Me20.IdentityActors
 
         private void HandleUserLoggedInMessage(IUserLoggedInEvent msg)
         {
-                /*var sendee = */CreateUserActorIfNotExists(msg);
-                //sendee.Forward(msg);
+            /*var sendee = */
+            CreateUserActorIfNotExists(msg);
+            //sendee.Forward(msg);
         }
 
         private IActorRef CreateUserActorIfNotExists(IUserIdentity userIdentity)
         {
+
             var actorPath = userIdentity.UserName;
             if (!Context.Child(actorPath).IsNobody())
                 return Context.Child(actorPath);
             else
-                return Context.ActorOf(Context.DI().Props<UserActor>(), actorPath);
+            {
+                return Context.ActorOf(Props.Create<UserActor>(() => new UserActor(userIdentity, sendEndpointProvider)), actorPath);
+            }
         }
     }
 }

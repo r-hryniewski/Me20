@@ -92,6 +92,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CreateNewUserCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserActor.cs" />
     <Compile Include="UsersManagerActor.cs" />

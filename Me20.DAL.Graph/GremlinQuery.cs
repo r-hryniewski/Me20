@@ -42,6 +42,8 @@ namespace Me20.DAL.Graph
 
         public GremlinQuery property(string propertyName, int propertyValue) => this.Append(".property('").Append(propertyName).Append("', ").Append(propertyValue.ToString()).Append(")");
 
+        public GremlinQuery property(string propertyName, long propertyValue) => this.Append(".property('").Append(propertyName).Append("', ").Append(propertyValue.ToString()).Append(")");
+
         public GremlinQuery property(string propertyName, bool propertyValue) => this.Append(".property('").Append(propertyName).Append("', ").Append(propertyValue.ToString().ToLower()).Append(")");
 
         public GremlinQuery drop() => this.Append(".drop()");

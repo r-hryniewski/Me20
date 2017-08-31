@@ -28,10 +28,8 @@ namespace Me20.Content.WriteService
             await bus.StartAsync();
 
             await Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Application running.");
-            while (true)
-            {
-                
-            }
+
+            Console.ReadLine();
         }
 
         private static async Task ConfigureLogger()

@@ -2,6 +2,8 @@
 using Akka.Event;
 using MassTransit;
 using Me20.Contracts;
+using Me20.Contracts.Commands;
+using Me20.IdentityActors.Commands;
 using Me20.Shared.Abstracts;
 using System;
 using System.Collections.Generic;
@@ -15,21 +17,26 @@ namespace Me20.IdentityActors
     {
         private readonly ILoggingAdapter logger;
         private readonly ISendEndpointProvider sendEndpointProvider;
-        private readonly IPublishEndpoint publishEndpoint;
 
         private readonly UserActorState state;
 
-        public UserActor(IUserIdentity userIdentity, ISendEndpointProvider sendEndpointProvider, IPublishEndpoint publishEndpoint)
+        public UserActor(IUserIdentity userIdentity, ISendEndpointProvider sendEndpointProvider)
         {
             logger = Logging.GetLogger(Context);
             this.sendEndpointProvider = sendEndpointProvider;
-            this.publishEndpoint = publishEndpoint;
 
             state = new UserActorState(userIdentity.Id, userIdentity.AuthenticationType);
 
             if (!state.TryRestore(sendEndpointProvider).GetAwaiter().GetResult())
-                publishEndpoint.Publish(new { /*NewUserLoggedInEvent*/});
-                
+                SendCreateNewUserCommandAsync();
+        }
+
+        private async Task SendCreateNewUserCommandAsync()
+        {
+            var endpoint = await sendEndpointProvider.GetSendEndpoint(Shared.BusConfig.IdentityWriteQueueUri);
+            await endpoint.Send<ICreateNewUserCommand>(new CreateNewUserCommand(
+                id: state.Id,
+                authenticationType: state.AuthenticationType));
         }
 
         private class UserActorState : UserIdentityBase

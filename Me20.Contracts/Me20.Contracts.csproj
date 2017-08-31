@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ICreateNewUserCommand.cs" />
     <Compile Include="Commands\IAddContentCommand.cs" />
     <Compile Include="Entities\IContent.cs" />
     <Compile Include="Entities\IUser.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="IHandleCommands.cs" />
     <Compile Include="ICommandResult.cs" />
     <Compile Include="IEntity.cs" />
+    <Compile Include="IHaveAuthenticationType.cs" />
     <Compile Include="IHaveContentUri.cs" />
     <Compile Include="IHaveTags.cs" />
     <Compile Include="IHaveUserName.cs" />

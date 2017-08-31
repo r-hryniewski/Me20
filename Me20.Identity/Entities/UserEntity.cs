@@ -11,7 +11,7 @@ namespace Me20.Identity.Entities
 {
     public class UserEntity : UserIdentityBase, IUser
     {
-        protected UserEntity(string id, string authenticationType) : base(id, authenticationType)
+        public UserEntity(string id, string authenticationType) : base(id, authenticationType)
         {
         }
     }

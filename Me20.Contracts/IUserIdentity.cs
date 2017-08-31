@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Me20.Contracts
 {
-    public interface IUserIdentity : IEntity, IHaveUserName, ICanBeValidated
+    public interface IUserIdentity : IEntity, IHaveUserName, ICanBeValidated, IHaveAuthenticationType
     {
-        string AuthenticationType { get; }
+        
     }
 }

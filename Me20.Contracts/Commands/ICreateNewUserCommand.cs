@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Me20.Contracts
+namespace Me20.Contracts.Commands
 {
-    public interface ICommand
+    public interface ICreateNewUserCommand : ICommand, IEntity, IHaveAuthenticationType
     {
-        //Marker
     }
 }

@@ -22,7 +22,13 @@ namespace Me20.Identity.Repositories
             {
                 using (var client = new GremlinClient())
                 {
-                    await client.Execute(GremlinQuery.g.addV(user.UserName, user.UserName).property("type", TypePropertyConstant));
+                    var query = GremlinQuery.g.addV(user.UserName, user.UserName)
+                        .property("type", TypePropertyConstant)
+                        .property("externalId", user.Id)
+                        .property("authenticationType", user.AuthenticationType)
+                        .property("created", DateTime.UtcNow.Ticks);
+
+                    await client.Execute(query);
                 }
             }
             catch (Microsoft.Azure.Documents.DocumentClientException ex)

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Me20.Contracts
 {
-    public interface ICommand
+    public interface IHaveAuthenticationType
     {
-        //Marker
+        string AuthenticationType { get; }
     }
 }

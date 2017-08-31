@@ -90,7 +90,7 @@ namespace Me20.ApiGateway
                     context.CurrentUser = currentUser;
                     if (currentUser.IsValid)
                     {
-                        container.Get<IKnowActor<UsersManagerActor>>()?.Ref.Tell(new UserLoggedInEvent(currentUser));
+                        container.Get<IKnowActor<UsersManagerActor>>().Ref.Tell(new UserLoggedInEvent(currentUser));
                     }
                 }
 

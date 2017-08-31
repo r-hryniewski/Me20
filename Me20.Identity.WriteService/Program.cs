@@ -1,5 +1,6 @@
 ﻿using MassTransit;
 using MassTransit.AzureServiceBusTransport;
+using Me20.Identity.WriteService.CommandConsumers;
 using Microsoft.Azure;
 using Serilog;
 using System;
@@ -26,10 +27,8 @@ namespace Me20.Identity.WriteService
             await bus.StartAsync();
 
             await Console.Out.WriteLineAsync($"{nameof(Me20.Identity.WriteService)}: Application running.");
-            while (true)
-            {
 
-            }
+            Console.ReadLine();
         }
 
         private static async Task ConfigureLogger()
@@ -61,6 +60,7 @@ namespace Me20.Identity.WriteService
                         queueName: Shared.BusConfig.IdentityWriteQueueName,
                         configure: ec =>
                         {
+                            ec.Consumer<CreateNewUserCommandConsumer>();
                         });
                 });
             await Console.Out.WriteLineAsync($"{nameof(Me20.Identity.WriteService)}: Bus configured");
