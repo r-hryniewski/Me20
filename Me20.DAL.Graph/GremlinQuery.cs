@@ -12,14 +12,20 @@ namespace Me20.DAL.Graph
     {
         StringBuilder sb;
 
-        private GremlinQuery()
+        private GremlinQuery(string startingInput = "")
         {
-            sb = new StringBuilder("g");
+            sb = new StringBuilder(startingInput);
         }
 
-        public GremlinQuery V() => this.Append(".V()");
+        public static GremlinQuery g => new GremlinQuery("g");
 
-        public GremlinQuery V(string vertexId) => this.Append(".V('").Append(vertexId).Append("')");
+        public static GremlinQuery V() => new GremlinQuery("V()");
+
+        public static GremlinQuery V(string vertexId) => new GremlinQuery($"V('{vertexId}')");
+
+        public static GremlinQuery gV() => new GremlinQuery("g.V()");
+
+        public static GremlinQuery gV(string vertexId) => new GremlinQuery($"g.V('{vertexId}')");
 
         public GremlinQuery hasLabel(string label) => this.Append(".hasLabel('").Append(label).Append("')");
 
@@ -32,11 +38,12 @@ namespace Me20.DAL.Graph
         public GremlinQuery addV(string label) => this.Append(".addV('").Append(label).Append("')");
 
         public GremlinQuery addV(string label, string id) => this.addV(label).property("id", id);
-        public GremlinQuery addE(string label) => this.Append(".addE('").Append(label).Append("");
 
-        public GremlinQuery to(string vertexQuery) => this.Append(".to('").Append(vertexQuery).Append("')");
+        public GremlinQuery addE(string label) => this.Append(".addE('").Append(label).Append("')");
 
-        public GremlinQuery to(GremlinQuery vertexQuery) => this.Append(".to('").Append(vertexQuery).Append("')");
+        public GremlinQuery to(string vertexQuery) => this.Append(".to(").Append(vertexQuery).Append(")");
+
+        public GremlinQuery to(GremlinQuery vertexQuery) => this.Append(".to(").Append(vertexQuery).Append(")");
 
         public GremlinQuery property(string propertyName, string propertyValue) => this.Append(".property('").Append(propertyName).Append("', '").Append(propertyValue).Append("')");
 
@@ -55,8 +62,6 @@ namespace Me20.DAL.Graph
             sb.Append(query);
             return this;
         }
-
-        public static GremlinQuery g => new GremlinQuery();
 
         public static implicit operator string(GremlinQuery query) => query.sb.ToString();
     }

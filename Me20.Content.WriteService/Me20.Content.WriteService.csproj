@@ -107,6 +107,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandConsumers\AddContentCommandConsumer.cs" />
+    <Compile Include="EventConsumers\UserAddedContentEventConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

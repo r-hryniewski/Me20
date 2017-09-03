@@ -41,10 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\IAddMyContentCommand.cs" />
     <Compile Include="Commands\ICreateNewUserCommand.cs" />
     <Compile Include="Commands\IAddContentCommand.cs" />
     <Compile Include="Entities\IContent.cs" />
     <Compile Include="Entities\IUser.cs" />
+    <Compile Include="Events\IContentAddedByUserEvent.cs" />
     <Compile Include="Events\IUserLoggedInEvent.cs" />
     <Compile Include="ICanBeValidated.cs" />
     <Compile Include="ICanValidate.cs" />

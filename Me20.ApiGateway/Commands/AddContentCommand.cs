@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Me20.ApiGateway.Commands
 {
-    public class AddContent : IAddContentCommand
+    public class AddContentCommand : IAddContentCommand
     {
         public string Url { get; set; }
         public IEnumerable<string> Tags { get; set; }

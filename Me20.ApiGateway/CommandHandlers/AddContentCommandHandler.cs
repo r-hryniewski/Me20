@@ -16,7 +16,7 @@ using Akka.Actor;
 
 namespace Me20.ApiGateway.CommandHandlers
 {
-    public class AddContentCommandHandler : CommandHandlerBase<Commands.AddContent>
+    public class AddContentCommandHandler : CommandHandlerBase<Commands.AddContentCommand>
     {
         private readonly IKnowActor<UsersManagerActor> usersManagerActorContainer;
         private readonly IUserIdentity userIdentity;
@@ -29,7 +29,7 @@ namespace Me20.ApiGateway.CommandHandlers
             this.endpointProvider = endpointProvider;
         }
 
-        public override IEnumerable<Action<Commands.AddContent, ValidationResult>> Validators { get
+        public override IEnumerable<Action<Commands.AddContentCommand, ValidationResult>> Validators { get
             {
                 yield return (cmd, result) =>
                 {
@@ -39,7 +39,7 @@ namespace Me20.ApiGateway.CommandHandlers
             }
         }
 
-        protected override async Task<ICommandResult> ExecuteCommand(AddContent command, ICommandResult result, CancellationToken ct = default(CancellationToken))
+        protected override async Task<ICommandResult> ExecuteCommand(AddContentCommand command, ICommandResult result, CancellationToken ct = default(CancellationToken))
         {
             if (userIdentity != null && userIdentity.IsValid)
                 SendCommandToMyUserActor(command);
@@ -49,30 +49,30 @@ namespace Me20.ApiGateway.CommandHandlers
             return result;
         }
 
-        private async Task SendCommandToContentService(AddContent command, CancellationToken ct)
+        private async Task SendCommandToContentService(AddContentCommand command, CancellationToken ct)
         {
             var endpoint = await endpointProvider.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
             await endpoint.Send<IAddContentCommand>(command, ct);
         }
 
-        private void SendCommandToMyUserActor(AddContent command)
+        private void SendCommandToMyUserActor(AddContentCommand command)
         {
             usersManagerActorContainer.Ref.Tell(new AddMyContentCommand(command.ContentUri, userIdentity.UserName, command.Tags));
         }
-    }
 
-    public class AddMyContentCommand : IAddContentCommand, IHaveUserName
-    {
-        public Uri ContentUri { get; private set; }
-        public string UserName { get; private set; }
-        public IEnumerable<string> Tags { get; private set; }
-
-        public AddMyContentCommand(Uri contentUri, string userName, IEnumerable<string> tags)
+        private class AddMyContentCommand : IAddMyContentCommand
         {
-            ContentUri = contentUri;
-            UserName = userName;
-            Tags = tags ?? Enumerable.Empty<string>();
-        }
+            public Uri ContentUri { get; private set; }
+            public string UserName { get; private set; }
+            public IEnumerable<string> Tags { get; private set; }
 
+            public AddMyContentCommand(Uri contentUri, string userName, IEnumerable<string> tags)
+            {
+                ContentUri = contentUri;
+                UserName = userName;
+                Tags = tags ?? Enumerable.Empty<string>();
+            }
+
+        }
     }
 }

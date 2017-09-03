@@ -1,5 +1,6 @@
 ﻿using Me20.Contracts.Entities;
 using Me20.DAL.Graph;
+using Me20.Shared.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace Me20.Content.Repositories
         {
         }
 
-        public async Task AddAsync(IContent content)
+        public async Task AddContentVertexAsync(IContent content)
         {
             try
             {
@@ -33,6 +34,29 @@ namespace Me20.Content.Repositories
                 else
                 {
                     throw;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task AddContentAddedByUserEdgeAsync(string userName, Uri contentUri)
+        {
+            try
+            {
+                var nowTicks = DateTime.UtcNow;
+                var contentId = contentUri.ToSchemalessUriAsMD5();
+                using (var client = new GremlinClient())
+                {
+                    var query = GremlinQuery.gV(contentId)
+                        .addE("addedBy")
+                        .to(GremlinQuery.V(userName))
+
+                        .property("when", DateTime.UtcNow.Ticks); //TODO: Move generating id to IHaveContentUri extensions?
+
+                    await client.Execute(query);
                 }
             }
             catch (Exception)

@@ -2,6 +2,7 @@
 using Me20.Content.Entities;
 using Me20.Content.Repositories;
 using Me20.Contracts.Commands;
+using Me20.Contracts.Events;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Me20.Content.WriteService.CommandConsumers
 {
-    public class AddContentCommandConsumer : IConsumer<IAddContentCommand>
+    public class AddContentCommandConsumer : IConsumer<IAddContentCommand>, IConsumer<IAddMyContentCommand>
     {
         private readonly ContentRepository repository;
 
@@ -20,14 +21,36 @@ namespace Me20.Content.WriteService.CommandConsumers
             this.repository = new ContentRepository()/*repository*/;
         }
 
-        public async Task Consume(ConsumeContext<IAddContentCommand> context)
+        async Task IConsumer<IAddContentCommand>.Consume(ConsumeContext<IAddContentCommand> context)
+        {
+            await AddContent(context.Message);
+            //Handle tags
+        }
+
+        async Task IConsumer<IAddMyContentCommand>.Consume(ConsumeContext<IAddMyContentCommand> context)
         {
             var cmd = context.Message;
+            await AddContent(cmd);
+            //Handle tags
+            await PublishUserAddedContentEvent(context, cmd);
+        }
+
+        private static async Task PublishUserAddedContentEvent(ConsumeContext context, IAddMyContentCommand cmd)
+        {
+            await context.Publish<IContentAddedByUserEvent>(new
+            {
+                UserName = cmd.UserName,
+                ContentUri = cmd.ContentUri
+            });
+        }
+
+        private async Task AddContent(IAddContentCommand cmd)
+        {
             var contentToAdd = new ContentEntity(
                 uri: cmd.ContentUri,
                 tags: cmd.Tags);
 
-            await repository.AddAsync(contentToAdd);
+            await repository.AddContentVertexAsync(contentToAdd);
         }
     }
 }

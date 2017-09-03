@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MassTransit.AzureServiceBusTransport;
 using Me20.Identity.WriteService.CommandConsumers;
+using Me20.Identity.WriteService.EventConsumers;
 using Microsoft.Azure;
 using Serilog;
 using System;
@@ -61,6 +62,7 @@ namespace Me20.Identity.WriteService
                         configure: ec =>
                         {
                             ec.Consumer<CreateNewUserCommandConsumer>();
+                            ec.Consumer<UserAddedContentEventConsumer>();
                         });
                 });
             await Console.Out.WriteLineAsync($"{nameof(Me20.Identity.WriteService)}: Bus configured");

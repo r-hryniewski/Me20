@@ -1,6 +1,7 @@
 ﻿using MassTransit;
 using MassTransit.AzureServiceBusTransport;
 using Me20.Content.WriteService.CommandConsumers;
+using Me20.Content.WriteService.EventConsumers;
 using Microsoft.Azure;
 using Nito.AsyncEx;
 using Serilog;
@@ -62,6 +63,7 @@ namespace Me20.Content.WriteService
                         configure: ec =>
                         {
                             ec.Consumer<AddContentCommandConsumer>();
+                            ec.Consumer<UserAddedContentEventConsumer>();
                         });
                 });
             await Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Bus configured");

@@ -73,7 +73,7 @@ namespace Me20.ApiGateway
             // Perform registrations that should have a request lifetime
             container.Settings.AllowNullInjection = true;
 
-            container.Bind<IHandleCommands<Commands.AddContent>>().To<CommandHandlers.AddContentCommandHandler>();
+            container.Bind<IHandleCommands<Commands.AddContentCommand>>().To<CommandHandlers.AddContentCommandHandler>();
 
             container.Bind<UserIdentity, Contracts.IUserIdentity, Nancy.Security.IUserIdentity>().ToMethod(ctx => System.Security.Claims.ClaimsPrincipal.Current.Identity.IsAuthenticated ? new UserIdentity(System.Security.Claims.ClaimsPrincipal.Current) : null);
         }

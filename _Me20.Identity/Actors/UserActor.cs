@@ -110,10 +110,10 @@ namespace Me20.Identity.Actors
 
             using (var client = new GremlinCosmosClient())
             {
-                var ctSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
-                var existingVertexes = await client.Execute(GremlinQuery.g.V($"user-{cmd.UserName}"), vertex => vertex, ctSource.Token);
-                if (existingVertexes.IsNullOrEmpty())
-                    await client.Execute(GremlinQuery.g.addV("user", $"user-{cmd.UserName}").property("testInt", 1).property("testString", "string").property("testBool", true), vertex => vertex, new CancellationTokenSource(TimeSpan.FromSeconds(15)).Token);
+                //var ctSource = new CancellationTokenSource(TimeSpan.FromSeconds(15));
+                //var existingVertexes = await client.Execute(GremlinQuery.g.V($"user-{cmd.UserName}"), vertex => vertex, ctSource.Token);
+                //if (existingVertexes.IsNullOrEmpty())
+                //    await client.Execute(GremlinQuery.g.addV("user", $"user-{cmd.UserName}").property("testInt", 1).property("testString", "string").property("testBool", true), vertex => vertex, new CancellationTokenSource(TimeSpan.FromSeconds(15)).Token);
 
 
 

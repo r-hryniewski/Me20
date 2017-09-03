@@ -9,9 +9,9 @@ namespace Me20.ApiGateway.Modules.Api
 {
     public class ContentModule : NancyModule
     {
-        public ContentModule(IHandleCommands<Commands.AddContent> addContentCmdHandler) : base("/api/content")
+        public ContentModule(IHandleCommands<Commands.AddContentCommand> addContentCmdHandler) : base("/api/content")
         {
-            Post["/", true] = async (p, ct) => Response.AsJson(await addContentCmdHandler.Handle(this.Bind<Commands.AddContent>(), ct));
+            Post["/", true] = async (p, ct) => Response.AsJson(await addContentCmdHandler.Handle(this.Bind<Commands.AddContentCommand>(), ct));
 
 
             //Get["/", true] = async (p, ct) => Response.AsJson(await this.Bind<GetUserContentQuery>().ExecuteAsync(Context.CurrentUser.UserName, ct));

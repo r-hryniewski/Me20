@@ -29,6 +29,13 @@ namespace Me20.IdentityActors
 
             if (!state.TryRestore(sendEndpointProvider).GetAwaiter().GetResult())
                 SendCreateNewUserCommandAsync();
+
+            //TODO: Exctract to method, store in state
+            ReceiveAsync<IAddMyContentCommand>(async (cmd) => 
+            {
+                var enpoint = await sendEndpointProvider.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
+                await enpoint.Send(cmd);
+            });
         }
 
         private async Task SendCreateNewUserCommandAsync()
