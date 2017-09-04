@@ -54,29 +54,31 @@ var dashboard = new Vue({
                         //TODO: Alert window
                         console.log(response);
                         event.srcElement.value = "";
-                    }
-                    );
+                    });
             }
             else {
                 alert("Tag name maximum length is 25 characters");
             }
         },
         addContent: function (event) {
-            this.$http.post("/api/content/", { Url: event.srcElement.value, Tags: [] })
-                .then(
-                response => {
+            var addContentCommand =
+                {
+                    Url: event.srcElement.value,
+                    Tags: []
+                };
+
+            this.$http.post("/api/content/", addContentCommand)
+                .then(response => {
+                    //TODO: Loader of some kind?
                     var responseItem = response.body.item;
-                    var content = this.newContent(responseItem.uri, responseItem.tags.map(t => this.newTag(t, true)), this.$http);
-                    this.Content.splice(0, 0, content);
-                    event.srcElement.value = "";
-                    content.GetDetails();
-                },
-                response => {
+                    var contentItem = this.newContent(addContentCommand.Url, addContentCommand.Tags.map(t => this.newTag(t, true)), this.$http);
+                    this.Content.splice(0, 0, contentItem);
+                    contentItem.GetDetails();
+                }, response => {
                     //TODO: Alert window
                     console.log(response);
-                    event.srcElement.value = "";
-                }
-                );
+                });
+            event.srcElement.value = "";
         },
         rateContent: function (content, rating) {
 
@@ -264,7 +266,7 @@ var dashboard = new Vue({
                     //TODO:
                     //???
                 }
-            }
+            };
         }
     },
     created: function () {

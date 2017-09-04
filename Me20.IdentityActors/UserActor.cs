@@ -3,8 +3,11 @@ using Akka.Event;
 using MassTransit;
 using Me20.Contracts;
 using Me20.Contracts.Commands;
+using Me20.Contracts.Entities;
 using Me20.IdentityActors.Commands;
+using Me20.IdentityActors.ValueObjects;
 using Me20.Shared.Abstracts;
+using Me20.Shared.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,12 +33,14 @@ namespace Me20.IdentityActors
             if (!state.TryRestore(sendEndpointProvider).GetAwaiter().GetResult())
                 SendCreateNewUserCommandAsync();
 
-            //TODO: Exctract to method, store in state
-            ReceiveAsync<IAddMyContentCommand>(async (cmd) => 
-            {
-                var enpoint = await sendEndpointProvider.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
-                await enpoint.Send(cmd);
-            });
+            ReceiveAsync<IAddMyContentCommand>(async (cmd) => await HandleAddContentCommand(sendEndpointProvider, cmd));
+        }
+
+        private async Task HandleAddContentCommand(ISendEndpointProvider sendEndpointProvider, IAddMyContentCommand cmd)
+        {
+            var enpoint = await sendEndpointProvider.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
+            await enpoint.Send(cmd);
+            state.AddContent(new UsersContent(cmd.ContentUri, cmd.Tags));
         }
 
         private async Task SendCreateNewUserCommandAsync()
@@ -48,14 +53,22 @@ namespace Me20.IdentityActors
 
         private class UserActorState : UserIdentityBase
         {
+            ICollection<IContent> Contents { get; set; }
+
             public UserActorState(string id, string authenticationType) : base(id, authenticationType)
             {
+                Contents = new HashSet<IContent>(EntityComparer.Instance);
             }
 
             internal async Task<bool> TryRestore(ISendEndpointProvider sendEndpointProvider)
             {
                 //Request/Response to read service
                 return false;
+            }
+
+            internal void AddContent(IContent content)
+            {
+                Contents.Add(content);
             }
         }
     }

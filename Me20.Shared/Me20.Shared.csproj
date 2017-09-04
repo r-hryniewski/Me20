@@ -88,6 +88,7 @@
     <Compile Include="Results\CommandResult.cs" />
     <Compile Include="Results\ValidationResult.cs" />
     <Compile Include="Results\QueryResult.cs" />
+    <Compile Include="Utilities\EntityComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
