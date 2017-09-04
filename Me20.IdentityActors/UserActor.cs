@@ -33,10 +33,18 @@ namespace Me20.IdentityActors
             if (!state.TryRestore(sendEndpointProvider).GetAwaiter().GetResult())
                 SendCreateNewUserCommandAsync();
 
-            ReceiveAsync<IAddMyContentCommand>(async (cmd) => await HandleAddContentCommand(sendEndpointProvider, cmd));
+            ReceiveAsync<IAddMyContentCommand>(async (cmd) => await HandleAddContentCommand(cmd));
+            ReceiveAsync<ISubscribeToTagCommand>(async (cmd) => await SubscribeToTagCommand(cmd));
         }
 
-        private async Task HandleAddContentCommand(ISendEndpointProvider sendEndpointProvider, IAddMyContentCommand cmd)
+        private async Task SubscribeToTagCommand(ISubscribeToTagCommand cmd)
+        {
+            var endpoint = await sendEndpointProvider.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
+            await endpoint.Send(cmd);
+            state.AddTag(cmd.TagName);
+        }
+
+        private async Task HandleAddContentCommand(IAddMyContentCommand cmd)
         {
             var enpoint = await sendEndpointProvider.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
             await enpoint.Send(cmd);
@@ -51,13 +59,16 @@ namespace Me20.IdentityActors
                 authenticationType: state.AuthenticationType));
         }
 
+
         private class UserActorState : UserIdentityBase
         {
             ICollection<IContent> Contents { get; set; }
+            ICollection<string> SubscribedTags { get; set; }
 
             public UserActorState(string id, string authenticationType) : base(id, authenticationType)
             {
                 Contents = new HashSet<IContent>(EntityComparer.Instance);
+                SubscribedTags = new HashSet<string>(StringComparer.InvariantCultureIgnoreCase);
             }
 
             internal async Task<bool> TryRestore(ISendEndpointProvider sendEndpointProvider)
@@ -69,6 +80,11 @@ namespace Me20.IdentityActors
             internal void AddContent(IContent content)
             {
                 Contents.Add(content);
+            }
+
+            internal void AddTag(string tagName)
+            {
+                SubscribedTags.Add(tagName);
             }
         }
     }

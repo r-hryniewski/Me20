@@ -43,19 +43,19 @@ var dashboard = new Vue({
     methods: {
         subscribeTag: function (event) {
             var input = event.srcElement.value;
+            var subscribeToTagCommand = { TagName: event.srcElement.value };
+            //TODO: Wrap this into some kind of setting
             if (input.length <= 25) {
-                this.$http.post("/api/tags/", { TagName: event.srcElement.value })
+                this.$http.post("/api/tags/", subscribeToTagCommand)
                     .then(
                     response => {
-                        var tag = response.body.item;
-                        this.Tags.push(this.newTag(tag.tagName, true));
-                        event.srcElement.value = "";
+                        this.Tags.push(this.newTag(subscribeToTagCommand.TagName, true));
                     },
                     response => {
                         //TODO: Alert window
                         console.log(response);
-                        event.srcElement.value = "";
                     });
+                event.srcElement.value = "";
             }
             else {
                 alert("Tag name maximum length is 25 characters");
@@ -213,8 +213,7 @@ var dashboard = new Vue({
                     if (!tagName)
                         tagName = prompt("Tag name");
                     if (tagName) {
-                        if (tagName.length <= 25)
-                        {
+                        if (tagName.length <= 25) {
                             var newTag = {
                                 TagName: tagName,
                                 TaggedByUser: true

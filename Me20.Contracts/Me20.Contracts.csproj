@@ -44,6 +44,8 @@
     <Compile Include="Commands\IAddMyContentCommand.cs" />
     <Compile Include="Commands\ICreateNewUserCommand.cs" />
     <Compile Include="Commands\IAddContentCommand.cs" />
+    <Compile Include="Commands\ICreateTagCommand.cs" />
+    <Compile Include="Commands\ISubscribeToTagCommand.cs" />
     <Compile Include="Entities\IContent.cs" />
     <Compile Include="Entities\IUser.cs" />
     <Compile Include="Events\IContentAddedByUserEvent.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="IHaveAuthenticationType.cs" />
     <Compile Include="IHaveContentUri.cs" />
     <Compile Include="IHaveTags.cs" />
+    <Compile Include="IHaveTagName.cs" />
     <Compile Include="IHaveUserName.cs" />
     <Compile Include="IQuery.cs" />
     <Compile Include="IHandleQueries.cs" />
