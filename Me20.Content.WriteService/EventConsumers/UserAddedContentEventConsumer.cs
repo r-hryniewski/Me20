@@ -14,7 +14,7 @@ namespace Me20.Content.WriteService.EventConsumers
     {
         private readonly ContentRepository repository;
 
-        public UserAddedContentEventConsumer(/*UserRepository repository*/)
+        public UserAddedContentEventConsumer(/*ContentRepository repository*/)
         {
             this.repository = new ContentRepository();//repository; 
         }

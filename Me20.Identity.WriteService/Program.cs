@@ -63,6 +63,7 @@ namespace Me20.Identity.WriteService
                         {
                             ec.Consumer<CreateNewUserCommandConsumer>();
                             ec.Consumer<UserAddedContentEventConsumer>();
+                            ec.Consumer<TagSubscribedByUserEventConsumer>();
                         });
                 });
             await Console.Out.WriteLineAsync($"{nameof(Me20.Identity.WriteService)}: Bus configured");

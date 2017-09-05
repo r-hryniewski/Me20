@@ -63,7 +63,9 @@ namespace Me20.Content.WriteService
                         configure: ec =>
                         {
                             ec.Consumer<AddContentCommandConsumer>();
+                            ec.Consumer<CreateTagCommandConsumer>();
                             ec.Consumer<UserAddedContentEventConsumer>();
+                            ec.Consumer<TagSubscribedByUserEventConsumer>();
                         });
                 });
             await Console.Out.WriteLineAsync($"{nameof(Me20.Content.WriteService)}: Bus configured");

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Me20.Contracts.Events;
+using Me20.Contracts;
 
 namespace Me20.Identity.Repositories
 {
@@ -46,6 +48,20 @@ namespace Me20.Identity.Repositories
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public async Task AddUserSubscribedTagEdgeAsync(string userName, IHaveTagName tagNameContainer)
+        {
+            using (var client = new GremlinClient())
+            {
+                var query = GremlinQuery.gV(userName)
+                    .addE("subscribedTo")
+                    .to(GremlinQuery.V(tagNameContainer.TagNameToId()))
+
+                    .property("when", DateTime.UtcNow.Ticks);
+
+                await client.Execute(query);
             }
         }
 

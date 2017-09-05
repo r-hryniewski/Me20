@@ -46,9 +46,7 @@ namespace Me20.IdentityActors
             if (!Context.Child(actorPath).IsNobody())
                 return Context.Child(actorPath);
             else
-            {
                 return Context.ActorOf(Props.Create<UserActor>(() => new UserActor(userIdentity, sendEndpointProvider)), actorPath);
-            }
         }
     }
 }

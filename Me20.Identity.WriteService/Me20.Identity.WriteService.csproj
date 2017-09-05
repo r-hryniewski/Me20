@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommandConsumers\CreateNewUserCommandConsumer.cs" />
+    <Compile Include="EventConsumers\TagSubscribedByUserEventConsumer.cs" />
     <Compile Include="EventConsumers\UserAddedContentEventConsumer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

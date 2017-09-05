@@ -47,8 +47,10 @@
     <Compile Include="Commands\ICreateTagCommand.cs" />
     <Compile Include="Commands\ISubscribeToTagCommand.cs" />
     <Compile Include="Entities\IContent.cs" />
+    <Compile Include="Entities\ITag.cs" />
     <Compile Include="Entities\IUser.cs" />
     <Compile Include="Events\IContentAddedByUserEvent.cs" />
+    <Compile Include="Events\ITagSubscribedByUserEvent.cs" />
     <Compile Include="Events\IUserLoggedInEvent.cs" />
     <Compile Include="ICanBeValidated.cs" />
     <Compile Include="ICanValidate.cs" />

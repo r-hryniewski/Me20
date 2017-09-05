@@ -2,9 +2,6 @@
 using Me20.DAL.Graph;
 using Me20.Shared.Extensions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Me20.Content.Repositories
@@ -46,7 +43,6 @@ namespace Me20.Content.Repositories
         {
             try
             {
-                var nowTicks = DateTime.UtcNow;
                 var contentId = contentUri.ToSchemalessUriAsMD5();
                 using (var client = new GremlinClient())
                 {

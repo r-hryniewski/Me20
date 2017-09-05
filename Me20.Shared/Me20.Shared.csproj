@@ -79,6 +79,7 @@
     <Compile Include="Events\UserLoggedInEvent.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\IHaveContentUriExtensions.cs" />
+    <Compile Include="Extensions\TagExtensions.cs" />
     <Compile Include="Extensions\ISetExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />

@@ -7,7 +7,7 @@
     <ProjectGuid>{C6504EF8-0F85-4B27-99FB-8133E6405D9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Me20.Content.DAL</RootNamespace>
+    <RootNamespace>Me20.Content</RootNamespace>
     <AssemblyName>Me20.Content.DAL</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -112,8 +112,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\ContentEntity.cs" />
+    <Compile Include="Entities\TagEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\ContentRepository.cs" />
+    <Compile Include="Repositories\TagRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
