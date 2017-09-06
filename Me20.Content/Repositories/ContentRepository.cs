@@ -3,6 +3,8 @@ using Me20.DAL.Graph;
 using Me20.Shared.Extensions;
 using System;
 using System.Threading.Tasks;
+using Me20.Contracts.Commands;
+using Me20.Contracts;
 
 namespace Me20.Content.Repositories
 {
@@ -50,7 +52,31 @@ namespace Me20.Content.Repositories
                         .addE("addedBy")
                         .to(GremlinQuery.V(userName))
 
-                        .property("when", DateTime.UtcNow.Ticks); //TODO: Move generating id to IHaveContentUri extensions?
+                        .property("when", DateTime.UtcNow.Ticks);
+
+                    await client.Execute(query);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task AddContentTaggedWithEdgeAsync(IHaveContentUri contentUriContainer, IHaveTagName tagNameContainer)
+        {
+            try
+            {
+                var contentId = contentUriContainer.SchemalessUriAsMD5();
+                var tagId = tagNameContainer.TagNameToId();
+
+                using (var client = new GremlinClient())
+                {
+                    var query = GremlinQuery.gV(contentId)
+                        .addE("taggedWith")
+                        .to(GremlinQuery.V(tagId))
+
+                        .property("when", DateTime.UtcNow.Ticks); 
 
                     await client.Execute(query);
                 }

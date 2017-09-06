@@ -22,7 +22,7 @@ namespace Me20.Content.Repositories
             {
                 using (var client = new GremlinClient())
                 {
-                    await client.Execute(GremlinQuery.g.addV(tag.TagName, tag.TagNameToId())
+                    await client.Execute(GremlinQuery.g.addV(tag.TagName, tag.Id)
                         .property("type", TypePropertyConstant)
                         .property("tagName", tag.TagName));
                 }

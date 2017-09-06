@@ -9,20 +9,8 @@ namespace Me20.ApiGateway.Modules.Api
 {
     public class ExternalContentModule : NancyModule
     {
-        //private readonly IEnumerable<IDispatch<ContentEntity>> dispatchers;
-
-        public ExternalContentModule(/*IDispatch<ContentEntity>[] _dispatchers*/) : base("/api/external/content")
+        public ExternalContentModule() : base("/api/external/content")
         {
-            //dispatchers = _dispatchers;
-
-            //Post["/"] = p =>
-            //{
-            //    return Response.AsJson(this.Bind<ContentEntity>()
-            //        .AllowAnonymous()
-            //        .WithSpecific(dispatchers,
-            //            AddContentDispatcher.Name)
-            //        .DispatchAll(string.Empty));
-            //};
 
             //Get["/tagged/", true] = async (p, ct) =>
             //{

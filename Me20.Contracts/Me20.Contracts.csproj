@@ -46,6 +46,7 @@
     <Compile Include="Commands\IAddContentCommand.cs" />
     <Compile Include="Commands\ICreateTagCommand.cs" />
     <Compile Include="Commands\ISubscribeToTagCommand.cs" />
+    <Compile Include="Commands\ITagContentCommand.cs" />
     <Compile Include="Entities\IContent.cs" />
     <Compile Include="Entities\ITag.cs" />
     <Compile Include="Entities\IUser.cs" />

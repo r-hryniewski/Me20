@@ -3,6 +3,7 @@ using Me20.Content.Entities;
 using Me20.Content.Repositories;
 using Me20.Contracts.Commands;
 using Me20.Contracts.Events;
+using Me20.Shared.Extensions;
 using Serilog;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,8 @@ using System.Threading.Tasks;
 
 namespace Me20.Content.WriteService.CommandConsumers
 {
-    public class AddContentCommandConsumer : IConsumer<IAddContentCommand>, IConsumer<IAddMyContentCommand>
+    public class AddContentCommandConsumer : IConsumer<IAddContentCommand>, 
+                                                IConsumer<IAddMyContentCommand>
     {
         private readonly ContentRepository repository;
 
@@ -23,15 +25,15 @@ namespace Me20.Content.WriteService.CommandConsumers
 
         async Task IConsumer<IAddContentCommand>.Consume(ConsumeContext<IAddContentCommand> context)
         {
-            await AddContent(context.Message);
-            //Handle tags
+            var cmd = context.Message;
+            await AddContent(cmd, context);
+
         }
 
         async Task IConsumer<IAddMyContentCommand>.Consume(ConsumeContext<IAddMyContentCommand> context)
         {
             var cmd = context.Message;
-            await AddContent(cmd);
-            //Handle tags
+            await AddContent(cmd, context);
             await PublishUserAddedContentEvent(context, cmd);
         }
 
@@ -44,13 +46,23 @@ namespace Me20.Content.WriteService.CommandConsumers
             });
         }
 
-        private async Task AddContent(IAddContentCommand cmd)
+        private async Task AddContent(IAddContentCommand cmd, ConsumeContext context)
         {
             var contentToAdd = new ContentEntity(
                 uri: cmd.ContentUri,
                 tags: cmd.Tags);
 
             await repository.AddContentVertexAsync(contentToAdd);
+
+            if (!contentToAdd.Tags.IsNullOrEmpty())
+            {
+                var endpoint = await context.GetSendEndpoint(Shared.BusConfig.ContentWriteQueueUri);
+                contentToAdd.Tags.Select(t => endpoint.Send<ITagContentCommand>(new
+                {
+                    TagName = t,
+                    ContentUri = contentToAdd.ContentUri
+                })).ToList();
+            }
         }
     }
 }

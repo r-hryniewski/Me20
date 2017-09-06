@@ -13,13 +13,16 @@ using System.Threading.Tasks;
 
 namespace Me20.Content.WriteService.CommandConsumers
 {
-    public class CreateTagCommandConsumer : IConsumer<ISubscribeToTagCommand>
+    public class CreateTagCommandConsumer : IConsumer<ISubscribeToTagCommand>,
+                                            IConsumer<ITagContentCommand>
     {
-        private readonly TagRepository repository;
+        private readonly ContentRepository contentRepository;
+        private readonly TagRepository tagRepository;
 
-        public CreateTagCommandConsumer(/*TagRepository repository*/)
+        public CreateTagCommandConsumer(/*ContentRepository contentRepository, TagRepository tagRepository*/)
         {
-            this.repository = new TagRepository()/*repository*/;
+            this.contentRepository = new ContentRepository()/*contentRepository*/;
+            this.tagRepository = new TagRepository()/*tagRepository*/;
         }
 
         public async Task Consume(ConsumeContext<ISubscribeToTagCommand> context)
@@ -34,11 +37,20 @@ namespace Me20.Content.WriteService.CommandConsumers
             });
         }
 
+        public async Task Consume(ConsumeContext<ITagContentCommand> context)
+        {
+            var cmd = context.Message;
+            var tag = CreateTagEntity(cmd);
+            await PersistCreatedTag(tag);
+
+            await contentRepository.AddContentTaggedWithEdgeAsync(cmd, tag);
+        }
+
         private ITag CreateTagEntity(IHaveTagName tagNameContainer) => new TagEntity(tagNameContainer.TagName);
 
         private async Task PersistCreatedTag(ITag tag)
         {
-            await repository.AddTagVertexAsync(tag);
+            await tagRepository.AddTagVertexAsync(tag);
         }
     }
 }
